@@ -1,8 +1,10 @@
 import React from 'react';
+import './Navbar.scss';
+
 
 const Navbar = () => {
   return (
-    <nav className='navbar'>
+    <nav className='Navbar'>
       <h1>HUDINI</h1>
     </nav>
   );
