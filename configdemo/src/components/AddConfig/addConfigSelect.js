@@ -1,6 +1,7 @@
 import React from "react";
+import "./addConfig.scss";
 
-const ConfigSelect = ({ selectedDropdowns }) => {
+const SelectConfig = ({ selectedDropdowns }) => {
   return (
     <div className="field-selected">
       <h1>Selected Dropdowns</h1>
@@ -14,4 +15,4 @@ const ConfigSelect = ({ selectedDropdowns }) => {
   );
 };
 
-export default ConfigSelect;
+export default SelectConfig;

@@ -1,4 +1,112 @@
 import React, { useState } from "react";
+import "./addConfig.scss";
+
+const hotelOptions = [
+  "code",
+  "name",
+  "hotelId",
+  "pms",
+  "fetchFromDb",
+  "PWAEnabled",
+  "saveToDb",
+  "modules",
+  "button_check_in",
+  "button_checkout",
+  "button_door_key",
+  "backgroundType",
+  "roomAutoAllocation",
+  "details",
+  "label",
+  "type",
+  "validations",
+  "isDisabled",
+  "isActive",
+  "title",
+  "documentScanType",
+  "faceMatchType",
+  "keyCardFaceMatchFlow",
+  "limitKeyCardLimit",
+  "addGuestMandatory",
+  "showDocumentExpiry",
+  "totalAddGuestCount",
+  "description",
+  "submodules",
+  "required",
+  "isAddCard",
+  "pricePerNight",
+  "subNote",
+  "updates",
+  "termsAndCondition",
+  "description1",
+  "description2",
+  "paymentType",
+  "keyVerificationFlow",
+  "sentInvoice",
+  "feedback",
+  "faceMatchFlow",
+  "feedBackURL1",
+  "feedBackURL2",
+  "feedBackURL1Label",
+  "feedBackURL2Label",
+  "paymentSuccessful",
+  "module",
+  "moduleTitle",
+];
+
+const moduleOptions = [
+  "pullman-orchard-stage",
+  "Pullman Singapore Orchard Stage",
+  "989814e5-2fda-4ab8-b795-33f4d76f1866",
+  "OPERA",
+  "yes",
+  false,
+  "no",
+  "home",
+  "Begin your check-in",
+  "Checkout",
+  "Door Key",
+  "mp4",
+  "faceScan",
+  "bookingId",
+  true,
+  "confirmationId",
+  "Booking ID",
+  "Text",
+  "required",
+  "textField",
+  false,
+  true,
+  "lastname",
+  "Last Name",
+  "Room Number (In 4 Digits)",
+  "stayDetails",
+  "checkoutKey",
+  "Place Your Key",
+  "scanDoc",
+  "scan_api",
+  "incode",
+  "keyCard",
+  "cloud_api",
+  2,
+  "review",
+  "Identity Verification",
+  false,
+  4,
+  "accompanyGuest",
+  "Accompanying Guest",
+  "firstName",
+  "First Name",
+  "docNumber",
+  "Document Number",
+  "email",
+  "Card Confirmation",
+  "OperaTerminal",
+  "Incidental amount",
+  50,
+  "Card Authorization",
+  "Card Authorization Successful",
+  "Payment Successful",
+];
 
 const AddConfig = ({ onDropdownChange }) => {
   const [selected, setSelected] = useState({
@@ -47,59 +155,45 @@ const AddConfig = ({ onDropdownChange }) => {
       <h1>Configuration</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Hotel:</label>
+          <label>Key:</label>
           <select
             value={selected.hotel}
             onChange={(event) =>
               handleDropdownChange("hotel", event.target.value)
             }
           >
-            <option value="">Select Hotel</option>
-            <option
-              value="Hotel 1"
-              disabled={
-                selected.hotel === "Hotel 2" || selected.hotel === "Hotel 1"
-              }
-            >
-              Hotel 1
-            </option>
-            <option
-              value="Hotel 2"
-              disabled={
-                selected.hotel === "Hotel 1" || selected.hotel === "Hotel 2"
-              }
-            >
-              Hotel 2
-            </option>
+            <option value="">Select Key</option>
+            {hotelOptions.map((hotel) => (
+              <option
+                key={hotel}
+                value={hotel}
+                disabled={selected.hotel === hotel}
+              >
+                {hotel}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <label>Modules:</label>
+          <label>Values:</label>
           <select
-            value={selected.module}
+            value={selected.hotel}
             onChange={(event) =>
-              handleDropdownChange("module", event.target.value)
+              handleDropdownChange("hotel", event.target.value)
             }
           >
-            <option value="">Select Module</option>
-            <option value="Module 1">Module 1</option>
-            <option value="Module 2">Module 2</option>
+            <option value="">Select Key</option>
+            {moduleOptions.map((hotel) => (
+              <option
+                key={hotel}
+                value={hotel}
+                disabled={selected.hotel === hotel}
+              >
+                {hotel}
+              </option>
+            ))}
           </select>
         </div>
-        <div>
-          <label>Submodules:</label>
-          <select
-            value={selected.submodule}
-            onChange={(event) =>
-              handleDropdownChange("submodule", event.target.value)
-            }
-          >
-            <option value="">Select Submodule</option>
-            <option value="Submodule 1">Submodule 1</option>
-            <option value="Submodule 2">Submodule 2</option>
-          </select>
-        </div>
-        <button type="submit">Submit</button>
       </form>
     </div>
   );
