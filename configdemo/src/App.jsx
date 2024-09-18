@@ -18,15 +18,16 @@ function App() {
       <div className="information-container">
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
-          <Navbar />
-          <div className="field-modules-container">
-            {isConfigActive && (
-              <>
-                <FieldModules onDropdownChange={handleDropdownChange} />
-                <FieldSelected selectedDropdowns={selectedDropdowns} />
-              </>
-            )}
-          </div>
+        <Navbar />
+        <h1>Configuration</h1>
+        <div className="field-modules-container">
+          {isConfigActive && (
+            <>
+              <FieldModules onDropdownChange={handleDropdownChange} />
+              <FieldSelected selectedDropdowns={selectedDropdowns} />
+            </>
+          )}
+        </div>
         </div>
       </div>
       {/* <AddConfig /> */}
