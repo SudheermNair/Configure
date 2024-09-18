@@ -29,7 +29,7 @@ function App() {
           </div>
         </div>
       </div>
-      <AddConfig />
+      {/* <AddConfig /> */}
     </div>
   );
 }
