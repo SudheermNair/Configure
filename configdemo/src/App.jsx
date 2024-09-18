@@ -10,8 +10,6 @@ function App() {
       <Sidebar/>
       <Navbar/>
       </div>
-      
-      
     </div>
   );
 }

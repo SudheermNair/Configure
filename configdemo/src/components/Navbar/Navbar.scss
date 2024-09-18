@@ -1,5 +1,49 @@
-.Navbar{
-    background-color: aqua;
-    width: 100%;
-    height: 60px;
+.Navbar {
+background-color: white;
+width: 100%;
+height: 60px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 0 20px;
+.dropdown-container {
+    display: flex;
+    align-items: center;
+}
+
+.navBar-content {
+    margin-left: 4px;
+    color: gray;
+}
+.date-container {
+    display: flex;
+    align-items: center;
+    margin-left: 50px;
+    color: lightgray;
+}
+
+.language-container {
+    color: gray;
+    padding: 0px;
+}
+
+.date-container .MuiSvgIcon-root {
+    color: lightgray;
+    margin-right: 5px;
+    margin-left: 80px;
+}
+.help-container {
+    display: flex;
+    align-items: center;
+    color: lightgray;
+    margin-left: -2px;
+}
+.nav-item {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; 
+  }
+.separator {
+    color: #03e67c;
+}
 }
