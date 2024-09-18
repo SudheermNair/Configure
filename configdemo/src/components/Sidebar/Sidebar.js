@@ -7,74 +7,84 @@ import PersonIcon from "@mui/icons-material/Person";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import DiningIcon from "@mui/icons-material/Dining";
-import { Typography } from "@mui/material";
+import HudiniLogo from "../../assets/images/hudini-logo-black.png";
 
-function Sidebar() {
+function Sidebar({ setIsConfigActive }) {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const handleTileClick = (index) => {
     setActiveIndex(index);
+
+   
+    if (index !== 3) {
+      setIsConfigActive(false);
+    }
+  };
+
+  const handleConfigClick = () => {
+    setIsConfigActive(true); 
   };
 
   return (
     <div className="Sidebar">
+      <div className="image-container">
       <img
         className="hudini-logo"
-        src="../assets/images/hudini-logo-black.png"
+        src={HudiniLogo}
         alt="logo"
-      />
+      /></div>
       <ul className="module-list">
         <li
           className={`module-tile ${activeIndex === 0 ? "active" : ""}`}
           onClick={() => handleTileClick(0)}
         >
           <DashboardIcon />
-          <Typography variant="body1" className="">
-            Dashboard
-          </Typography>
+          <p>Dashboard</p>
         </li>
         <li
           className={`module-tile ${activeIndex === 1 ? "active" : ""}`}
           onClick={() => handleTileClick(1)}
         >
           <ApartmentIcon />
-          <Typography variant="body1">Properties</Typography>
+          <p>Properties</p>
         </li>
         <li
           className={`module-tile ${activeIndex === 2 ? "active" : ""}`}
           onClick={() => handleTileClick(2)}
         >
           <LocationOnIcon />
-          <Typography variant="body1">Hotel</Typography>
+          <p>Hotel</p>
         </li>
-
         <li
           className={`module-tile ${activeIndex === 4 ? "active" : ""}`}
           onClick={() => handleTileClick(4)}
         >
           <AnalyticsIcon />
-          <Typography variant="body1">Analytics</Typography>
+          <p>Analytics</p>
         </li>
         <li
           className={`module-tile ${activeIndex === 5 ? "active" : ""}`}
           onClick={() => handleTileClick(5)}
         >
           <DiningIcon />
-          <Typography variant="body1">Services</Typography>
+          <p>Services</p>
         </li>
         <li
           className={`module-tile ${activeIndex === 6 ? "active" : ""}`}
           onClick={() => handleTileClick(6)}
         >
           <PersonIcon />
-          <Typography variant="body1">Users</Typography>
+          <p>Users</p>
         </li>
         <li
           className={`module-tile ${activeIndex === 3 ? "active" : ""}`}
-          onClick={() => handleTileClick(3)}
+          onClick={() => {
+            handleTileClick(3); 
+            handleConfigClick(); 
+          }}
         >
           <DataObjectIcon />
-          <Typography variant="body1">Configurations</Typography>
+          <p>Configurations</p>
         </li>
       </ul>
     </div>

@@ -3,9 +3,12 @@
   box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
   padding: 10px;
   box-sizing: border-box;
-
-  width: 21%;
+  width: 17%;
   height: 640px;
+}
+.image-container{
+    margin: 12px 0px 20px 12px;
+    
 }
 
 .module-list {
@@ -18,10 +21,12 @@
   display: flex;
   align-items: center;
   border-radius: 12px;
-  margin: 6% 0;
-  padding: 6% 4%;
+  margin: 3% 0;
+  padding: 0% 4%;
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
+  font-size: 16px;
+  color: #6b6b6b;
 }
 
 .module-tile:hover {
@@ -35,8 +40,9 @@
 
 .module-tile .MuiSvgIcon-root {
   margin-right: 10px;
+  color: black;
 }
 
 .module-tile.active .MuiSvgIcon-root {
-  color: green;
+  color: #03e67c;
 }

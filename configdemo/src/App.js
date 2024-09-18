@@ -15,9 +15,10 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <div className="main-content">
+      <div className="information-container">
         <Sidebar setIsConfigActive={setIsConfigActive} />
+        <div className="field-container">
+        <Navbar />
         <div className="field-modules-container">
           {isConfigActive && (
             <>
@@ -25,6 +26,7 @@ function App() {
               <FieldSelected selectedDropdowns={selectedDropdowns} />
             </>
           )}
+        </div>
         </div>
       </div>
     </div>
