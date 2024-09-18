@@ -1,11 +1,16 @@
 import React from 'react';
-import './Sidebar.scss';
 
-function Sidebar() {
+const Sidebar = ({ setActiveComponent }) => {
+  const handleConfigClick = () => {
+    setActiveComponent('Configuration');
+  };
+
   return (
-    <div className='Sidebar'>Sidebar</div>
-    
-  )
-}
+    <div className='sidebar'>
+      <button onClick={handleConfigClick}>Configuration</button>
+      {/* You can add more buttons here if needed */}
+    </div>
+  );
+};
 
-export default Sidebar
+export default Sidebar;
