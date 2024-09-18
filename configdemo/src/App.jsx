@@ -19,6 +19,7 @@ function App() {
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
         <Navbar />
+        <h1>Configuration</h1>
         <div className="field-modules-container">
           {isConfigActive && (
             <>

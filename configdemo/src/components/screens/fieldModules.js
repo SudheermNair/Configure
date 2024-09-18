@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import "./styles.scss";
 const FieldModules = ({ onDropdownChange }) => {
   const [selected, setSelected] = useState({
     hotel: "",
@@ -14,7 +14,6 @@ const FieldModules = ({ onDropdownChange }) => {
       [dropdown]: value,
     }));
 
-    // Notify parent component about the change
     if (value) {
       onDropdownChange(
         `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
@@ -44,7 +43,7 @@ const FieldModules = ({ onDropdownChange }) => {
 
   return (
     <div className="field-modules">
-      <h1>Configuration</h1>
+      
       <form onSubmit={handleSubmit}>
         <div>
           <label>Hotel:</label>
