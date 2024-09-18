@@ -1,11 +1,13 @@
 import React from 'react';
 import './Navbar.scss';
 
-function Navbar() {
-  return (
-    <div className='Navbar'>Navbar</div>
-    
-  )
-}
 
-export default Navbar
+const Navbar = () => {
+  return (
+    <nav className='Navbar'>
+      <h1>HUDINI</h1>
+    </nav>
+  );
+};
+
+export default Navbar;
