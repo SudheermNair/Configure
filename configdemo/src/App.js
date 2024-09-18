@@ -6,7 +6,7 @@ import FieldSelected from "./components/screens/fieldSelected";
 import { useState } from "react";
 
 function App() {
-  const [activeComponent, setActiveComponent] = useState(null);
+  const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
 
   const handleDropdownChange = (value) => {
@@ -17,12 +17,14 @@ function App() {
     <div className="App">
       <Navbar />
       <div className="main-content">
-        <Sidebar setActiveComponent={setActiveComponent} />
+        <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-modules-container">
-          {activeComponent === "Configuration" && (
-            <FieldModules onDropdownChange={handleDropdownChange} />
+          {isConfigActive && (
+            <>
+              <FieldModules onDropdownChange={handleDropdownChange} />
+              <FieldSelected selectedDropdowns={selectedDropdowns} />
+            </>
           )}
-          <FieldSelected selectedDropdowns={selectedDropdowns} />
         </div>
       </div>
     </div>

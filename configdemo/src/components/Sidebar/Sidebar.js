@@ -1,14 +1,13 @@
 import React from 'react';
 
-const Sidebar = ({ setActiveComponent }) => {
+const Sidebar = ({ setIsConfigActive }) => {
   const handleConfigClick = () => {
-    setActiveComponent('Configuration');
+    setIsConfigActive((prev) => !prev); // Toggle visibility
   };
 
   return (
     <div className='sidebar'>
       <button onClick={handleConfigClick}>Configuration</button>
-      {/* You can add more buttons here if needed */}
     </div>
   );
 };
