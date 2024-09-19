@@ -1,5 +1,3 @@
-import React from "react";
-
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -9,7 +7,7 @@ const FieldSelected = ({ data = [], setData }) => {
             return {
               ...hotel,
               modules: hotel.modules
-                ?.map((mod) => {
+                .map((mod) => {
                   if (mod.name === moduleName) {
                     if (submoduleName) {
                       return {
@@ -39,29 +37,34 @@ const FieldSelected = ({ data = [], setData }) => {
     if (data.length === 0) {
       alert("Please add items to submit!");
     } else {
-      handleSubmit();
+      alert("Submitted!");
     }
   };
 
-  // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+  if (data.length === 0) {
+    return null;
+  }
+
   return (
     <div className="field-selected">
-      <h1>Selected Data (JSON)</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <h1>Selected Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
-        {data?.map((hotel, hotelIndex) => (
+        {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button onClick={() => removeItem(hotel.hotelId)}>Remove Hotel</button>
+              <button onClick={() => removeItem(hotel.hotelId)}>
+                Remove Hotel
+              </button>
             </div>
-            {hotel.modules?.map((module, moduleIndex) => (
+            {hotel.modules.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
                 {`Module: ${module.name}`}
                 <button onClick={() => removeItem(hotel.hotelId, module.name)}>
                   Remove Module
                 </button>
-                {module.submodules?.map((submodule, subIndex) => (
+                {module.submodules.map((submodule, subIndex) => (
                   <div key={subIndex} style={{ marginLeft: "40px" }}>
                     {`Submodule: ${submodule.name}`}
                     <button
@@ -75,6 +78,12 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
               </div>
             ))}
+            <div style={{ marginLeft: "20px" }}>
+              {`Keys: ${hotel.keys.join(", ")}`}
+            </div>
+            <div style={{ marginLeft: "20px" }}>
+              {`Values: ${hotel.keyValues.join(", ")}`}
+            </div>
           </li>
         ))}
       </ul>
