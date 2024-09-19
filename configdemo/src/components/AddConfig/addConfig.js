@@ -59,6 +59,9 @@ const AddConfig = ({ onDropdownChange }) => {
           return newData;
         });
         handleDropdownChange("value", valueName);
+
+        handleDropdownChange("key", "");
+        handleDropdownChange("value", "");
       }
     }
   };
