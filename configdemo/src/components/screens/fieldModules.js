@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./styles.scss";
+
 const FieldModules = ({ onDropdownChange }) => {
   const [selected, setSelected] = useState({
     hotel: "",
@@ -8,7 +9,6 @@ const FieldModules = ({ onDropdownChange }) => {
   });
 
   const handleDropdownChange = (dropdown, value) => {
-    // Update the selected state
     setSelected((prevState) => ({
       ...prevState,
       [dropdown]: value,
@@ -23,33 +23,16 @@ const FieldModules = ({ onDropdownChange }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Reset the selected state
     setSelected({
       hotel: "",
       module: "",
       submodule: "",
-    });
-
-    // Notify parent component about the selected options
-    Object.entries(selected).forEach(([dropdown, value]) => {
-      if (value) {
-        onDropdownChange(
-          `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
-        );
-      }
     });
   };
 
   return (
     <div className="field-modules">
       <form onSubmit={handleSubmit}>
-        <span>
-          &nbsp;<br></br>
-        </span>
-        <span>
-          &nbsp;<br></br>
-        </span>
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
@@ -58,25 +41,9 @@ const FieldModules = ({ onDropdownChange }) => {
               handleDropdownChange("hotel", event.target.value)
             }
           >
-            <option value="" className="dropdown-label">
-              Select Hotel
-            </option>
-            <option
-              value="Hotel 1"
-              disabled={
-                selected.hotel === "Hotel 2" || selected.hotel === "Hotel 1"
-              }
-            >
-              Hotel 1
-            </option>
-            <option
-              value="Hotel 2"
-              disabled={
-                selected.hotel === "Hotel 1" || selected.hotel === "Hotel 2"
-              }
-            >
-              Hotel 2
-            </option>
+            <option value="">Select Hotel</option>
+            <option value="Hotel 1">Hotel 1</option>
+            <option value="Hotel 2">Hotel 2</option>
           </select>
         </div>
         <div>
@@ -105,6 +72,7 @@ const FieldModules = ({ onDropdownChange }) => {
             <option value="Submodule 2">Submodule 2</option>
           </select>
         </div>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );

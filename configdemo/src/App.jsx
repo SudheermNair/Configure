@@ -10,7 +10,9 @@ function App() {
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
 
   const handleDropdownChange = (value) => {
-    setSelectedDropdowns((prev) => [...prev, value]);
+    if (!selectedDropdowns.includes(value)) {
+      setSelectedDropdowns((prev) => [...prev, value]);
+    }
   };
 
   return (
@@ -24,7 +26,8 @@ function App() {
           {isConfigActive && (
             <>
               <FieldModules onDropdownChange={handleDropdownChange} />
-              <FieldSelected selectedDropdowns={selectedDropdowns} />
+              <FieldSelected selectedDropdowns={selectedDropdowns} 
+               setSelectedDropdowns={setSelectedDropdowns} />
             </>
           )}
         </div>
