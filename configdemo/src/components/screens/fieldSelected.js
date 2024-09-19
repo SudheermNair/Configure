@@ -23,7 +23,8 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
         {selectedDropdowns.map((item, index) => (
           <li key={index}>
             {item}
-            <button onClick={() => removeModule(index)}>Remove</button>
+            <button onClick={() => removeModule(index)} 
+               style={{ marginRight: '10%', border: 'none', cursor: 'pointer' }}> &times; </button>
           </li>
         ))}
       </ul>
