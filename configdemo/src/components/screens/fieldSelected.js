@@ -39,9 +39,11 @@ const FieldSelected = ({ data = [], setData }) => {
     if (data.length === 0) {
       alert("Please add items to submit!");
     } else {
-      alert("Submitted!");
+      handleSubmit();
     }
   };
+
+  const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
 
   return (
     <div className="field-selected">
