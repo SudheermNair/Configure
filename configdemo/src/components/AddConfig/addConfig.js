@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import "./addConfig.scss";
-import { hotelOptions } from "../../core/KeyOptions";
-import { moduleOptions } from "../../core/KeyOptions";
+import { hotelOptions, moduleOptions } from "../../core/KeyOptions";
+
+const initialData = {
+  keys: [],
+};
 
 const AddConfig = ({ onDropdownChange }) => {
+  const [data, setData] = useState(initialData);
   const [selected, setSelected] = useState({
     key: "",
     value: "",
   });
 
   const handleDropdownChange = (dropdown, value) => {
-    // Update the selected state
     setSelected((prevState) => ({
       ...prevState,
       [dropdown]: value,
     }));
 
-    // Notify parent component about the change
     if (value) {
       onDropdownChange(
         `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
@@ -24,65 +26,97 @@ const AddConfig = ({ onDropdownChange }) => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Reset the selected state
-    setSelected({
-      key: "",
-      value: "",
-    });
-
-    // Notify parent component about the selected options
-    Object.entries(selected).forEach(([dropdown, value]) => {
-      if (value) {
-        onDropdownChange(
-          `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
-        );
-      }
-    });
+  const addKey = (keyName) => {
+    if (keyName && !data.keys.find((k) => k.name === keyName)) {
+      setData((prevData) => {
+        const newData = {
+          ...prevData,
+          keys: [...prevData.keys, { name: keyName, values: [] }],
+        };
+        console.log(newData);
+        return newData;
+      });
+    }
   };
+
+  const addValue = (valueName) => {
+    const { key } = selected;
+    if (key && valueName) {
+      const keyData = data.keys.find((k) => k.name === key);
+      if (keyData && !keyData.values.includes(valueName)) {
+        setData((prevData) => {
+          const updatedKeys = prevData.keys.map((k) => {
+            if (k.name === key) {
+              return {
+                ...k,
+                values: [...k.values, valueName],
+              };
+            }
+            return k;
+          });
+          const newData = { ...prevData, keys: updatedKeys };
+          console.log(newData);
+          return newData;
+        });
+        handleDropdownChange("value", valueName);
+      }
+    }
+  };
+
+  const availableKeys = hotelOptions;
+  const selectedKeys = data.keys.map((k) => k.name);
+  const availableValues = selected.key
+    ? moduleOptions.filter(
+        (m) =>
+          !data.keys.find((k) => k.name === selected.key)?.values.includes(m)
+      )
+    : [];
 
   return (
     <div className="field-modules">
-      <h1>Configuration</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <div className="dropdown-container">
           <label>Key:</label>
           <select
-            value={selected.hotel}
-            onChange={(event) =>
-              handleDropdownChange("hotel", event.target.value)
-            }
+            value={selected.key}
+            onChange={(event) => {
+              const value = event.target.value;
+              handleDropdownChange("key", value);
+              addKey(value);
+            }}
+            disabled={!!selected.key}
           >
-            <option value="">Select Key</option>
-            {hotelOptions.map((hotel) => (
-              <option
-                key={hotel}
-                value={hotel}
-                disabled={selected.hotel === hotel}
-              >
-                {hotel}
-              </option>
-            ))}
+            <option value="" className="dropdown-label">
+              Select Key
+            </option>
+            {availableKeys
+              .filter((k) => !selectedKeys.includes(k))
+              .map((k) => (
+                <option key={k} value={k}>
+                  {k}
+                </option>
+              ))}
           </select>
         </div>
         <div>
-          <label>Values:</label>
+          <label>Value:</label>
           <select
-            value={selected.hotel}
-            onChange={(event) =>
-              handleDropdownChange("hotel", event.target.value)
-            }
+            value={selected.value}
+            onChange={(event) => {
+              const value = event.target.value;
+              handleDropdownChange("value", value);
+              addValue(value);
+            }}
+            disabled={!selected.key || availableValues.length === 0}
           >
             <option value="">Select Value</option>
-            {moduleOptions.map((hotel) => (
-              <option
-                key={hotel}
-                value={hotel}
-                disabled={selected.hotel === hotel}
-              >
-                {hotel}
+            {availableValues.map((val) => (
+              <option key={val} value={val}>
+                {val}
               </option>
             ))}
           </select>
