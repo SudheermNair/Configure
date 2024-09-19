@@ -1,111 +1,107 @@
-.field-container{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    padding: 0%;
-    margin: 0%;
-  }
-  
-  h1{
-    font-size: 28px;
-    margin-left: 3%;
-  }
-  
-  
-  .field-modules-container {
-    display: flex;
-    // flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    padding: 20px;
-  }
-  
-  .field-selected h1 {
-    font-size: 18px;
-    background-color: #CFF8E0;
-    padding: 2%;
-  }
-  
-  .field-selected ul {
-    list-style: none;
-    background-color: #f3f2f2;
-    margin-left: 3%;
-  }
-  
-  .field-selected li {
-    margin-bottom: 10px;
-    padding: 2%;
-
-  }
-  .field-selected button {
-   margin-left: 82%;
-    
-  }
- 
-select{
-    margin-left: 20%;
-    padding: 1%;
-    background-color: white;
-    border: 1px solid #a8a8a8;
-    border-radius: 10px;
-    margin-bottom: 4%;
+.field-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 0%;
+  margin: 0%;
 }
 
-  .field-modules,
-  .field-selected {
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin: 10px;
-    width: 50%;
+h1 {
+  font-size: 28px;
+  margin-left: 3%;
+}
+
+.field-modules-container {
+  display: flex;
+  // flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+.field-selected h1 {
+  font-size: 18px;
+  background-color: #cff8e0;
+  padding: 2%;
+}
+
+.field-selected ul {
+  list-style: none;
+  background-color: #f3f2f2;
+  margin-left: 3%;
+}
+
+.field-selected li {
+  margin-bottom: 10px;
+  padding: 2%;
+}
+.field-selected button {
+  margin-left: 82%;
+}
+
+select {
+  margin-left: 20%;
+  padding: 1%;
+  background-color: white;
+  border: 1px solid #a8a8a8;
+  border-radius: 10px;
+  margin-bottom: 4%;
+}
+
+.field-modules,
+.field-selected {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 230px;
+  position: relative;
+}
+
+.field-selected {
+  scrollbar-width: thin;
+  scrollbar-color: #888888 #f3f2f2;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f3f2f2;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #888888;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    height: 230px;
-    position:relative;
-  }
-  .field-selected {
-    scrollbar-width: thin; 
-    scrollbar-color: #888888 #f3f2f2; 
-    position: relative;
-   
-    &::-webkit-scrollbar {
-      width: 12px;
-    }
-  
-    &::-webkit-scrollbar-track {
-      background: #f3f2f2;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background-color: #888888;
-      border-radius: 10px;
-    }
-  
-    overflow-y: auto; 
-    padding-right: 8px; 
   }
 
+  overflow-y: auto;
+  padding-right: 8px;
+}
 
-  .information-container {
-    display: flex;
-    flex-direction: row;
-
-  }
+.information-container {
+  display: flex;
+  flex-direction: row;
+}
 
 .field-modules {
-    font-size: 16px;
-    color: #6b6b6b;
+  font-size: 16px;
+  color: #6b6b6b;
 }
 
-button { 
-    bottom: 10px;
-    padding: 10px 20px; 
-    background-color: #63ca8e; 
-    color: #fff; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer;
-  }
-  .field-modules,
+button {
+  bottom: 10px;
+  padding: 10px 20px;
+  background-color: #63ca8e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.field-modules,
 .field-selected {
   margin: 20px;
 }
@@ -196,8 +192,8 @@ button {
 
 // /* Scrollbar styles for FieldSelected */
 // .field-selected {
-//   scrollbar-width: thin; 
-//   scrollbar-color: #888888 #f3f2f2; 
+//   scrollbar-width: thin;
+//   scrollbar-color: #888888 #f3f2f2;
 
 //   &::-webkit-scrollbar {
 //     width: 12px;
@@ -233,8 +229,8 @@ button {
 // .field-selected {
 //   overflow-y: auto; /* Keep the scrollbar if needed */
 //   height: 500px; /* Adjust height as needed */
-//   scrollbar-width: thin; 
-//   scrollbar-color: #888888 #f3f2f2; 
+//   scrollbar-width: thin;
+//   scrollbar-color: #888888 #f3f2f2;
 // }
 
 // .field-selected h1 {
