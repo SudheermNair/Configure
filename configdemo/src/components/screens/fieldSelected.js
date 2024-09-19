@@ -2,19 +2,35 @@ import React from "react";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
-    const updatedData = data.map((hotel) => {
-      if (hotel.hotelId === hotelId) {
-        // If a module name is provided, remove the module
-        if (moduleName) {
-          return {
-            ...hotel,
-            modules: hotel.modules?.filter((mod) => mod.name !== moduleName), // Remove module
-          };
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          if (moduleName) {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules?.map((mod) => {
+                  if (mod.name === moduleName) {
+                    return {
+                      ...mod,
+                      submodules: mod.submodules?.filter((sub) => sub.name !== submoduleName),
+                    };
+                  }
+                  return mod;
+                }),
+              };
+            } else {
+              return {
+                ...hotel,
+                modules: hotel.modules?.filter((mod) => mod.name !== moduleName),
+              };
+            }
+          }
+          return null; 
         }
-        return null; // Only return hotel if specified
-      }
-      return hotel; // Return unchanged hotel
-    }).filter(Boolean); // Remove any null hotels
+        return hotel; 
+      })
+      .filter(Boolean);
 
     setData(updatedData);
   };
@@ -28,13 +44,13 @@ const FieldSelected = ({ data = [], setData }) => {
   };
 
   if (data.length === 0) {
-    return null; // Render nothing if no data
+    return null;
   }
 
   return (
     <div className="field-selected">
-      <h1>Selected Data </h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <h1>Selected Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
