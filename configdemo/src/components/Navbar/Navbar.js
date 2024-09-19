@@ -28,7 +28,7 @@ function Navbar() {
 
   return (
     <div className='Navbar'>
-      <div className='dropdown-container'>
+      <div className='dropdownField-container'>
         <FormControl variant="standard" >
           <Select
             className='dropdown-title'
