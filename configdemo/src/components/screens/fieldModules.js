@@ -17,6 +17,8 @@ const FieldModules = ({ onDropdownChange }) => {
     }));
 
     if (value) {
+
+      onDropdownChange(value);
       let displayValue = value;
       if (dropdown === "hotel") {
         const selectedHotel = data[0].hotels.find((h) => h.name === value);
@@ -27,6 +29,7 @@ const FieldModules = ({ onDropdownChange }) => {
       onDropdownChange(
         `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${displayValue}`
       );
+
     }
   };
 
