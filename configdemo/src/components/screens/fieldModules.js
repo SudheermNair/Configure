@@ -17,8 +17,6 @@ const FieldModules = ({ onDropdownChange }) => {
     }));
 
     if (value) {
-
-      onDropdownChange(value);
       let displayValue = value;
       if (dropdown === "hotel") {
         const selectedHotel = data[0].hotels.find((h) => h.name === value);
@@ -29,7 +27,6 @@ const FieldModules = ({ onDropdownChange }) => {
       onDropdownChange(
         `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${displayValue}`
       );
-
     }
   };
 
@@ -40,19 +37,12 @@ const FieldModules = ({ onDropdownChange }) => {
 
   return (
     <div className="field-modules">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
             value={selected.hotel}
-            onChange={(event) => {
-              const value = event.target.value;
-              handleDropdownChange("hotel", value);
-            }}
+            onChange={(event) => handleDropdownChange("hotel", event.target.value)}
           >
             <option value="" className="dropdown-label">
               Select Hotel
@@ -68,10 +58,7 @@ const FieldModules = ({ onDropdownChange }) => {
           <label>Modules:</label>
           <select
             value={selected.module}
-            onChange={(event) => {
-              const value = event.target.value;
-              handleDropdownChange("module", value);
-            }}
+            onChange={(event) => handleDropdownChange("module", event.target.value)}
             disabled={!selected.hotel}
           >
             <option value="">Select Module</option>
@@ -86,11 +73,8 @@ const FieldModules = ({ onDropdownChange }) => {
           <label>Submodules:</label>
           <select
             value={selected.submodule}
-            onChange={(event) => {
-              const value = event.target.value;
-              handleDropdownChange("submodule", value);
-            }}
-            disabled={!selected.module} // Enable only if a module is selected
+            onChange={(event) => handleDropdownChange("submodule", event.target.value)}
+            disabled={!selected.module}
           >
             <option value="">Select Submodule</option>
             {availableSubmodules.map((submod) => (

@@ -27,15 +27,15 @@ function App() {
         <div className="field-modules-container">
           {isConfigActive && (
            <>
-                {/* <FieldModules onDropdownChange={handleDropdownChange} />
+                <FieldModules onDropdownChange={handleDropdownChange} />
                 <FieldSelected
                   selectedDropdowns={selectedDropdowns}
                   setSelectedDropdowns={setSelectedDropdowns}
-                /> */}
+                />
                
-                <AddConfig onDropdownChange={handleDropdownChange} />
+                {/* <AddConfig onDropdownChange={handleDropdownChange} />
                 <SelectConfig selectedDropdowns={selectedDropdowns} 
-                 setSelectedDropdowns={setSelectedDropdowns} />
+                 setSelectedDropdowns={setSelectedDropdowns} /> */}
               </>
           )}
         </div>

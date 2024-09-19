@@ -2,20 +2,26 @@ import React from "react";
 import "./styles.scss";
 
 const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
-  const removeModule = (index) => {
-    const updatedModules = selectedDropdowns.filter((_, i) => i !== index);
+  const removeModuleAndSubmodules = (module) => {
+    const updatedModules = selectedDropdowns.reduce((acc, item) => {
+      if (!(item === module || item.startsWith(`${module}:`))) {
+        acc.push(item); 
+      }
+      return acc;
+    }, []);
+
     setSelectedDropdowns(updatedModules);
   };
 
   const clearAll = () => {
-    setSelectedDropdowns([]);
+    setSelectedDropdowns([]); 
   };
 
   const handleClose = (item) => {
     if (item.startsWith("Hotel")) {
-      clearAll();
+      clearAll(); 
     } else {
-      removeModule(selectedDropdowns.indexOf(item));
+      removeModuleAndSubmodules(item);
     }
   };
 
