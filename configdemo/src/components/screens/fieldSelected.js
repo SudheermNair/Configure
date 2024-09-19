@@ -43,10 +43,15 @@ const FieldSelected = ({ data = [], setData }) => {
     }
   };
 
+  
+  if (data.length === 0) {
+    return null;
+  }
+
   return (
     <div className="field-selected">
-      <h1>Selected Data (JSON)</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <h1>Selected Data 1</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data?.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
