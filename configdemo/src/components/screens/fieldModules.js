@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./styles.scss";
-import { configFields } from "../../core/config";
+
+const initialData = {
+  hotels: [],
+};
 
 const FieldModules = ({ onDropdownChange }) => {
-  const [data, setData] = useState(configFields); 
+  const [data, setData] = useState(initialData);
   const [selected, setSelected] = useState({
     hotel: "",
     module: "",
@@ -21,10 +24,87 @@ const FieldModules = ({ onDropdownChange }) => {
     }
   };
 
-  const availableHotels = data[0].hotels;
-  const selectedHotel = availableHotels.find((h) => h.name === selected.hotel);
-  const availableModules = selectedHotel ? data[0].modules : [];
-  const availableSubmodules = selected.module ? data[0].submodules : [];
+  const addHotel = (hotelName) => {
+    if (hotelName && !data.hotels.find((h) => h.name === hotelName)) {
+      setData((prevData) => {
+        const newData = {
+          ...prevData,
+          hotels: [...prevData.hotels, { name: hotelName, modules: [] }],
+        };
+        console.log(newData);
+        return newData;
+      });
+    }
+  };
+
+  const addModule = (moduleName) => {
+    const { hotel } = selected;
+    if (hotel && moduleName) {
+      const hotelData = data.hotels.find((h) => h.name === hotel);
+      if (hotelData && !hotelData.modules.find((m) => m.name === moduleName)) {
+        setData((prevData) => {
+          const updatedHotels = prevData.hotels.map((h) => {
+            if (h.name === hotel) {
+              return {
+                ...h,
+                modules: [...h.modules, { name: moduleName, submodules: [] }],
+              };
+            }
+            return h;
+          });
+          const newData = { ...prevData, hotels: updatedHotels };
+          console.log(newData);
+          return newData;
+        });
+        handleDropdownChange("module", moduleName);
+      }
+    }
+  };
+
+  const addSubmodule = (submoduleName) => {
+    const { hotel, module } = selected;
+    if (hotel && module && submoduleName) {
+      const hotelData = data.hotels.find((h) => h.name === hotel);
+      const moduleData = hotelData?.modules.find((m) => m.name === module);
+      if (moduleData && !moduleData.submodules.includes(submoduleName)) {
+        setData((prevData) => {
+          const updatedHotels = prevData.hotels.map((h) => {
+            if (h.name === hotel) {
+              const updatedModules = h.modules.map((m) => {
+                if (m.name === module) {
+                  return {
+                    ...m,
+                    submodules: [...m.submodules, submoduleName],
+                  };
+                }
+                return m;
+              });
+              return { ...h, modules: updatedModules };
+            }
+            return h;
+          });
+          const newData = { ...prevData, hotels: updatedHotels };
+          console.log(newData);
+          return newData;
+        });
+      } else {
+        console.log("Submodule already exists!");
+      }
+    }
+  };
+
+  const availableHotels = ["Hotel A", "Hotel B", "Hotel C"];
+  const selectedHotels = data.hotels.map((h) => h.name);
+  const availableModules = selected.hotel
+    ? ["Module 1", "Module 2", "Module 3"].filter(
+        (m) =>
+          !data.hotels
+            .find((h) => h.name === selected.hotel)
+            ?.modules.find((mod) => mod.name === m)
+      )
+    : [];
+
+  const availableSubmodules = ["Submodule A", "Submodule B", "Submodule C"];
 
   return (
     <div className="field-modules">
@@ -40,16 +120,20 @@ const FieldModules = ({ onDropdownChange }) => {
             onChange={(event) => {
               const value = event.target.value;
               handleDropdownChange("hotel", value);
+              addHotel(value);
             }}
+            disabled={!!selected.hotel}
           >
             <option value="" className="dropdown-label">
               Select Hotel
             </option>
-            {availableHotels.map((h) => (
-              <option key={h.hotelId} value={h.name}>
-                {h.name}
-              </option>
-            ))}
+            {availableHotels
+              .filter((h) => !selectedHotels.includes(h))
+              .map((h) => (
+                <option key={h} value={h}>
+                  {h}
+                </option>
+              ))}
           </select>
         </div>
         <div>
@@ -59,8 +143,9 @@ const FieldModules = ({ onDropdownChange }) => {
             onChange={(event) => {
               const value = event.target.value;
               handleDropdownChange("module", value);
+              addModule(value);
             }}
-            disabled={!selected.hotel}
+            disabled={!selected.hotel || availableModules.length === 0}
           >
             <option value="">Select Module</option>
             {availableModules.map((mod) => (
@@ -77,6 +162,7 @@ const FieldModules = ({ onDropdownChange }) => {
             onChange={(event) => {
               const value = event.target.value;
               handleDropdownChange("submodule", value);
+              addSubmodule(value);
             }}
             disabled={!selected.module} // Enable only if a module is selected
           >
