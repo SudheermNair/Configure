@@ -1,9 +1,7 @@
 import React from "react";
-import "./styles.scss";
-const FieldSelected = ({ selectedDropdowns }) => {
-  const handleOnClick = () => {
-    alert("Submitted!");
-  };
+import "./addConfig.scss";
+
+const SelectConfig = ({ selectedDropdowns }) => {
   return (
     <div className="field-selected">
       <h1>Selected Dropdowns</h1>
@@ -12,9 +10,9 @@ const FieldSelected = ({ selectedDropdowns }) => {
           <li key={index}>{item}</li>
         ))}
       </ul>
-      <button onClick={handleOnClick}>Submit</button>
+      <button onClick={() => alert("Submitted!")}>Submit</button>
     </div>
   );
 };
 
-export default FieldSelected;
+export default SelectConfig;
