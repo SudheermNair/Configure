@@ -7,15 +7,47 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
     setSelectedDropdowns(updatedModules);
   };
 
+  const clearAll = () => {
+    setSelectedDropdowns([]);
+  };
+
+  const handleClose = (item) => {
+    if (item.startsWith("Hotel")) {
+      clearAll();
+    } else {
+      removeModule(selectedDropdowns.indexOf(item));
+    }
+  };
+
   const handleSubmit = () => {
     if (selectedDropdowns.length === 0) {
-      alert("please add item to submit!");
+      alert("Please add an item to submit!");
     } else {
       alert("Submitted!");
     }
   };
 
+  const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+
   return (
+<>
+    <div className="field-selected">
+      <h1>Selected Dropdowns</h1>
+      <ul>
+        {uniqueSelectedDropdowns.map((item, index) => (
+          <li key={index}>
+            {item}
+            <button
+              onClick={() => handleClose(item)}
+              style={{ marginRight: "10%", border: "none", cursor: "pointer" }}
+            >
+              &times;
+            </button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
     <>
       <div className="field-selected">
         <h1>Selected Dropdowns</h1>
@@ -29,7 +61,8 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
         </ul>
         <button onClick={handleSubmit}>Submit</button>
       </div>
-    </>
+      </>
+      </>
   );
 };
 

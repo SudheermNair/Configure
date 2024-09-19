@@ -20,6 +20,21 @@ const FieldModules = ({ onDropdownChange }) => {
     }));
 
     if (value) {
+
+      onDropdownChange(value);
+      let displayValue = value;
+      if (dropdown === "hotel") {
+        const selectedHotel = data[0].hotels.find((h) => h.name === value);
+        if (selectedHotel) {
+          displayValue = `${selectedHotel.hotelId} (${selectedHotel.name})`;
+        }
+      }
+      onDropdownChange(
+        `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${displayValue}`
+      );
+
+    }
+  };
       onDropdownChange(value);
     }
   };
