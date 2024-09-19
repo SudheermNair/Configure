@@ -110,9 +110,8 @@ const moduleOptions = [
 
 const AddConfig = ({ onDropdownChange }) => {
   const [selected, setSelected] = useState({
-    hotel: "",
-    module: "",
-    submodule: "",
+    key: "",
+    value: "",
   });
 
   const handleDropdownChange = (dropdown, value) => {
@@ -135,9 +134,8 @@ const AddConfig = ({ onDropdownChange }) => {
 
     // Reset the selected state
     setSelected({
-      hotel: "",
-      module: "",
-      submodule: "",
+      key: "",
+      value: "",
     });
 
     // Notify parent component about the selected options
@@ -182,7 +180,7 @@ const AddConfig = ({ onDropdownChange }) => {
               handleDropdownChange("hotel", event.target.value)
             }
           >
-            <option value="">Select Key</option>
+            <option value="">Select Value</option>
             {moduleOptions.map((hotel) => (
               <option
                 key={hotel}
