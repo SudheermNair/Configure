@@ -10,6 +10,11 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
+  const [currentView, setCurrentView] = useState("fieldModules");
+
+  const handleSubmit = () => {
+    setCurrentView("addConfig");
+  };
 
   const handleDropdownChange = (value) => {
     if (!selectedDropdowns.includes(value)) {
@@ -23,22 +28,35 @@ function App() {
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
         <Navbar />
-        <h1>Configuration</h1>
-        <div className="field-modules-container">
+        {currentView === "fieldModules" && (
+          <>
+                  <h1>Configuration</h1>
+                  
+          <div className="field-modules-container">
           {isConfigActive && (
            <>
-                {/* <FieldModules onDropdownChange={handleDropdownChange} />
+                <FieldModules onDropdownChange={handleDropdownChange} />
                 <FieldSelected
                   selectedDropdowns={selectedDropdowns}
                   setSelectedDropdowns={setSelectedDropdowns}
-                /> */}
-               
-                <AddConfig onDropdownChange={handleDropdownChange} />
-                <SelectConfig selectedDropdowns={selectedDropdowns} 
-                 setSelectedDropdowns={setSelectedDropdowns} />
+                  handleSubmit={handleSubmit}
+                />
               </>
           )}
         </div>
+        </>
+        )}
+        {currentView === "addConfig" && (
+          <>
+                  <h1>Configuration</h1>
+                  <div className="field-modules-container">   
+                <AddConfig onDropdownChange={handleDropdownChange} />
+                <SelectConfig selectedDropdowns={selectedDropdowns} 
+                 setSelectedDropdowns={setSelectedDropdowns} /> 
+              </div>
+              </>
+        )}
+
         </div>
       </div>
     </div>
