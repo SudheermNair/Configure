@@ -30,6 +30,7 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
   const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
 
   return (
+
     <div className="field-selected">
       <h1>Selected Dropdowns</h1>
       <ul>
@@ -47,6 +48,20 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
       </ul>
       <button onClick={handleSubmit}>Submit</button>
     </div>
+    <>
+      <div className="field-selected">
+        <h1>Selected Dropdowns</h1>
+        <ul>
+          {selectedDropdowns.map((item, index) => (
+            <li key={index}>
+              {item}
+              <button onClick={() => removeModule(index)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
+    </>
   );
 };
 
