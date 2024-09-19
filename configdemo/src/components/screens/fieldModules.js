@@ -43,9 +43,14 @@ const FieldModules = ({ onDropdownChange }) => {
 
   return (
     <div className="field-modules">
-      
       <form onSubmit={handleSubmit}>
-        <div>
+        <span>
+          &nbsp;<br></br>
+        </span>
+        <span>
+          &nbsp;<br></br>
+        </span>
+        <div className="dropdown-container">
           <label>Hotel:</label>
           <select
             value={selected.hotel}
@@ -53,7 +58,9 @@ const FieldModules = ({ onDropdownChange }) => {
               handleDropdownChange("hotel", event.target.value)
             }
           >
-            <option value="">Select Hotel</option>
+            <option value="" className="dropdown-label">
+              Select Hotel
+            </option>
             <option
               value="Hotel 1"
               disabled={
