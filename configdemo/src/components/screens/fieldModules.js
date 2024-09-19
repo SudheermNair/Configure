@@ -20,9 +20,7 @@ const FieldModules = ({ onDropdownChange }) => {
     }));
 
     if (value) {
-      onDropdownChange(
-        `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
-      );
+      onDropdownChange(value);
     }
   };
 
