@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.scss';
 const FieldSelected = ({ selectedDropdowns }) => {
   return (
+    <>
     <div className='field-selected'>
       <h1>Selected Dropdowns</h1>
       <ul>
@@ -11,6 +12,7 @@ const FieldSelected = ({ selectedDropdowns }) => {
       </ul>
       <button onClick={() => alert('Submitted!')}>Submit</button>
     </div>
+    </>
   );
 };
 
