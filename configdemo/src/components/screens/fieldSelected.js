@@ -7,6 +7,14 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
     setSelectedDropdowns(updatedModules);
   };
 
+  const handleSubmit = () => {
+    if (selectedDropdowns.length === 0) {
+      alert("please add item to submit!");
+    } else {
+      alert("Submitted!");
+    }
+  };
+
   return (
     <div className="field-selected">
       <h1>Selected Dropdowns</h1>
@@ -18,7 +26,7 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
           </li>
         ))}
       </ul>
-      <button onClick={() => alert("Submitted!")}>Submit</button>
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
