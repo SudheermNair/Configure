@@ -79,10 +79,17 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
             ))}
             <div style={{ marginLeft: "20px" }}>
-              {`Keys: ${hotel.keys.join(", ")}`}
-            </div>
-            <div style={{ marginLeft: "20px" }}>
-              {`Values: ${hotel.keyValues.join(", ")}`}
+              {`Key-Value Pairs:`}
+              {hotel.keyValuePairs &&
+              Object.entries(hotel.keyValuePairs).length > 0 ? (
+                Object.entries(hotel.keyValuePairs).map(
+                  ([key, value], index) => (
+                    <div key={index}>{`${key}: ${value}`}</div>
+                  )
+                )
+              ) : (
+                <div>No key-value pairs available.</div>
+              )}
             </div>
           </li>
         ))}
