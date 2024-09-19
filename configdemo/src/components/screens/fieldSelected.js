@@ -16,6 +16,7 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
   };
 
   return (
+    <>
     <div className="field-selected">
       <h1>Selected Dropdowns</h1>
       <ul>
