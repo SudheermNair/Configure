@@ -28,6 +28,7 @@ const FieldSelected = ({ selectedDropdowns, setSelectedDropdowns }) => {
       </ul>
       <button onClick={handleSubmit}>Submit</button>
     </div>
+    </>
   );
 };
 

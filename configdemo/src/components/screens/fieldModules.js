@@ -9,6 +9,7 @@ const FieldModules = ({ onDropdownChange }) => {
   });
 
   const handleDropdownChange = (dropdown, value) => {
+
     setSelected((prevState) => ({
       ...prevState,
       [dropdown]: value,
@@ -23,10 +24,19 @@ const FieldModules = ({ onDropdownChange }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     setSelected({
       hotel: "",
       module: "",
       submodule: "",
+    });
+
+    Object.entries(selected).forEach(([dropdown, value]) => {
+      if (value) {
+        onDropdownChange(
+          `${dropdown.charAt(0).toUpperCase() + dropdown.slice(1)}: ${value}`
+        );
+      }
     });
   };
 
