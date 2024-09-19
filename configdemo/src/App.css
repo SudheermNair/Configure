@@ -3,32 +3,3 @@
   flex-direction: column;
 }
 
-.field-container{
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  padding: 0%;
-  margin: 0%;
-}
-
-
-
-
-.field-modules-container {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 20px;
-}
-
-.field-modules,
-.field-selected {
-  padding: 20px;
-  border: 1px solid #ccc;
-  margin: 10px;
-  width: 30%;
-}
-.information-container {
-  display: flex;
-  flex-direction: row;
-}

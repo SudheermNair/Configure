@@ -29,13 +29,14 @@ function Navbar() {
   return (
     <div className='Navbar'>
       <div className='dropdown-container'>
-        <FormControl variant="standard" sx={{ minWidth: 120, marginRight: 2 }}>
+        <FormControl variant="standard" >
           <Select
+            className='dropdown-title'
             value={infiniteValue}
             onChange={handleInfiniteChange}
             displayEmpty
             renderValue={(selected) => selected || 'Infinite'}
-            sx={{ padding: '10px', minWidth: 'auto' }}
+            sx={{ fontSize: '14px', minWidth: '100px' }}
           >
             <MenuItem value="option2">None</MenuItem>
             <MenuItem value="option1">Infinite</MenuItem>
@@ -44,13 +45,14 @@ function Navbar() {
 
         <span className='separator'>/</span>
 
-        <FormControl variant="standard" sx={{ minWidth: 120, marginRight: 2 }}>
+        <FormControl variant="standard" >
           <Select
+            className='dropdown-title'
             value={infiniteValue}
             onChange={handleInfiniteChange}
             displayEmpty
             renderValue={(selected) => selected || 'Infinite'}
-            sx={{ padding: '10px', minWidth: 'auto' }}
+            sx={{ fontSize: '14px', minWidth: '100px' }}
           >
             <MenuItem value="option2">None</MenuItem>
             <MenuItem value="option2">Infinite</MenuItem>
@@ -59,13 +61,14 @@ function Navbar() {
 
         <span className='separator'>/</span>
 
-        <FormControl variant="standard" sx={{ minWidth: 200 }}>
+        <FormControl variant="standard" >
           <Select
+            className='dropdown-title'
             value={appConfigValue}
             onChange={handleAppConfigChange}
             displayEmpty
             renderValue={(selected) => selected || 'App Config CMS'}
-            sx={{ padding: '10px', minWidth: 'auto' }}
+            sx={{ fontSize: '14px', minWidth: '100px' }}
           >
             <MenuItem value="option2">None</MenuItem>
             <MenuItem value="setting1">App Config CMS</MenuItem>
@@ -80,7 +83,7 @@ function Navbar() {
       </div>
 
       <div className='nav-item'>
-        <FormControl variant="standard" sx={{ minWidth: 120, marginLeft: 2 }}>
+        <FormControl variant="standard" sx={{ minWidth: 120 }}>
           <Select
             value={countryValue}
             onChange={handleCountryChange}
@@ -93,6 +96,7 @@ function Navbar() {
               '& .MuiSelect-select': {
                 borderBottom: 'none',
                 color: 'gray',
+                fontSize: '14px'
               },
               '&:before, &:after': {
                 display: 'none'
@@ -115,7 +119,7 @@ function Navbar() {
       </div>
 
       <div className='nav-item'>
-        <HelpOutlineIcon sx={{ marginRight: 0.2, color: 'lightgray' }} />
+        <HelpOutlineIcon sx={{  color: 'lightgray' }} />
         <div className='navBar-content'>Help</div>
       </div>
 
