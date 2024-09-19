@@ -46,7 +46,7 @@ const FieldSelected = ({ data = [], setData }) => {
   // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
   return (
     <div className="field-selected">
-      <h1>Selected Data (JSON)</h1>
+      <h1>Selected Data </h1>
       <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
       <ul>
         {data?.map((hotel, hotelIndex) => (
