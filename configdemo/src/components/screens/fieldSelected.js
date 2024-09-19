@@ -2,35 +2,19 @@ import React from "react";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          if (moduleName) {
-            return {
-              ...hotel,
-              modules: hotel.modules
-                ?.map((mod) => {
-                  if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return mod;
-                  }
-                  return null;
-                })
-                .filter(Boolean),
-            };
-          }
-          return null;
+    const updatedData = data.map((hotel) => {
+      if (hotel.hotelId === hotelId) {
+        // If a module name is provided, remove the module
+        if (moduleName) {
+          return {
+            ...hotel,
+            modules: hotel.modules?.filter((mod) => mod.name !== moduleName), // Remove module
+          };
         }
-        return hotel;
-      })
-      .filter(Boolean);
+        return null; // Only return hotel if specified
+      }
+      return hotel; // Return unchanged hotel
+    }).filter(Boolean); // Remove any null hotels
 
     setData(updatedData);
   };
@@ -39,17 +23,20 @@ const FieldSelected = ({ data = [], setData }) => {
     if (data.length === 0) {
       alert("Please add items to submit!");
     } else {
-      handleSubmit();
+      alert("Submitted!");
     }
   };
 
-  // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+  if (data.length === 0) {
+    return null; // Render nothing if no data
+  }
+
   return (
     <div className="field-selected">
-      <h1>Selected Data (JSON)</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <h1>Selected Data</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
-        {data?.map((hotel, hotelIndex) => (
+        {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
@@ -58,16 +45,12 @@ const FieldSelected = ({ data = [], setData }) => {
             {hotel.modules?.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
                 {`Module: ${module.name}`}
-                <button onClick={() => removeItem(hotel.hotelId, module.name)}>
-                  Remove Module
-                </button>
+                <button onClick={() => removeItem(hotel.hotelId, module.name)}>Remove Module</button>
                 {module.submodules?.map((submodule, subIndex) => (
                   <div key={subIndex} style={{ marginLeft: "40px" }}>
                     {`Submodule: ${submodule.name}`}
                     <button
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
+                      onClick={() => removeItem(hotel.hotelId, module.name, submodule.name)}
                     >
                       Remove Submodule
                     </button>
