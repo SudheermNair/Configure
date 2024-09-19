@@ -59,6 +59,10 @@ const AddConfig = ({ onDropdownChange }) => {
           return newData;
         });
         handleDropdownChange("value", valueName);
+
+        // Reset selected key and value to make key dropdown active again
+        handleDropdownChange("key", ""); // Reset key
+        handleDropdownChange("value", ""); // Reset value
       }
     }
   };
