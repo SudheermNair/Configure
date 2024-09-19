@@ -43,7 +43,7 @@ const FieldSelected = ({ data = [], setData }) => {
     }
   };
 
-  const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+  // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
   return (
     <div className="field-selected">
       <h1>Selected Data (JSON)</h1>
