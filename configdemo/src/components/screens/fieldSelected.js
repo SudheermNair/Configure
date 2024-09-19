@@ -5,7 +5,8 @@ const FieldSelected = ({ selectedDropdowns }) => {
     alert("Submitted!");
   };
   return (
-    <div className="field-selected">
+    <>
+    <div className='field-selected'>
       <h1>Selected Dropdowns</h1>
       <ul>
         {selectedDropdowns.map((item, index) => (
@@ -14,6 +15,7 @@ const FieldSelected = ({ selectedDropdowns }) => {
       </ul>
       <button onClick={handleOnClick}>Submit</button>
     </div>
+    </>
   );
 };
 

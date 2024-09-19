@@ -8,7 +8,7 @@ const FieldModules = ({ onDropdownChange }) => {
   });
 
   const handleDropdownChange = (dropdown, value) => {
-    // Update the selected state
+
     setSelected((prevState) => ({
       ...prevState,
       [dropdown]: value,
@@ -24,14 +24,12 @@ const FieldModules = ({ onDropdownChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Reset the selected state
     setSelected({
       hotel: "",
       module: "",
       submodule: "",
     });
 
-    // Notify parent component about the selected options
     Object.entries(selected).forEach(([dropdown, value]) => {
       if (value) {
         onDropdownChange(
