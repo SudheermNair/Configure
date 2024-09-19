@@ -35,27 +35,7 @@ const FieldSelected = ({
 
   return (
     <>
-      {/* <div className="field-selected">
-        <h1>Selected Dropdowns</h1>
-        <ul>
-          {uniqueSelectedDropdowns.map((item, index) => (
-            <li key={index}>
-              {item}
-              <button
-                onClick={() => handleClose(item)}
-                style={{
-                  marginRight: "10%",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                &times;
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button onClick={handleSubmission}>Submit</button>
-      </div> */}
+     
         <div className="field-selected">
           <h1>Selected Dropdowns</h1>
           <ul>
