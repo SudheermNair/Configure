@@ -80,7 +80,6 @@
         </ul>
         <button onClick={handleSubmit}>Submit</button>
       </div>
-    </>
   );
 };
 
