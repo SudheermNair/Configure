@@ -99,6 +99,7 @@ const FieldModules = ({ onDropdownChange }) => {
             <option value="Submodule 2">Submodule 2</option>
           </select>
         </div>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
