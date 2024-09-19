@@ -34,6 +34,7 @@ function App() {
                 />
                 {/* <AddConfig selectedDropdowns={selectedDropdowns} />
                 <SelectConfig selectedDropdowns={selectedDropdowns} /> */}
+                
               </>
           )}
         </div>
