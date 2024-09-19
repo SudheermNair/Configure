@@ -1,6 +1,6 @@
-// import React from "react";
-// import FieldModules from "./fieldModules";
 
+// import React from "react";
+ 
 // const FieldSelected = ({ data = [], setData }) => {
 //   const removeItem = (hotelId, moduleName, submoduleName) => {
 //     const updatedData = data
@@ -32,23 +32,26 @@
 //         return hotel;
 //       })
 //       .filter(Boolean);
-
+ 
 //     setData(updatedData);
 //   };
-
+ 
 //   const handleSubmit = () => {
 //     if (data.length === 0) {
 //       alert("Please add items to submit!");
 //     } else {
-//       handleSubmit();
+//       alert("Submitted!");
 //     }
 //   };
 
-//   // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+//   if (data.length === 0) {
+//     return null;
+//   }
+ 
 //   return (
 //     <div className="field-selected">
-//       <h1>Selected Data </h1>
-//       <pre>{JSON.stringify(data, null, 1)}</pre> {/* Display the JSON data here */}
+//       <h1>Selected Data 1</h1>
+//       <pre>{JSON.stringify(data, null, 2)}</pre>
 //       <ul>
 //         {data?.map((hotel, hotelIndex) => (
 //           <li key={hotelIndex}>
@@ -83,12 +86,11 @@
 //     </div>
 //   );
 // };
-
 // export default FieldSelected;
 
-
 import React from "react";
- 
+import './fieldSelected.scss'; // Import the styles
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -120,10 +122,10 @@ const FieldSelected = ({ data = [], setData }) => {
         return hotel;
       })
       .filter(Boolean);
- 
+
     setData(updatedData);
   };
- 
+
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
@@ -135,10 +137,10 @@ const FieldSelected = ({ data = [], setData }) => {
   if (data.length === 0) {
     return null;
   }
- 
+
   return (
     <div className="field-selected">
-      <h1>Selected Data 1</h1>
+      <h1>Selected Data</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data?.map((hotel, hotelIndex) => (
@@ -148,13 +150,13 @@ const FieldSelected = ({ data = [], setData }) => {
               <button onClick={() => removeItem(hotel.hotelId)}>Remove Hotel</button>
             </div>
             {hotel.modules?.map((module, moduleIndex) => (
-              <div key={moduleIndex} style={{ marginLeft: "20px" }}>
+              <div key={moduleIndex} className="module-item">
                 {`Module: ${module.name}`}
                 <button onClick={() => removeItem(hotel.hotelId, module.name)}>
                   Remove Module
                 </button>
                 {module.submodules?.map((submodule, subIndex) => (
-                  <div key={subIndex} style={{ marginLeft: "40px" }}>
+                  <div key={subIndex} className="submodule-item">
                     {`Submodule: ${submodule.name}`}
                     <button
                       onClick={() =>
@@ -170,8 +172,9 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Submit</button>
+      <button className="submit-button" onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
+
 export default FieldSelected;
