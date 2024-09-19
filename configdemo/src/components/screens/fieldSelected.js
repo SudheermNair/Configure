@@ -35,7 +35,7 @@ const FieldSelected = ({
 
   return (
     <>
-      <div className="field-selected">
+      {/* <div className="field-selected">
         <h1>Selected Dropdowns</h1>
         <ul>
           {uniqueSelectedDropdowns.map((item, index) => (
@@ -55,8 +55,7 @@ const FieldSelected = ({
           ))}
         </ul>
         <button onClick={handleSubmission}>Submit</button>
-      </div>
-      <>
+      </div> */}
         <div className="field-selected">
           <h1>Selected Dropdowns</h1>
           <ul>
@@ -70,7 +69,6 @@ const FieldSelected = ({
           <button onClick={handleSubmit}>Submit</button>
         </div>
       </>
-    </>
   );
 };
 
