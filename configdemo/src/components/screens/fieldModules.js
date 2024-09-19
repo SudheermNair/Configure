@@ -37,7 +37,7 @@ const FieldModules = ({ onDropdownChange }) => {
   };
       onDropdownChange(value);
     }
-  };
+  
 
   const addHotel = (hotelName) => {
     if (hotelName && !data.hotels.find((h) => h.name === hotelName)) {
@@ -192,6 +192,6 @@ const FieldModules = ({ onDropdownChange }) => {
       </form>
     </div>
   );
-};
+
 
 export default FieldModules;
