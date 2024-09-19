@@ -1,62 +1,85 @@
 import React from "react";
-import "./styles.scss";
 
-const FieldSelected = ({
-  selectedDropdowns,
-  setSelectedDropdowns,
-  handleSubmit,
-}) => {
-  const removeModule = (index) => {
-    const updatedModules = selectedDropdowns.filter((_, i) => i !== index);
-    setSelectedDropdowns(updatedModules);
+const FieldSelected = ({ data = [], setData }) => {
+  const removeItem = (hotelId, moduleName, submoduleName) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          if (moduleName) {
+            return {
+              ...hotel,
+              modules: hotel.modules
+                ?.map((mod) => {
+                  if (mod.name === moduleName) {
+                    if (submoduleName) {
+                      return {
+                        ...mod,
+                        submodules: mod.submodules.filter(
+                          (sub) => sub.name !== submoduleName
+                        ),
+                      };
+                    }
+                    return mod;
+                  }
+                  return null;
+                })
+                .filter(Boolean),
+            };
+          }
+          return null;
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
   };
 
-  const clearAll = () => {
-    setSelectedDropdowns([]);
-  };
-
-  const handleClose = (item) => {
-    if (item.startsWith("Hotel")) {
-      clearAll();
-    } else {
-      removeModule(selectedDropdowns.indexOf(item));
-    }
-  };
-
-  const handleSubmission = () => {
-    if (selectedDropdowns.length === 0) {
-      alert("Please add an item to submit!");
+  const handleSubmit = () => {
+    if (data.length === 0) {
+      alert("Please add items to submit!");
     } else {
       handleSubmit();
     }
   };
 
-  const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
-
+  // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
   return (
-    <>
-      <div className="field-selected">
-        <h1>Selected Dropdowns</h1>
-        <ul>
-          {uniqueSelectedDropdowns.map((item, index) => (
-            <li key={index}>
-              {item}
-              <button
-                onClick={() => handleClose(item)}
-                style={{
-                  marginRight: "10%",
-                  border: "none",
-                  cursor: "pointer",
-                }}
-              >
-                &times;
-              </button>
-            </li>
-          ))}
-        </ul>
-        <button onClick={handleSubmission}>Submit</button>
-      </div>
-    </>
+    <div className="field-selected">
+      <h1>Selected Data (JSON)</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <ul>
+        {data?.map((hotel, hotelIndex) => (
+          <li key={hotelIndex}>
+            <div>
+              {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
+              <button onClick={() => removeItem(hotel.hotelId)}>Remove Hotel</button>
+            </div>
+            {hotel.modules?.map((module, moduleIndex) => (
+              <div key={moduleIndex} style={{ marginLeft: "20px" }}>
+                {`Module: ${module.name}`}
+                <button onClick={() => removeItem(hotel.hotelId, module.name)}>
+                  Remove Module
+                </button>
+                {module.submodules?.map((submodule, subIndex) => (
+                  <div key={subIndex} style={{ marginLeft: "40px" }}>
+                    {`Submodule: ${submodule.name}`}
+                    <button
+                      onClick={() =>
+                        removeItem(hotel.hotelId, module.name, submodule.name)
+                      }
+                    >
+                      Remove Submodule
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleSubmit}>Submit</button>
+    </div>
   );
 };
 
