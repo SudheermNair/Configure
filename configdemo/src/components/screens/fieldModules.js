@@ -44,8 +44,6 @@ const FieldModules = () => {
                 return {
                   ...mod,
                   submodules: uniqueSubmodules.map((name) => ({ name })),
-                  keys, // Add keys to the module
-                  keyValue, // Add values to the module
                 };
               }
               return mod;
@@ -64,8 +62,6 @@ const FieldModules = () => {
                 {
                   name: module.name,
                   submodules: submodules.map((sub) => ({ name: sub.name })),
-                  keys, // Add keys to the module
-                  keyValue, // Add values to the module
                 },
               ],
               keys: uniqueKeys,
@@ -86,8 +82,6 @@ const FieldModules = () => {
             {
               name: module.name,
               submodules: submodules.map((sub) => ({ name: sub.name })),
-              keys, // Add keys to the module
-              keyValue, // Add values to the module
             },
           ],
           keys: keys.map((k) => k.key),
@@ -108,12 +102,20 @@ const FieldModules = () => {
     setSelectedModule({ name: e.target.value });
   };
 
-  const handleKeySelect = (selectedOption) => {
-    setSelectedKeys(selectedOption.value);
+  const handleKeySelect = (selectedOptions) => {
+    setSelectedKeys(
+      selectedOptions
+        ? selectedOptions.map((option) => ({ key: option.value }))
+        : []
+    );
   };
 
-  const handleKeyValueSelect = (e) => {
-    setSelectedKeyValue(e.target.value);
+  const handleKeyValueSelect = (selectedOptions) => {
+    setSelectedKeyValue(
+      selectedOptions
+        ? selectedOptions.map((option) => ({ value: option.value }))
+        : []
+    );
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
@@ -124,7 +126,6 @@ const FieldModules = () => {
     );
   };
 
-  // Add keys and values when adding selection
   const addSelection = () => {
     if (selectedHotel && selectedModule && selectedSubmodules.length > 0) {
       handleDropdownChange(
