@@ -26,7 +26,7 @@ const SelectConfig = ({ selectedDropdowns, setSelectedDropdowns }) => {
           {UniqueselectedDropdowns.map((item, index) => (
             <li key={index}>
               {item}
-              <button onClick={() => removeModule(index)}>Remove</button>
+              <button onClick={() => removeModule(index)}>&times;</button>
             </li>
           ))}
         </ul>
