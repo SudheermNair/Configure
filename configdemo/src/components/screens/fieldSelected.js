@@ -1,4 +1,4 @@
-  import React from "react";
+import React from "react";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -39,21 +39,27 @@ const FieldSelected = ({ data = [], setData }) => {
     if (data.length === 0) {
       alert("Please add items to submit!");
     } else {
-      handleSubmit();
+      alert("Submitted!");
     }
   };
 
-  // const uniqueSelectedDropdowns = [...new Set(selectedDropdowns)];
+  // If data is empty, do not render anything
+  if (data.length === 0) {
+    return null;
+  }
+
   return (
     <div className="field-selected">
-      <h1>Selected Data (JSON)</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <h1>Selected Data 1</h1>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data?.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button onClick={() => removeItem(hotel.hotelId)}>Remove Hotel</button>
+              <button onClick={() => removeItem(hotel.hotelId)}>
+                Remove Hotel
+              </button>
             </div>
             {hotel.modules?.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
@@ -83,4 +89,4 @@ const FieldSelected = ({ data = [], setData }) => {
   );
 };
 
-  export default FieldSelected;
+export default FieldSelected;
