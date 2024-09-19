@@ -80,7 +80,8 @@
         </ul>
         <button onClick={handleSubmit}>Submit</button>
       </div>
-    );
-  };
+    </>
+  );
+};
 
   export default FieldSelected;
