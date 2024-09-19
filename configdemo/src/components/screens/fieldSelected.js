@@ -47,13 +47,16 @@ const FieldSelected = ({ data = [], setData }) => {
   return (
     <div className="field-selected">
       <h1>Selected Data </h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display the JSON data here */}
+      <pre>{JSON.stringify(data, null, 2)}</pre>{" "}
+      {/* Display the JSON data here */}
       <ul>
         {data?.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button onClick={() => removeItem(hotel.hotelId)}>Remove Hotel</button>
+              <button onClick={() => removeItem(hotel.hotelId)}>
+                Remove Hotel
+              </button>
             </div>
             {hotel.modules?.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>

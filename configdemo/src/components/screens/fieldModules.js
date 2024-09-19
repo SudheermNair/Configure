@@ -10,9 +10,10 @@ const FieldModules = () => {
   const [selectedModule, setSelectedModule] = useState("");
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
-  const [selectedKeyValue, setSelectedKeyValue] = useState("");
+  const [selectedKeyValue, setSelectedKeyValue] = useState([]);
 
-  const handleDropdownChange = (hotel, module, submodules) => {
+  // Refactored handleDropdownChange to handle keys and values
+  const handleDropdownChange = (hotel, module, submodules, keys, keyValue) => {
     const hotelId = hotel.hotelId;
     const existingHotel = data.find((h) => h.hotelId === hotelId);
 
@@ -22,14 +23,6 @@ const FieldModules = () => {
           const moduleExists = h.modules.find(
             (mod) => mod.name === module.name
           );
-          const uniqueSubmodules = [
-            ...new Set([
-              ...h.modules
-                .find((mod) => mod.name === module.name)
-                ?.submodules.map((sub) => sub.name),
-              ...submodules.map((sub) => sub.name),
-            ]),
-          ];
 
           if (moduleExists) {
             const updatedModules = h.modules.map((mod) => {
@@ -43,6 +36,8 @@ const FieldModules = () => {
                 return {
                   ...mod,
                   submodules: uniqueSubmodules.map((name) => ({ name })),
+                  keys, // Add keys to the module
+                  keyValue, // Add values to the module
                 };
               }
               return mod;
@@ -56,6 +51,8 @@ const FieldModules = () => {
                 {
                   name: module.name,
                   submodules: submodules.map((sub) => ({ name: sub.name })),
+                  keys, // Add keys to the module
+                  keyValue, // Add values to the module
                 },
               ],
             };
@@ -74,6 +71,8 @@ const FieldModules = () => {
             {
               name: module.name,
               submodules: submodules.map((sub) => ({ name: sub.name })),
+              keys, // Add keys to the module
+              keyValue, // Add values to the module
             },
           ],
         },
@@ -92,20 +91,12 @@ const FieldModules = () => {
     setSelectedModule({ name: e.target.value });
   };
 
-  const handleKeySelect = (selectedOptions) => {
-    setSelectedKeys(
-      selectedOptions
-        ? selectedOptions.map((option) => ({ key: option.value }))
-        : []
-    );
+  const handleKeySelect = (selectedOption) => {
+    setSelectedKeys(selectedOption.value);
   };
 
-  const handleKeyValueSelect = (selectedOptions) => {
-    setSelectedKeyValue(
-      selectedOptions
-        ? selectedOptions.map((option) => ({ value: option.value }))
-        : []
-    );
+  const handleKeyValueSelect = (e) => {
+    setSelectedKeyValue(e.target.value);
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
@@ -114,11 +105,26 @@ const FieldModules = () => {
     );
   };
 
+  // Add keys and values when adding selection
   const addSelection = () => {
-    if (selectedHotel && selectedModule && selectedSubmodules.length > 0) {
-      handleDropdownChange(selectedHotel, selectedModule, selectedSubmodules);
+    if (
+      selectedHotel &&
+      selectedModule &&
+      selectedSubmodules.length > 0 &&
+      selectedKeys &&
+      selectedKeyValue
+    ) {
+      handleDropdownChange(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedKeyValue
+      );
       setSelectedModule("");
       setSelectedSubmodules([]);
+      setSelectedKeys([]);
+      setSelectedKeyValue([]);
     }
   };
 
@@ -180,41 +186,33 @@ const FieldModules = () => {
               </div>
             )}
 
-            {selectedKeys && (
-              <div className="dropdown-container">
-                <label>Keys:</label>
-                <Select
-                  isMulti
-                  options={configFields[0].keys.map((keys) => ({
-                    value: keys,
-                    label: keys,
-                  }))}
-                  value={selectedKeys.map((keys) => ({
-                    value: keys.key,
-                    label: keys.key,
-                  }))}
-                  onChange={handleKeySelect}
-                />
-              </div>
-            )}
+            <div className="dropdown-container">
+              <label>Keys:</label>
+              <select value={selectedKeys} onChange={handleKeySelect}>
+                <option value="" disabled>
+                  Select Keys
+                </option>
+                {configFields[0].keys.map((key) => (
+                  <option key={key} value={key}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-            {selectedKeyValue && (
-              <div className="dropdown-container">
-                <label>Values:</label>
-                <Select
-                  isMulti
-                  options={configFields[0].values.map((values) => ({
-                    value: values,
-                    label: values,
-                  }))}
-                  value={selectedKeyValue.map((values) => ({
-                    value: values.value,
-                    label: values.value,
-                  }))}
-                  onChange={handleKeyValueSelect}
-                />
-              </div>
-            )}
+            <div className="dropdown-container">
+              <label>Values:</label>
+              <select value={selectedKeyValue} onChange={handleKeyValueSelect}>
+                <option value="" disabled>
+                  Select Values
+                </option>
+                {configFields[0].values.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <button onClick={addSelection}>Add Selection</button>
           </>
