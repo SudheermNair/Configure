@@ -1,8 +1,8 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
-// import FieldModules from "./components/screens/fieldModules";
-// import FieldSelected from "./components/screens/fieldSelected";
+import FieldModules from "./components/screens/fieldModules";
+import FieldSelected from "./components/screens/fieldSelected";
 import AddConfig from "./components/AddConfig/addConfig";
 import SelectConfig from "./components/AddConfig/addConfigSelect";
 import { useState } from "react";
@@ -25,16 +25,15 @@ function App() {
         <div className="field-modules-container">
           {isConfigActive && (
             <>
-              {/* <FieldModules onDropdownChange={handleDropdownChange} /> */}
-              {/* <FieldSelected selectedDropdowns={selectedDropdowns} /> */}
-              <AddConfig onDropdownChange={handleDropdownChange} />
-              <SelectConfig selectedDropdowns={selectedDropdowns} />
+              <FieldModules onDropdownChange={handleDropdownChange} />
+              <FieldSelected selectedDropdowns={selectedDropdowns} />
+              {/* <AddConfig onDropdownChange={handleDropdownChange} /> */}
+              {/* <SelectConfig selectedDropdowns={selectedDropdowns} /> */}
             </>
           )}
         </div>
         </div>
       </div>
-      {/* <AddConfig /> */}
     </div>
   );
 }
