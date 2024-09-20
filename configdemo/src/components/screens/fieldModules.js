@@ -2,14 +2,15 @@ import React, { useState, useEffect } from "react";
 import Select from 'react-select';
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
- 
+import "./styles.scss";
+
 const customStyles = {
   control: (provided) => ({
     ...provided,
-    boxShadow: 'none',
-    border: '1px solid #ccc',
-    '&:hover': {
-      border: '1px solid #aaa',
+    boxShadow: "none",
+    border: "1px solid #ccc",
+    "&:hover": {
+      border: "1px solid #aaa",
     },
   }),
   menu: (provided) => ({
@@ -18,22 +19,22 @@ const customStyles = {
   }),
   multiValue: (provided) => ({
     ...provided,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: "#e0e0e0",
   }),
   multiValueLabel: (provided) => ({
     ...provided,
-    color: '#333',
+    color: "#333",
   }),
   multiValueRemove: (provided) => ({
     ...provided,
-    color: '#d9534f',
-    ':hover': {
-      backgroundColor: '#d9534f',
-      color: 'white',
+    color: "#d9534f",
+    ":hover": {
+      backgroundColor: "#d9534f",
+      color: "white",
     },
   }),
 };
- 
+
 const FieldModules = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
@@ -134,48 +135,64 @@ const FieldModules = () => {
   };
  
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <div style={{ flex: "1", padding: "20px", backgroundColor: "#f9f9f9", boxSizing: "border-box" }}>
-        <h3>Select Hotel, Module, Submodules, and Keys</h3>
- 
-        {/* Hotel Dropdown */}
-        <div>
+    <div className="field-modules-container">
+      <div className="field-modules">
+        <h3>Select Hotel, Module, and Submodules</h3>
+        <div className="dropdown-container">
           <label>Hotel:</label>
-          <select value={selectedHotel?.hotelId || ""} onChange={handleHotelSelect}>
-            <option value="" disabled>Select Hotel</option>
+          <select
+            value={selectedHotel.hotelId || ""}
+            onChange={handleHotelSelect}
+          >
+            <option value="" disabled>
+              Select Hotel
+            </option>
             {configFields[0].hotels.map((hotel) => (
-              <option key={hotel.hotelId} value={hotel.hotelId}>{hotel.name}</option>
+              <option key={hotel.hotelId} value={hotel.hotelId}>
+                {hotel.name}
+              </option>
             ))}
           </select>
         </div>
- 
-        {/* Module Dropdown */}
+
         {selectedHotel && (
           <>
-            <div>
+            <div className="dropdown-container">
               <label>Module:</label>
-              <select value={selectedModule?.name || ""} onChange={handleModuleSelect}>
-                <option value="" disabled>Select Module</option>
+              <select
+                value={selectedModule.name || ""}
+                onChange={handleModuleSelect}
+              >
+                <option value="" disabled>
+                  Select Module
+                </option>
                 {configFields[0].modules.map((module, index) => (
-                  <option key={index} value={module}>{module}</option>
+                  <option key={index} value={module}>
+                    {module}
+                  </option>
                 ))}
               </select>
             </div>
- 
-            {/* Submodule Dropdown */}
+
             {selectedModule && (
-              <div>
+              <div className="dropdown-container">
                 <label>Submodules:</label>
                 <Select
                   isMulti
-                  options={configFields[0].submodules.map((submodule) => ({ value: submodule, label: submodule }))}
-                  value={selectedSubmodules.map((submodule) => ({ value: submodule.name, label: submodule.name }))}
+                  options={configFields[0].submodules.map((submodule) => ({
+                    value: submodule,
+                    label: submodule,
+                  }))}
+                  value={selectedSubmodules.map((submodule) => ({
+                    value: submodule.name,
+                    label: submodule.name,
+                  }))}
                   onChange={handleSubmoduleSelect}
                   styles={customStyles}
                 />
               </div>
             )}
- 
+
             {/* Keys Dropdown */}
             <div>
               <label>Keys:</label>
@@ -202,13 +219,11 @@ const FieldModules = () => {
           </>
         )}
       </div>
- 
-      {/* Selected Data Display */}
-      <div style={{ flex: "2", overflowY: "scroll", padding: "20px", boxSizing: "border-box", backgroundColor: "#fff" }}>
-        {data.length > 0 && <FieldSelected data={data} setData={setData} />}
-      </div>
+
+        {data.length > 0 && <FieldSelected data={data} setData={setData}/>}
+      
     </div>
   );
 };
- 
+
 export default FieldModules;

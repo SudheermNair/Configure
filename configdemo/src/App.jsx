@@ -10,6 +10,11 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
+  const [currentView, setCurrentView] = useState("fieldModules");
+
+  const handleSubmit = () => {
+    setCurrentView("addConfig");
+  };
 
   const handleDropdownChange = (value) => {
     if (!selectedDropdowns.includes(value)) {
@@ -22,22 +27,41 @@ function App() {
       <div className="information-container">
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
-        <Navbar />
-        <h1>Configuration</h1>
-        <div className="field-modules-container">
-          {isConfigActive && (
-           <>
-                <FieldModules onDropdownChange={handleDropdownChange} />
-                <FieldSelected
+          <Navbar />
+          {currentView === "fieldModules" && (
+            <>
+              <h1>Configuration</h1>
+
+              <div className="field-modules-container">
+                {isConfigActive && (
+                  <>
+                    <div>
+                      <FieldModules onDropdownChange={handleDropdownChange} />
+                    </div>
+                    <div>
+                      <FieldSelected
+                        selectedDropdowns={selectedDropdowns}
+                        setSelectedDropdowns={setSelectedDropdowns}
+                        handleSubmit={handleSubmit}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+          {currentView === "addConfig" && (
+            <>
+              <h1>Configuration</h1>
+              <div className="field-modules-container">
+                <AddConfig onDropdownChange={handleDropdownChange} />
+                <SelectConfig
                   selectedDropdowns={selectedDropdowns}
                   setSelectedDropdowns={setSelectedDropdowns}
                 />
-                {/* <AddConfig selectedDropdowns={selectedDropdowns} />
-                <SelectConfig selectedDropdowns={selectedDropdowns} /> */}
-                
-              </>
+              </div>
+            </>
           )}
-        </div>
         </div>
       </div>
     </div>
