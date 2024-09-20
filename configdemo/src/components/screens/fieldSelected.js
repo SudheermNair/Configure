@@ -58,7 +58,6 @@ const FieldSelected = ({ data = [], setData }) => {
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data.map((hotel, hotelIndex) => (
-        {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}

@@ -40,7 +40,6 @@ const FieldModules = () => {
 
           if (moduleExists) {
             const updatedModules = h.modules.map((mod) => {
-            const updatedModules = h.modules.map((mod) => {
               if (mod.name === module.name) {
                 const uniqueSubmodules = [
                   ...new Set([
@@ -173,9 +172,6 @@ const FieldModules = () => {
               <option key={hotel.hotelId} value={hotel.hotelId}>
                 {hotel.name}
               </option>
-              <option key={hotel.hotelId} value={hotel.hotelId}>
-                {hotel.name}
-              </option>
             ))}
           </select>
         </div>
@@ -258,10 +254,8 @@ const FieldModules = () => {
 
       <div className="selected-data-container">
         {data.length > 0 ? (
-        {data.length > 0 ? (
           <FieldSelected data={data} setData={setData} />
         ) : (
-          <p>No data selected yet.</p>
           <p>No data selected yet.</p>
         )}
       </div>
