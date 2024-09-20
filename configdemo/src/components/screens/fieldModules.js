@@ -78,13 +78,17 @@ const FieldModules = () => {
       (hotel) => hotel.hotelId === e.target.value
     );
     setSelectedHotel(selected);
-    updateData(
-      selected,
-      selectedModule,
-      selectedSubmodules,
-      selectedKeys,
-      null
-    );
+
+    // Clear previous data when a new hotel is selected
+    setData([]);
+
+    // Reset selections
+    setSelectedModule(null);
+    setSelectedSubmodules([]);
+    setSelectedKeys(null);
+    setKeyValues([]);
+
+    updateData(selected, null, [], null, null); // Clear data
   };
 
   const handleModuleSelect = (e) => {
@@ -159,7 +163,9 @@ const FieldModules = () => {
   const updateModules = (existingModules, module, submodules) => {
     if (!module) return existingModules;
 
-    const moduleExists = existingModules.find((mod) => mod.name === module.name);
+    const moduleExists = existingModules.find(
+      (mod) => mod.name === module.name
+    );
 
     if (moduleExists) {
       return existingModules.map((mod) => {

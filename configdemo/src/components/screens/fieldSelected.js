@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles.scss";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -29,7 +30,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; // Remove hotel if no module is selected
+          return null; 
         }
         return hotel;
       })
@@ -42,12 +43,12 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel; // Destructure to remove the key
+          const { [key]: _, ...remainingKeys } = hotel; 
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId, // Preserve the hotelId
-            name: hotel.name, // Preserve the hotel name
-            modules: hotel.modules, // Preserve modules
+            hotelId: hotel.hotelId, 
+            name: hotel.name,
+            modules: hotel.modules, 
           };
         }
         return hotel;
@@ -84,7 +85,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 className="remove-btn"
                 onClick={() => removeItem(hotel.hotelId)}
               >
-                X
+                <DeleteIcon style={{ fontSize: 18 }}/>
               </button>
             </div>
             {hotel.modules.map((module, moduleIndex) => (
@@ -94,7 +95,7 @@ const FieldSelected = ({ data = [], setData }) => {
                   className="remove-btn"
                   onClick={() => removeItem(hotel.hotelId, module.name)}
                 >
-                  X
+                  <DeleteIcon style={{ fontSize: 18 }}/>
                 </button>
                 {module.submodules.map((submodule, submoduleIndex) => (
                   <div key={submoduleIndex}>
@@ -109,7 +110,7 @@ const FieldSelected = ({ data = [], setData }) => {
                         )
                       }
                     >
-                      X
+                      <DeleteIcon style={{ fontSize: 18 }}/>
                     </button>
                   </div>
                 ))}
@@ -124,7 +125,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     className="remove-btn"
                     onClick={() => removeKey(hotel.hotelId, key)}
                   >
-                    X
+                    <DeleteIcon style={{ fontSize: 18 }}/>
                   </button>
                 </div>
               ))}
