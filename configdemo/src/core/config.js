@@ -19,6 +19,15 @@ export const configFields=[
         ],
         submodules:[
             'accompanyingGuest', 'cardPreAuthorize','cardAuthorize','checkIn','signStayInfo',
+        ],
+        Keys:[
+            {code:['stage','uat','sofitel-manila'],
+                pms:['OPERA','INFOR'],
+                fetchFromDb: ['yes','no'],
+                saveToDb:['yes','no'],
+                
+            }
+
         ]
             
         }

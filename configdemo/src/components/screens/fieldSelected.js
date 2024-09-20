@@ -1,5 +1,5 @@
 import React from "react";
-
+ 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -31,10 +31,10 @@ const FieldSelected = ({ data = [], setData }) => {
         return hotel;
       })
       .filter(Boolean);
-
+ 
     setData(updatedData);
   };
-
+ 
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
@@ -42,15 +42,14 @@ const FieldSelected = ({ data = [], setData }) => {
       alert("Submitted!");
     }
   };
-
-  
+ 
   if (data.length === 0) {
     return null;
   }
-
+ 
   return (
     <div className="field-selected">
-      <h1>Selected Data 1</h1>
+      <h1>Selected Data</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <ul>
         {data?.map((hotel, hotelIndex) => (
@@ -86,5 +85,7 @@ const FieldSelected = ({ data = [], setData }) => {
     </div>
   );
 };
-
+ 
 export default FieldSelected;
+ 
+ 
