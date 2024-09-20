@@ -76,6 +76,21 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+.remove-btn{
+    bottom: 10px;
+    float:right;
+    padding: 3px;
+    background-color: #fb763d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.selected-json-container{
+  background-color: #f3f2f2;
+  margin: 1% 2%;
+}
 
 // .selected-data-container {
 //   flex: 1;
