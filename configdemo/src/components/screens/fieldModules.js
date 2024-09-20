@@ -74,23 +74,27 @@ const FieldModules = () => {
   };
 
   const handleHotelSelect = (e) => {
+    const selectedId = e.target.value;
     const selected = configFields[0].hotels.find(
-      (hotel) => hotel.hotelId === e.target.value
+      (hotel) => hotel.hotelId === selectedId
     );
-    setSelectedHotel(selected);
-    updateData(
-      selected,
-      selectedModule,
-      selectedSubmodules,
-      selectedKeys,
-      null
-    );
+
+    if (selected) {
+      setSelectedHotel(selected);
+      setSelectedModule(null);
+      setSelectedSubmodules([]);
+      updateData(selected, null, [], null, null);
+    } else {
+      setSelectedHotel(null);
+      setSelectedModule(null);
+      setSelectedSubmodules([]);
+    }
   };
 
   const handleModuleSelect = (e) => {
-    const module = { name: e.target.value };
-    setSelectedModule(module);
-    updateData(selectedHotel, module, selectedSubmodules, selectedKeys, null);
+    const moduleName = e.target.value;
+    setSelectedModule(moduleName);
+    updateData(selectedHotel, { name: moduleName }, selectedSubmodules, selectedKeys, null);
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
@@ -108,25 +112,7 @@ const FieldModules = () => {
     setSelectedSubmodules(uniqueSubmodules);
 
     if (selectedHotel && selectedModule) {
-      setData((prevData) => {
-        return prevData.map((hotel) => {
-          if (hotel.hotelId === selectedHotel.hotelId) {
-            return {
-              ...hotel,
-              modules: hotel.modules.map((mod) => {
-                if (mod.name === selectedModule.name) {
-                  return {
-                    ...mod,
-                    submodules: uniqueSubmodules,
-                  };
-                }
-                return mod;
-              }),
-            };
-          }
-          return hotel;
-        });
-      });
+      updateData(selectedHotel, { name: selectedModule.name }, uniqueSubmodules, selectedKeys, null);
     }
   };
 
@@ -134,25 +120,13 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-    updateData(
-      selectedHotel,
-      selectedModule,
-      selectedSubmodules,
-      selectedKey,
-      null
-    );
+    updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKey, null);
   };
 
   const handleValueSelect = (e) => {
     const selectedValue = e.target.value;
     if (selectedHotel) {
-      updateData(
-        selectedHotel,
-        selectedModule,
-        selectedSubmodules,
-        selectedKeys,
-        selectedValue
-      );
+      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
     }
   };
 
@@ -166,10 +140,9 @@ const FieldModules = () => {
         if (mod.name === module.name) {
           return {
             ...mod,
-            submodules:
-              submodules.length > 0
-                ? [...new Set([...mod.submodules, ...submodules])]
-                : mod.submodules,
+            submodules: [
+              ...new Set([...mod.submodules.map(s => s.name), ...submodules.map(s => s.name)])
+            ].map(name => ({ name }))
           };
         }
         return mod;
@@ -216,8 +189,8 @@ const FieldModules = () => {
                 <option value="" disabled>
                   Select Module
                 </option>
-                {configFields[0].modules.map((module, index) => (
-                  <option key={index} value={module}>
+                {configFields[0].modules.map((module) => (
+                  <option key={module} value={module}>
                     {module}
                   </option>
                 ))}
@@ -247,8 +220,8 @@ const FieldModules = () => {
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
-                  <option key={index} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key) => (
+                  <option key={key} value={key}>
                     {key}
                   </option>
                 ))}

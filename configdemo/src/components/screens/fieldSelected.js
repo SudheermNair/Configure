@@ -29,8 +29,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; // Remove hotel if no module is selected
-        }
+          return null;         }
         return hotel;
       })
       .filter(Boolean);
@@ -42,12 +41,12 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel; // Destructure to remove the key
+          const { [key]: _, ...remainingKeys } = hotel;
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId, // Preserve the hotelId
-            name: hotel.name, // Preserve the hotel name
-            modules: hotel.modules, // Preserve modules
+            hotelId: hotel.hotelId,
+            name: hotel.name,
+            modules: hotel.modules,
           };
         }
         return hotel;
@@ -71,7 +70,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-      <h1>Selected Data</h1>
+      <h1>Selected Configuration</h1>
       <pre className="selected-json-container">
         {JSON.stringify(data, null, 2)}
       </pre>
@@ -133,3 +132,4 @@ const FieldSelected = ({ data = [], setData }) => {
 };
 
 export default FieldSelected;
+
