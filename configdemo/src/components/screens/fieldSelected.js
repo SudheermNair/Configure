@@ -11,7 +11,17 @@ const FieldSelected = ({ data = [], setData }) => {
               return {
                 ...hotel,
                 modules: hotel.modules.map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                     return {
                       ...mod,
                       submodules: mod.submodules.filter(
@@ -29,11 +39,30 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; // If no moduleName, remove hotel
+          return null; // Remove hotel if no module is selected
         }
         return hotel;
       })
-      .filter(Boolean); // Filter out null hotels
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKey = (hotelId, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          const { [key]: _, ...remainingKeys } = hotel; // Destructure to remove the key
+          return {
+            ...remainingKeys,
+            hotelId: hotel.hotelId, // Preserve the hotelId
+            name: hotel.name, // Preserve the hotel name
+            modules: hotel.modules, // Preserve modules
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
 
     setData(updatedData);
   };
@@ -95,7 +124,15 @@ const FieldSelected = ({ data = [], setData }) => {
             {Object.keys(hotel)
               .filter((key) => !['hotelId', 'name', 'modules'].includes(key))
               .map((key) => (
-                <div key={key}>{`${key}: ${hotel[key]}`}</div>
+                <div key={key}>
+                  {`${key}: ${hotel[key]}`}
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeKey(hotel.hotelId, key)}
+                  >
+                    X
+                  </button>
+                </div>
               ))}
           </li>
         ))}

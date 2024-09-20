@@ -53,7 +53,7 @@ const FieldModules = () => {
             modules: updateModules(h.modules, module, submodules),
           };
           if (keys && value) {
-            updatedHotel[keys] = value; // Only add key if value is present
+            updatedHotel[keys] = value;
           }
           return updatedHotel;
         }
@@ -67,7 +67,7 @@ const FieldModules = () => {
         modules: updateModules([], module, submodules),
       };
       if (keys && value) {
-        newHotel[keys] = value; // Only add key if value is present
+        newHotel[keys] = value;
       }
       setData([...data, newHotel]);
     }
@@ -98,7 +98,6 @@ const FieldModules = () => {
       name: option.value,
     }));
 
-    // Filter out duplicates
     const uniqueSubmodules = Array.from(
       new Set([
         ...selectedSubmodules.map((s) => s.name),
@@ -160,9 +159,7 @@ const FieldModules = () => {
   const updateModules = (existingModules, module, submodules) => {
     if (!module) return existingModules;
 
-    const moduleExists = existingModules.find(
-      (mod) => mod.name === module.name
-    );
+    const moduleExists = existingModules.find((mod) => mod.name === module.name);
 
     if (moduleExists) {
       return existingModules.map((mod) => {
