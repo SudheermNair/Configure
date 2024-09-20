@@ -88,31 +88,48 @@ const FieldModules = () => {
         (h) => h.hotelId === selectedHotel.hotelId
       );
 
-      const updatedHotel = existingHotel
-        ? {
-            ...existingHotel,
-            modules: updateModules(
-              existingHotel.modules,
-              selectedModule,
-              selectedSubmodules,
-              selectedKeys,
-              value,
-              context // Pass context to differentiate between module and submodule
-            ),
-          }
-        : {
-            hotelId: selectedHotel.hotelId,
-            name: selectedHotel.name,
-            modules: updateModules(
-              [],
-              selectedModule,
-              selectedSubmodules,
-              selectedKeys,
-              value,
-              context
-            ),
-          };
+      let updatedHotel;
+      if (selectedModule || selectedSubmodules.length > 0) {
+        // If a module or submodules are selected, update the modules
+        updatedHotel = existingHotel
+          ? {
+              ...existingHotel,
+              modules: updateModules(
+                existingHotel.modules,
+                selectedModule,
+                selectedSubmodules,
+                selectedKeys,
+                value,
+                context // Pass context to differentiate between module and submodule
+              ),
+            }
+          : {
+              hotelId: selectedHotel.hotelId,
+              name: selectedHotel.name,
+              modules: updateModules(
+                [],
+                selectedModule,
+                selectedSubmodules,
+                selectedKeys,
+                value,
+                context
+              ),
+            };
+      } else {
+        // If no module is selected, just add the key-value under the hotel
+        updatedHotel = existingHotel
+          ? {
+              ...existingHotel,
+              [selectedKeys]: value,
+            }
+          : {
+              hotelId: selectedHotel.hotelId,
+              name: selectedHotel.name,
+              [selectedKeys]: value,
+            };
+      }
 
+      // Update the state with the modified hotel object
       if (existingHotel) {
         setData(
           data.map((hotel) =>
@@ -141,7 +158,6 @@ const FieldModules = () => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
-
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
@@ -190,7 +206,6 @@ const FieldModules = () => {
     <div className="field-modules-container">
       <div className="field-modules">
         <h3>Select Hotel, Module, Submodules, and Keys</h3>
-
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
@@ -207,7 +222,6 @@ const FieldModules = () => {
             ))}
           </select>
         </div>
-
         {selectedHotel && (
           <>
             <div className="dropdown-container">
@@ -226,7 +240,6 @@ const FieldModules = () => {
                 ))}
               </select>
             </div>
-
             {selectedModule && (
               <div className="dropdown-container">
                 <label>Submodules:</label>
@@ -245,7 +258,6 @@ const FieldModules = () => {
                 />
               </div>
             )}
-
             <div>
               <label>Keys:</label>
               <select value={selectedKeys} onChange={handleKeySelect}>
@@ -259,7 +271,6 @@ const FieldModules = () => {
                 ))}
               </select>
             </div>
-
             {selectedKeys && (
               <div>
                 <label>Values:</label>
@@ -279,7 +290,6 @@ const FieldModules = () => {
           </>
         )}
       </div>
-
       {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
