@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
@@ -43,39 +44,6 @@ const FieldModules = () => {
   const [selectedKeys, setSelectedKeys] = useState(null);
   const [keyValues, setKeyValues] = useState([]);
 
-  const handleHotelSelect = (e) => {
-    const selected = configFields[0].hotels.find(
-      (hotel) => hotel.hotelId === e.target.value
-    );
-    setSelectedHotel(selected);
-    updateData(selected, null, [], null, null); // Update immediately on hotel selection
-  };
-
-  const handleModuleSelect = (e) => {
-    setSelectedModule({ name: e.target.value });
-  };
-
-  const handleSubmoduleSelect = (selectedOptions) => {
-    setSelectedSubmodules(
-      selectedOptions.map((option) => ({ name: option.value }))
-    );
-  };
-
-  const handleKeySelect = (e) => {
-    const selectedKey = e.target.value;
-    setSelectedKeys(selectedKey);
-    setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-  };
-
-  const handleValueSelect = (e) => {
-    const selectedValue = e.target.value;
-    if (selectedHotel) {
-      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
-    }
-    setSelectedModule(null);
-    setSelectedSubmodules([]);
-  };
-
   const updateData = (hotel, module, submodules, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     if (existingHotel) {
@@ -85,8 +53,8 @@ const FieldModules = () => {
             ...h,
             modules: updateModules(h.modules, module, submodules),
           };
-          if (keys) {
-            updatedHotel[keys] = value;
+          if (keys && value) {
+            updatedHotel[keys] = value; // Only add key if value is present
           }
           return updatedHotel;
         }
@@ -98,9 +66,95 @@ const FieldModules = () => {
         hotelId: hotel.hotelId,
         name: hotel.name,
         modules: updateModules([], module, submodules),
-        [keys]: value || "",
       };
+      if (keys && value) {
+        newHotel[keys] = value; // Only add key if value is present
+      }
       setData([...data, newHotel]);
+    }
+  };
+
+  const handleHotelSelect = (e) => {
+    const selected = configFields[0].hotels.find(
+      (hotel) => hotel.hotelId === e.target.value
+    );
+    setSelectedHotel(selected);
+    updateData(
+      selected,
+      selectedModule,
+      selectedSubmodules,
+      selectedKeys,
+      null
+    );
+  };
+
+  const handleModuleSelect = (e) => {
+    const module = { name: e.target.value };
+    setSelectedModule(module);
+    updateData(selectedHotel, module, selectedSubmodules, selectedKeys, null);
+  };
+
+  const handleSubmoduleSelect = (selectedOptions) => {
+    const submodules = selectedOptions.map((option) => ({
+      name: option.value,
+    }));
+
+    // Filter out duplicates
+    const uniqueSubmodules = Array.from(
+      new Set([
+        ...selectedSubmodules.map((s) => s.name),
+        ...submodules.map((s) => s.name),
+      ])
+    ).map((name) => ({ name }));
+
+    setSelectedSubmodules(uniqueSubmodules);
+
+    if (selectedHotel && selectedModule) {
+      setData((prevData) => {
+        return prevData.map((hotel) => {
+          if (hotel.hotelId === selectedHotel.hotelId) {
+            return {
+              ...hotel,
+              modules: hotel.modules.map((mod) => {
+                if (mod.name === selectedModule.name) {
+                  return {
+                    ...mod,
+                    submodules: uniqueSubmodules,
+                  };
+                }
+                return mod;
+              }),
+            };
+          }
+          return hotel;
+        });
+      });
+    }
+  };
+
+  const handleKeySelect = (e) => {
+    const selectedKey = e.target.value;
+    setSelectedKeys(selectedKey);
+    setKeyValues(configFields[0].Keys[0][selectedKey] || []);
+    updateData(
+      selectedHotel,
+      selectedModule,
+      selectedSubmodules,
+      selectedKey,
+      null
+    );
+  };
+
+  const handleValueSelect = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedHotel) {
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 

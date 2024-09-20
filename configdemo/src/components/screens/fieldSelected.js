@@ -1,6 +1,7 @@
 import React from "react";
 import "./styles.scss";
 
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -29,11 +30,11 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null;
+          return null; // If no moduleName, remove hotel
         }
         return hotel;
       })
-      .filter(Boolean);
+      .filter(Boolean); // Filter out null hotels
 
     setData(updatedData);
   };
@@ -57,7 +58,7 @@ const FieldSelected = ({ data = [], setData }) => {
         {JSON.stringify(data, null, 2)}
       </pre>
       <ul>
-        {data?.map((hotel, hotelIndex) => (
+        {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
@@ -68,23 +69,27 @@ const FieldSelected = ({ data = [], setData }) => {
                 X
               </button>
             </div>
-            {hotel.modules?.map((module, moduleIndex) => (
-              <div key={moduleIndex} style={{ marginLeft: "20px" }}>
-                {`Module: ${module.name}`}
+            {hotel.modules.map((module, moduleIndex) => (
+              <div key={moduleIndex}>
+                <span>{`Module: ${module.name}`}</span>
                 <button
                   className="remove-btn"
                   onClick={() => removeItem(hotel.hotelId, module.name)}
                 >
                   X
                 </button>
-                {module.submodules?.map((submodule, subIndex) => (
-                  <div key={subIndex} style={{ marginLeft: "40px" }}>
-                    {`Submodule: ${submodule.name}`}
+                {module.submodules.map((submodule, submoduleIndex) => (
+                  <div key={submoduleIndex}>
+                    <span>{`Submodule: ${submodule.name}`}</span>
                     <button
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
                       className="remove-btn"
+                      onClick={() =>
+                        removeItem(
+                          hotel.hotelId,
+                          module.name,
+                          submodule.name
+                        )
+                      }
                     >
                       X
                     </button>
@@ -92,6 +97,13 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
               </div>
             ))}
+            {Object.keys(hotel)
+              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .map((key) => (
+                <div key={key}>
+                  {`${key}: ${hotel[key]}`}
+                </div>
+              ))}
           </li>
         ))}
       </ul>
