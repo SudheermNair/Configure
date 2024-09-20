@@ -1,5 +1,109 @@
+// import React from "react";
+// import "./styles.scss";
+// const FieldSelected = ({ data = [], setData }) => {
+//   const removeItem = (hotelId, moduleName, submoduleName) => {
+//     const updatedData = data
+//       .map((hotel) => {
+//         if (hotel.hotelId === hotelId) {
+//           if (moduleName) {
+//             return {
+//               ...hotel,
+//               modules: hotel.modules
+//                 ?.map((mod) => {
+//                   if (mod.name === moduleName) {
+//                     if (submoduleName) {
+//                       return {
+//                         ...mod,
+//                         submodules: mod.submodules.filter(
+//                           (sub) => sub.name !== submoduleName
+//                         ),
+//                       };
+//                     }
+//                     return mod;
+//                   }
+//                   return null;
+//                 })
+//                 .filter(Boolean),
+//             };
+//           }
+//           return null;
+//         }
+//         return hotel;
+//       })
+//       .filter(Boolean);
+
+//     setData(updatedData);
+//   };
+
+//   const handleSubmit = () => {
+//     if (data.length === 0) {
+//       alert("Please add items to submit!");
+//     } else {
+//       alert("Submitted!");
+//     }
+//   };
+
+//   if (data.length === 0) {
+//     return null;
+//   }
+
+//   return (
+//     <div className="field-selected">
+//       <h1>Selected Data</h1>
+//       <pre className="selected-json-container">
+//         {JSON.stringify(data, null, 2)}
+//       </pre>
+//       <ul>
+//         {data?.map((hotel, hotelIndex) => (
+//           <li key={hotelIndex}>
+//             <div>
+//               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
+//               <button
+//                 className="remove-btn"
+//                 onClick={() => removeItem(hotel.hotelId)}
+//               >
+//                 X
+//               </button>
+//             </div>
+//             {hotel.modules?.map((module, moduleIndex) => (
+//               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
+//                 {`Module: ${module.name}`}
+//                 <button
+//                   className="remove-btn"
+//                   onClick={() => removeItem(hotel.hotelId, module.name)}
+//                 >
+//                   X
+//                 </button>
+//                 {module.submodules?.map((submodule, subIndex) => (
+//                   <div key={subIndex} style={{ marginLeft: "40px" }}>
+//                     {`Submodule: ${submodule.name}`}
+//                     <button
+//                       onClick={() =>
+//                         removeItem(hotel.hotelId, module.name, submodule.name)
+//                       }
+//                       className="remove-btn"
+//                     >
+//                       X
+//                     </button>
+//                   </div>
+//                 ))}
+//               </div>
+//             ))}
+//           </li>
+//         ))}
+//       </ul>
+//       <button onClick={handleSubmit}>Submit</button>
+//     </div>
+//   );
+// };
+
+// export default FieldSelected;
+
+// New Code - Working
+
 import React from "react";
 import "./styles.scss";
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -8,25 +112,10 @@ const FieldSelected = ({ data = [], setData }) => {
           if (moduleName) {
             return {
               ...hotel,
-              modules: hotel.modules
-                ?.map((mod) => {
-                  if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return mod;
-                  }
-                  return null;
-                })
-                .filter(Boolean),
+              modules: hotel.modules.filter((mod) => mod.name !== moduleName),
             };
           }
-          return null;
+          return null; // Removes the entire hotel
         }
         return hotel;
       })
@@ -37,10 +126,10 @@ const FieldSelected = ({ data = [], setData }) => {
 
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
-    } else {
-      alert("Submitted!");
+      alert("No data to submit!");
+      return;
     }
+    alert("Submitting Data: " + JSON.stringify(data, null, 2));
   };
 
   if (data.length === 0) {
@@ -49,49 +138,8 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-      <h1>Selected Data</h1>
-      <pre className="selected-json-container">
-        {JSON.stringify(data, null, 2)}
-      </pre>
-      <ul>
-        {data?.map((hotel, hotelIndex) => (
-          <li key={hotelIndex}>
-            <div>
-              {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button
-                className="remove-btn"
-                onClick={() => removeItem(hotel.hotelId)}
-              >
-                X
-              </button>
-            </div>
-            {hotel.modules?.map((module, moduleIndex) => (
-              <div key={moduleIndex} style={{ marginLeft: "20px" }}>
-                {`Module: ${module.name}`}
-                <button
-                  className="remove-btn"
-                  onClick={() => removeItem(hotel.hotelId, module.name)}
-                >
-                  X
-                </button>
-                {module.submodules?.map((submodule, subIndex) => (
-                  <div key={subIndex} style={{ marginLeft: "40px" }}>
-                    {`Submodule: ${submodule.name}`}
-                    <button
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
-                      className="remove-btn"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </li>
-        ))}
-      </ul>
+      <h3>Selected Data</h3>
+      <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display JSON-like data */}
       <button onClick={handleSubmit}>Submit</button>
     </div>
   );
