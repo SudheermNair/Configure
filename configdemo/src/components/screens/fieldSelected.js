@@ -1,34 +1,35 @@
 import React from "react";
 import "./styles.scss";
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
           if (moduleName) {
-            if (submoduleName) {
-              return {
-                ...hotel,
-                modules: hotel.modules?.map((mod) => {
+            return {
+              ...hotel,
+              modules: hotel.modules
+                ?.map((mod) => {
                   if (mod.name === moduleName) {
-                    return {
-                      ...mod,
-                      submodules: mod.submodules?.filter((sub) => sub.name !== submoduleName),
-                    };
+                    if (submoduleName) {
+                      return {
+                        ...mod,
+                        submodules: mod.submodules.filter(
+                          (sub) => sub.name !== submoduleName
+                        ),
+                      };
+                    }
+                    return mod;
                   }
-                  return mod;
-                }),
-              };
-            } else {
-              return {
-                ...hotel,
-                modules: hotel.modules?.filter((mod) => mod.name !== moduleName),
-              };
-            }
+                  return null;
+                })
+                .filter(Boolean),
+            };
           }
-          return null; 
+          return null;
         }
-        return hotel; 
+        return hotel;
       })
       .filter(Boolean);
 
@@ -54,7 +55,7 @@ const FieldSelected = ({ data = [], setData }) => {
         {JSON.stringify(data, null, 2)}
       </pre>
       <ul>
-        {data.map((hotel, hotelIndex) => (
+        {data?.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
@@ -65,7 +66,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 X
               </button>
             </div>
-            {hotel.modules.map((module, moduleIndex) => (
+            {hotel.modules?.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
                 {`Module: ${module.name}`}
                 <button
@@ -89,19 +90,6 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
               </div>
             ))}
-            <div style={{ marginLeft: "20px" }}>
-              {`Key-Value Pairs:`}
-              {hotel.keyValuePairs &&
-              Object.entries(hotel.keyValuePairs).length > 0 ? (
-                Object.entries(hotel.keyValuePairs).map(
-                  ([key, value], index) => (
-                    <div key={index}>{`${key}: ${value}`}</div>
-                  )
-                )
-              ) : (
-                <div>No key-value pairs available.</div>
-              )}
-            </div>
           </li>
         ))}
       </ul>
