@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import React, { useState } from "react";
 import Select from "react-select";
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
