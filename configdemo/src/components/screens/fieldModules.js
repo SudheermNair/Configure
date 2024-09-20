@@ -94,7 +94,13 @@ const FieldModules = () => {
   const handleModuleSelect = (e) => {
     const module = { name: e.target.value };
     setSelectedModule(module);
-    updateData(selectedHotel, module, selectedSubmodules, selectedKeys, null);
+
+    // Reset submodules and key values when a new module is selected
+    setSelectedSubmodules([]);
+    setSelectedKeys(null);
+    setKeyValues([]);
+
+    updateData(selectedHotel, module, [], null, null);
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
