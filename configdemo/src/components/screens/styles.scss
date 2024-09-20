@@ -76,10 +76,11 @@
     border-radius: 5px;
     cursor: pointer;
   }
+  
   .remove-btn{
       bottom: 10px;
       float:right;
-      padding: 3px;
+      padding: 0px;
       background-color: #f3f2f2;
       color:  #ca6f63;
       border: none;
@@ -87,6 +88,7 @@
       cursor: pointer;
   }
    
+
   .selected-json-container{
     background-color: #f3f2f2;
     margin: 1% 2%;
