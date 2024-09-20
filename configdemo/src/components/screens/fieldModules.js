@@ -48,7 +48,6 @@ const FieldModules = () => {
       (hotel) => hotel.hotelId === e.target.value
     );
     setSelectedHotel(selected);
-    // Reset module and submodule selections when changing hotel
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys(null);
@@ -92,6 +91,7 @@ const FieldModules = () => {
                 selectedKeys,
                 selectedValue
               ),
+              [selectedKeys]: selectedModule ? undefined : selectedValue, // Assign only at hotel level if no module selected
             };
             return updatedHotel;
           }
@@ -102,6 +102,7 @@ const FieldModules = () => {
         const newHotel = {
           hotelId: selectedHotel.hotelId,
           name: selectedHotel.name,
+          [selectedKeys]: selectedModule ? undefined : selectedValue, // Assign only at hotel level if no module selected
           modules: updateModules(
             [],
             selectedModule,
@@ -132,7 +133,7 @@ const FieldModules = () => {
         if (mod.name === (module ? module.name : "")) {
           return {
             ...mod,
-            ...(submodules.length === 0 && { [key]: value }), // Only assign at module level if no submodules are selected
+            [key]: value, // Assign the key-value at the module level
             submodules:
               submodules.length > 0
                 ? submodules.map((submodule) => ({
@@ -150,7 +151,7 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          ...(submodules.length === 0 && { [key]: value }), // Only assign at new module level if no submodules are selected
+          [key]: value, // Assign the key-value at the new module level
           submodules:
             submodules.length > 0
               ? submodules.map((submodule) => ({
