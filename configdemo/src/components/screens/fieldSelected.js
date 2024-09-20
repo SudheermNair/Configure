@@ -7,25 +7,27 @@ const FieldSelected = ({ data = [], setData }) => {
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
           if (moduleName) {
-            return {
-              ...hotel,
-              modules: hotel.modules
-                ?.map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map(mod => {
                   if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return mod;
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                   }
-                  return null;
-                })
-                .filter(Boolean),
-            };
+                  return mod;
+                }),
+              };
+            } else {
+              return {
+                ...hotel,
+                modules: hotel.modules.filter(mod => mod.name !== moduleName),
+              };
+            }
           }
           return null;
         }
