@@ -78,23 +78,30 @@ const FieldModules = () => {
     const selected = configFields[0].hotels.find(
       (hotel) => hotel.hotelId === selectedId
     );
+    setSelectedHotel(selected);
 
-    if (selected) {
-      setSelectedHotel(selected);
-      setSelectedModule(null);
-      setSelectedSubmodules([]);
-      updateData(selected, null, [], null, null);
-    } else {
-      setSelectedHotel(null);
-      setSelectedModule(null);
-      setSelectedSubmodules([]);
-    }
+    // Clear previous data when a new hotel is selected
+    setData([]);
+
+    // Reset selections
+    setSelectedModule(null);
+    setSelectedSubmodules([]);
+    setSelectedKeys(null);
+    setKeyValues([]);
+
+    updateData(selected, null, [], null, null); // Clear data
   };
 
   const handleModuleSelect = (e) => {
-    const moduleName = e.target.value;
-    setSelectedModule(moduleName);
-    updateData(selectedHotel, { name: moduleName }, selectedSubmodules, selectedKeys, null);
+    const module = { name: e.target.value };
+    setSelectedModule(module);
+
+    // Reset submodules and key values when a new module is selected
+    setSelectedSubmodules([]);
+    setSelectedKeys(null);
+    setKeyValues([]);
+
+    updateData(selectedHotel, module, [], null, null);
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
@@ -133,7 +140,9 @@ const FieldModules = () => {
   const updateModules = (existingModules, module, submodules) => {
     if (!module) return existingModules;
 
-    const moduleExists = existingModules.find((mod) => mod.name === module.name);
+    const moduleExists = existingModules.find(
+      (mod) => mod.name === module.name
+    );
 
     if (moduleExists) {
       return existingModules.map((mod) => {
