@@ -1,6 +1,5 @@
 import React from "react";
 import "./addConfig.scss";
-// import { hotelOptions, moduleOptions } from "../../core/KeyOptions";
 
 const SelectConfig = ({ selectedDropdowns, setSelectedDropdowns }) => {
   const removeModule = (index) => {

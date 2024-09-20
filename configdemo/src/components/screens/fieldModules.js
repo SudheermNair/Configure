@@ -1,8 +1,39 @@
 import React, { useState } from "react";
-import Select from 'react-select';
+import Select from "react-select";
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
-import './styles.scss'; // Import the styles
+import "./styles.scss";
+
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    boxShadow: "none",
+    border: "1px solid #ccc",
+    "&:hover": {
+      border: "1px solid #aaa",
+    },
+  }),
+  menu: (provided) => ({
+    ...provided,
+    zIndex: 9999,
+  }),
+  multiValue: (provided) => ({
+    ...provided,
+    backgroundColor: "#e0e0e0",
+  }),
+  multiValueLabel: (provided) => ({
+    ...provided,
+    color: "#333",
+  }),
+  multiValueRemove: (provided) => ({
+    ...provided,
+    color: "#d9534f",
+    ":hover": {
+      backgroundColor: "#d9534f",
+      color: "white",
+    },
+  }),
+};
 
 const FieldModules = () => {
   const [data, setData] = useState([]);
@@ -11,29 +42,26 @@ const FieldModules = () => {
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
 
   const handleDropdownChange = (hotel, module, submodules) => {
-    const hotelId = hotel.hotelId;
-    const existingHotel = data.find((h) => h.hotelId === hotelId);
+    const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
 
     if (existingHotel) {
-      // Hotel already exists, update modules and submodules
       const updatedHotels = data.map((h) => {
-        if (h.hotelId === hotelId) {
-          const moduleExists = h.modules.find((mod) => mod.name === module.name);
-          const uniqueSubmodules = [...new Set([...h.modules.find(mod => mod.name === module.name)?.submodules.map(sub => sub.name), ...submodules.map(sub => sub.name)])];
+        if (h.hotelId === hotel.hotelId) {
+          const moduleExists = h.modules.find(
+            (mod) => mod.name === module.name
+          );
 
           if (moduleExists) {
-            return {
-              ...h,
-              modules: h.modules.map(mod => {
-                if (mod.name === module.name) {
-                  return {
-                    ...mod,
-                    submodules: uniqueSubmodules.map(name => ({ name })),
-                  };
-                }
-                return mod;
-              }),
-            };
+            const updatedModules = h.modules.map((mod) => {
+              if (mod.name === module.name) {
+                return {
+                  ...mod,
+                  submodules: [...new Set([...mod.submodules, ...submodules])],
+                };
+              }
+              return mod;
+            });
+            return { ...h, modules: updatedModules };
           } else {
             return {
               ...h,
@@ -41,7 +69,7 @@ const FieldModules = () => {
                 ...h.modules,
                 {
                   name: module.name,
-                  submodules: submodules.map(sub => ({ name: sub.name })),
+                  submodules,
                 },
               ],
             };
@@ -51,16 +79,15 @@ const FieldModules = () => {
       });
       setData(updatedHotels);
     } else {
-      // New hotel, add to data
       setData([
         ...data,
         {
-          hotelId: hotelId,
+          hotelId: hotel.hotelId,
           name: hotel.name,
           modules: [
             {
               name: module.name,
-              submodules: submodules.map(sub => ({ name: sub.name })),
+              submodules,
             },
           ],
         },
@@ -80,7 +107,9 @@ const FieldModules = () => {
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
-    setSelectedSubmodules(selectedOptions.map(option => ({ name: option.value })));
+    setSelectedSubmodules(
+      selectedOptions.map((option) => ({ name: option.value }))
+    );
   };
 
   const addSelection = () => {
@@ -92,15 +121,22 @@ const FieldModules = () => {
   };
 
   return (
-    <div className="field-modules">
-      <h3>Select Hotel, Module, and Submodules</h3>
-      <div className="field-modules-container">
+    <div className="field-modules-container">
+      <div className="field-modules">
+        <h3>Select Hotel, Module, and Submodules</h3>
         <div className="dropdown-container">
           <label>Hotel:</label>
-          <select value={selectedHotel.hotelId || ""} onChange={handleHotelSelect}>
-            <option value="" disabled>Select Hotel</option>
+          <select
+            value={selectedHotel.hotelId || ""}
+            onChange={handleHotelSelect}
+          >
+            <option value="" disabled>
+              Select Hotel
+            </option>
             {configFields[0].hotels.map((hotel) => (
-              <option key={hotel.hotelId} value={hotel.hotelId}>{hotel.name}</option>
+              <option key={hotel.hotelId} value={hotel.hotelId}>
+                {hotel.name}
+              </option>
             ))}
           </select>
         </div>
@@ -109,10 +145,17 @@ const FieldModules = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select value={selectedModule.name || ""} onChange={handleModuleSelect}>
-                <option value="" disabled>Select Module</option>
+              <select
+                value={selectedModule.name || ""}
+                onChange={handleModuleSelect}
+              >
+                <option value="" disabled>
+                  Select Module
+                </option>
                 {configFields[0].modules.map((module, index) => (
-                  <option key={index} value={module}>{module}</option>
+                  <option key={index} value={module}>
+                    {module}
+                  </option>
                 ))}
               </select>
             </div>
@@ -122,19 +165,29 @@ const FieldModules = () => {
                 <label>Submodules:</label>
                 <Select
                   isMulti
-                  options={configFields[0].submodules.map(submodule => ({ value: submodule, label: submodule }))}
-                  value={selectedSubmodules.map(submodule => ({ value: submodule.name, label: submodule.name }))}
+                  options={configFields[0].submodules.map((submodule) => ({
+                    value: submodule,
+                    label: submodule,
+                  }))}
+                  value={selectedSubmodules.map((submodule) => ({
+                    value: submodule.name,
+                    label: submodule.name,
+                  }))}
                   onChange={handleSubmoduleSelect}
+                  styles={customStyles}
                 />
               </div>
             )}
 
-            <button onClick={addSelection}>Add Selection</button>
+            <button onClick={addSelection} >
+              Add Selection
+            </button>
           </>
         )}
       </div>
 
-      <FieldSelected data={data} setData={setData} />
+        {data.length > 0 && <FieldSelected data={data} setData={setData}/>}
+      
     </div>
   );
 };
