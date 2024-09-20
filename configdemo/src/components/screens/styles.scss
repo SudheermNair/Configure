@@ -1,126 +1,3 @@
-// .field-container{
-//     display: flex;
-//     // flex-direction: column;
-//     width: 80%;
-//     padding: 0%;
-//     margin: 0%;
-//   }
-  
-//   h1{
-//     font-size: 28px;
-//     margin-left: 3%;
-//   }
-  
-  
-//   .field-modules-container {
-//     display: flex;
-//     // flex-direction: column;
-//     justify-content: space-between;
-//     width: 100%;
-//     padding: 20px;
-//   }
-  
-//   .field-selected h1 {
-//     font-size: 18px;
-//     background-color: #CFF8E0;
-//     padding: 2%;
-//   }
-  
-//   .field-selected ul {
-//     list-style: none;
-//     background-color: #f3f2f2;
-//     margin-left: 3%;
-//   }
-  
-//   .field-selected li {
-//     margin-bottom: 10px;
-//     padding: 2%;
-
-//   }
-//   .field-selected button {
-//    margin-left: 82%;
-    
-//   }
- 
-// select{
-//     margin-left: 20%;
-//     padding: 1%;
-//     background-color: white;
-//     border: 1px solid #a8a8a8;
-//     border-radius: 10px;
-//     margin-bottom: 4%;
-// }
-
-//   .field-modules,
-//   .field-selected {
-//     padding: 20px;
-//     border: 1px solid #ccc;
-//     margin: 10px;
-//     width: 50%;
-//     border-radius: 10px;
-//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-//     height: 230px;
-//     position:relative;
-//   }
-//   .field-selected {
-//     scrollbar-width: thin; 
-//     scrollbar-color: #888888 #f3f2f2; 
-//     position: relative;
-   
-//     &::-webkit-scrollbar {
-//       width: 12px;
-//     }
-  
-//     &::-webkit-scrollbar-track {
-//       background: #f3f2f2;
-//     }
-  
-//     &::-webkit-scrollbar-thumb {
-//       background-color: #888888;
-//       border-radius: 10px;
-//     }
-  
-//     overflow-y: auto; 
-//     padding-right: 8px; 
-//   }
-
-
-//   .information-container {
-//     display: flex;
-//     flex-direction: row;
-
-//   }
-
-// .field-modules {
-//     font-size: 16px;
-//     color: #6b6b6b;
-// }
-
-// button { 
-//     bottom: 10px;
-//     padding: 10px 20px; 
-//     background-color: #63ca8e; 
-//     color: #fff; 
-//     border: none; 
-//     border-radius: 5px; 
-//     cursor: pointer;
-//   }
-//   .field-modules,
-// .field-selected {
-//   margin: 20px;
-// }
-
-// .dropdown-container {
-//   display:flex;
-//   flex-direction: column;
-//   margin-bottom: 10px;
-// }
-
-// button {
-//   margin-top: 10px;
-// }
-
-
 .field-container {
   display: flex;
   width: 80%;
@@ -135,15 +12,15 @@ h1 {
 
 .field-modules-container {
   display: flex;
-  flex-direction: column; /* Change to column */
-  justify-content: flex-start; /* Align items to the start */
+  flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
   padding: 20px;
 }
 
 .field-selected h1 {
   font-size: 18px;
-  background-color: #CFF8E0;
+  background-color: #cff8e0;
   padding: 2%;
 }
 
@@ -159,11 +36,11 @@ h1 {
 }
 
 .field-selected button {
-  margin-left: auto; /* Align button to the right */
+  margin-left: auto;
 }
 
 select {
-  margin-left: 0; /* Remove left margin */
+  margin-left: 0;
   padding: 1%;
   background-color: white;
   border: 1px solid #a8a8a8;
@@ -176,18 +53,18 @@ select {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 100%; /* Take full width */
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  height: auto; /* Allow height to adjust */
+  height: auto;
 }
 
 .field-selected {
-  scrollbar-width: thin; 
-  scrollbar-color: #888888 #f3f2f2; 
+  scrollbar-width: thin;
+  scrollbar-color: #888888 #f3f2f2;
   position: relative;
-  overflow-y: auto; 
-  padding-right: 8px; 
+  overflow-y: auto;
+  padding-right: 8px;
 }
 
 .information-container {
@@ -200,19 +77,19 @@ select {
   color: #6b6b6b;
 }
 
-button { 
+button {
   bottom: 10px;
-  padding: 10px 20px; 
-  background-color: #63ca8e; 
-  color: #fff; 
-  border: none; 
-  border-radius: 5px; 
+  padding: 10px 20px;
+  background-color: #63ca8e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .dropdown-container {
   display: flex;
-  flex-direction: column; /* Column layout */
+  flex-direction: column;
   margin-bottom: 10px;
 }
 
