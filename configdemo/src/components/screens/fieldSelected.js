@@ -1,41 +1,43 @@
 import React from "react";
 import "./styles.scss";
-
+ 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
           if (moduleName) {
-            return {
-              ...hotel,
-              modules: hotel.modules
-                .map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return null; // Remove module
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                   }
                   return mod;
-                })
-                .filter(Boolean), // Filter out nulls
-            };
+                }),
+              };
+            } else {
+              return {
+                ...hotel,
+                modules: hotel.modules.filter((mod) => mod.name !== moduleName),
+              };
+            }
           }
           return null; // If no moduleName, remove hotel
         }
         return hotel;
       })
       .filter(Boolean); // Filter out null hotels
-
+ 
     setData(updatedData);
   };
-
+ 
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
@@ -43,11 +45,11 @@ const FieldSelected = ({ data = [], setData }) => {
       alert("Submitted!");
     }
   };
-
+ 
   if (data.length === 0) {
     return null;
   }
-
+ 
   return (
     <div className="field-selected">
       <h1>Selected Data</h1>
@@ -81,11 +83,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     <button
                       className="remove-btn"
                       onClick={() =>
-                        removeItem(
-                          hotel.hotelId,
-                          module.name,
-                          submodule.name
-                        )
+                        removeItem(hotel.hotelId, module.name, submodule.name)
                       }
                     >
                       X
@@ -97,9 +95,7 @@ const FieldSelected = ({ data = [], setData }) => {
             {Object.keys(hotel)
               .filter((key) => !["hotelId", "name", "modules"].includes(key))
               .map((key) => (
-                <div key={key}>
-                  {`${key}: ${hotel[key]}`}
-                </div>
+                <div key={key}>{`${key}: ${hotel[key]}`}</div>
               ))}
           </li>
         ))}
@@ -108,5 +104,5 @@ const FieldSelected = ({ data = [], setData }) => {
     </div>
   );
 };
-
+ 
 export default FieldSelected;
