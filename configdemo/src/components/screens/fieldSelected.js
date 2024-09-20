@@ -7,25 +7,27 @@ const FieldSelected = ({ data = [], setData }) => {
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
           if (moduleName) {
-            return {
-              ...hotel,
-              modules: hotel.modules
-                .map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return null; // Remove module
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                   }
                   return mod;
-                })
-                .filter(Boolean), // Filter out nulls
-            };
+                }),
+              };
+            } else {
+              return {
+                ...hotel,
+                modules: hotel.modules.filter((mod) => mod.name !== moduleName),
+              };
+            }
           }
           return null; // If no moduleName, remove hotel
         }
@@ -81,11 +83,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     <button
                       className="remove-btn"
                       onClick={() =>
-                        removeItem(
-                          hotel.hotelId,
-                          module.name,
-                          submodule.name
-                        )
+                        removeItem(hotel.hotelId, module.name, submodule.name)
                       }
                     >
                       X
@@ -97,9 +95,7 @@ const FieldSelected = ({ data = [], setData }) => {
             {Object.keys(hotel)
               .filter((key) => !["hotelId", "name", "modules"].includes(key))
               .map((key) => (
-                <div key={key}>
-                  {`${key}: ${hotel[key]}`}
-                </div>
+                <div key={key}>{`${key}: ${hotel[key]}`}</div>
               ))}
           </li>
         ))}
