@@ -1,5 +1,5 @@
-import React from "react";
-import "./styles.scss";
+import React from 'react';
+import './styles.scss';
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -11,7 +11,17 @@ const FieldSelected = ({ data = [], setData }) => {
               return {
                 ...hotel,
                 modules: hotel.modules.map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                     return {
                       ...mod,
                       submodules: mod.submodules.filter(
@@ -29,20 +39,39 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; // If no moduleName, remove hotel
+          return null; // Remove hotel if no module is selected
         }
         return hotel;
       })
-      .filter(Boolean); // Filter out null hotels
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKey = (hotelId, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          const { [key]: _, ...remainingKeys } = hotel; // Destructure to remove the key
+          return {
+            ...remainingKeys,
+            hotelId: hotel.hotelId, // Preserve the hotelId
+            name: hotel.name, // Preserve the hotel name
+            modules: hotel.modules, // Preserve modules
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
 
     setData(updatedData);
   };
 
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
+      alert('Please add items to submit!');
     } else {
-      alert("Submitted!");
+      alert('Submitted!');
     }
   };
 
@@ -84,6 +113,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       className="remove-btn"
                       onClick={() =>
                         removeItem(hotel.hotelId, module.name, submodule.name)
+                        removeItem(hotel.hotelId, module.name, submodule.name)
                       }
                     >
                       X
@@ -93,9 +123,17 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
             ))}
             {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .filter((key) => !['hotelId', 'name', 'modules'].includes(key))
               .map((key) => (
-                <div key={key}>{`${key}: ${hotel[key]}`}</div>
+                <div key={key}>
+                  {`${key}: ${hotel[key]}`}
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeKey(hotel.hotelId, key)}
+                  >
+                    X
+                  </button>
+                </div>
               ))}
           </li>
         ))}
