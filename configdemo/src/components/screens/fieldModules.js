@@ -53,12 +53,7 @@ const FieldModules = () => {
     setSelectedModule({ name: e.target.value });
   };
 
-  const handleKeySelect = (e) => {
-    setSelectedKeyValuePair((prev) => ({
-      ...prev,
-      key: e.target.value, // Update key
-    }));
-  };
+
 
   const handleKeyValueSelect = (e) => {
     setSelectedKeyValuePair((prev) => ({
@@ -173,9 +168,7 @@ const FieldModules = () => {
             
             </option>
             {configFields[0].hotels.map((hotel) => (
-              <option key={hotel.hotelId} value={hotel.hotelId}>
-                {hotel.name}
-              </option>
+          
               <option key={hotel.hotelId} value={hotel.hotelId}>
                 {hotel.name}
               </option>
@@ -188,13 +181,7 @@ const FieldModules = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select
-                value={selectedModule?.name || ""}
-                onChange={handleModuleSelect}
-              >
-                <option value="" disabled>
-                  Select Module
-                </option>
+              
               <select
                 value={selectedModule ? selectedModule.name : ""}
                 onChange={handleModuleSelect}
@@ -224,14 +211,8 @@ const FieldModules = () => {
                     value: submodule.name,
                     label: submodule.name,
                   }))}
-                  options={configFields[0].submodules.map((submodule) => ({
-                    value: submodule,
-                    label: submodule,
-                  }))}
-                  value={selectedSubmodules.map((submodule) => ({
-                    value: submodule.name,
-                    label: submodule.name,
-                  }))}
+                 
+                
                   onChange={handleSubmoduleSelect}
                   styles={customStyles}
                 />
