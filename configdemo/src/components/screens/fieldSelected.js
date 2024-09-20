@@ -1,30 +1,55 @@
+import React from "react";
+import "./styles.scss";
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
           if (moduleName) {
-            return {
-              ...hotel,
-              modules: hotel.modules
-                .map((mod) => {
+            if (submoduleName) {
+              return {
+                ...hotel,
+                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
-                    if (submoduleName) {
-                      return {
-                        ...mod,
-                        submodules: mod.submodules.filter(
-                          (sub) => sub.name !== submoduleName
-                        ),
-                      };
-                    }
-                    return mod;
+                    return {
+                      ...mod,
+                      submodules: mod.submodules.filter(
+                        (sub) => sub.name !== submoduleName
+                      ),
+                    };
                   }
-                  return null;
-                })
-                .filter(Boolean),
-            };
+                  return mod;
+                }),
+              };
+            } else {
+              return {
+                ...hotel,
+                modules: hotel.modules.filter((mod) => mod.name !== moduleName),
+              };
+            }
           }
-          return null;
+          return null; 
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKey = (hotelId, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          const { [key]: _, ...remainingKeys } = hotel; 
+          return {
+            ...remainingKeys,
+            hotelId: hotel.hotelId, 
+            name: hotel.name,
+            modules: hotel.modules, 
+          };
         }
         return hotel;
       })
@@ -48,49 +73,62 @@ const FieldSelected = ({ data = [], setData }) => {
   return (
     <div className="field-selected">
       <h1>Selected Data</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre className="selected-json-container">
+        {JSON.stringify(data, null, 2)}
+      </pre>
       <ul>
         {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button onClick={() => removeItem(hotel.hotelId)}>
-                Remove Hotel
+              <button
+                className="remove-btn"
+                onClick={() => removeItem(hotel.hotelId)}
+              >
+                <DeleteIcon style={{ fontSize: 18 }}/>
               </button>
             </div>
             {hotel.modules.map((module, moduleIndex) => (
-              <div key={moduleIndex} style={{ marginLeft: "20px" }}>
-                {`Module: ${module.name}`}
-                <button onClick={() => removeItem(hotel.hotelId, module.name)}>
-                  Remove Module
+              <div key={moduleIndex}>
+                <span>{`Module: ${module.name}`}</span>
+                <button
+                  className="remove-btn"
+                  onClick={() => removeItem(hotel.hotelId, module.name)}
+                >
+                  <DeleteIcon style={{ fontSize: 18 }}/>
                 </button>
-                {module.submodules.map((submodule, subIndex) => (
-                  <div key={subIndex} style={{ marginLeft: "40px" }}>
-                    {`Submodule: ${submodule.name}`}
+                {module.submodules.map((submodule, submoduleIndex) => (
+                  <div key={submoduleIndex}>
+                    <span>{`Submodule: ${submodule.name}`}</span>
                     <button
+                      className="remove-btn"
                       onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
+                        removeItem(
+                          hotel.hotelId,
+                          module.name,
+                          submodule.name
+                        )
                       }
                     >
-                      Remove Submodule
+                      <DeleteIcon style={{ fontSize: 18 }}/>
                     </button>
                   </div>
                 ))}
               </div>
             ))}
-            <div style={{ marginLeft: "20px" }}>
-              {`Key-Value Pairs:`}
-              {hotel.keyValuePairs &&
-              Object.entries(hotel.keyValuePairs).length > 0 ? (
-                Object.entries(hotel.keyValuePairs).map(
-                  ([key, value], index) => (
-                    <div key={index}>{`${key}: ${value}`}</div>
-                  )
-                )
-              ) : (
-                <div>No key-value pairs available.</div>
-              )}
-            </div>
+            {Object.keys(hotel)
+              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .map((key) => (
+                <div key={key}>
+                  {`${key}: ${hotel[key]}`}
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeKey(hotel.hotelId, key)}
+                  >
+                    <DeleteIcon style={{ fontSize: 18 }}/>
+                  </button>
+                </div>
+              ))}
           </li>
         ))}
       </ul>
