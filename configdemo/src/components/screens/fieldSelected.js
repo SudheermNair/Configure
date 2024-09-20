@@ -11,17 +11,7 @@ const FieldSelected = ({ data = [], setData }) => {
               return {
                 ...hotel,
                 modules: hotel.modules.map((mod) => {
-            if (submoduleName) {
-              return {
-                ...hotel,
-                modules: hotel.modules.map((mod) => {
                   if (mod.name === moduleName) {
-                    return {
-                      ...mod,
-                      submodules: mod.submodules.filter(
-                        (sub) => sub.name !== submoduleName
-                      ),
-                    };
                     return {
                       ...mod,
                       submodules: mod.submodules.filter(
@@ -112,7 +102,6 @@ const FieldSelected = ({ data = [], setData }) => {
                     <button
                       className="remove-btn"
                       onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
                         removeItem(hotel.hotelId, module.name, submodule.name)
                       }
                     >
