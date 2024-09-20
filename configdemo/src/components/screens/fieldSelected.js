@@ -1,3 +1,5 @@
+import React from "react";
+import "./styles.scss";
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -38,13 +40,8 @@ const FieldSelected = ({ data = [], setData }) => {
       alert("Please add items to submit!");
     } else {
       alert("Submitted!");
-      alert("Submitted!");
     }
   };
-
-  if (data.length === 0) {
-    return null;
-  }
 
   if (data.length === 0) {
     return null;
@@ -53,29 +50,40 @@ const FieldSelected = ({ data = [], setData }) => {
   return (
     <div className="field-selected">
       <h1>Selected Data</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <h1>Selected Data</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre className="selected-json-container">
+        {JSON.stringify(data, null, 2)}
+      </pre>
       <ul>
         {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button onClick={() => removeItem(hotel.hotelId)}>
-                Remove Hotel
+              <button
+                className="remove-btn"
+                onClick={() => removeItem(hotel.hotelId)}
+              >
+                X
               </button>
             </div>
             {hotel.modules.map((module, moduleIndex) => (
               <div key={moduleIndex} style={{ marginLeft: "20px" }}>
                 {`Module: ${module.name}`}
-                <button onClick={() => removeItem(hotel.hotelId, module.name)}>Remove Module</button>
+                <button
+                  className="remove-btn"
+                  onClick={() => removeItem(hotel.hotelId, module.name)}
+                >
+                  X
+                </button>
                 {module.submodules?.map((submodule, subIndex) => (
                   <div key={subIndex} style={{ marginLeft: "40px" }}>
                     {`Submodule: ${submodule.name}`}
                     <button
-                      onClick={() => removeItem(hotel.hotelId, module.name, submodule.name)}
+                      onClick={() =>
+                        removeItem(hotel.hotelId, module.name, submodule.name)
+                      }
+                      className="remove-btn"
                     >
-                      Remove Submodule
+                      X
                     </button>
                   </div>
                 ))}
