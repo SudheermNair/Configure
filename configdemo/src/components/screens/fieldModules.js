@@ -48,10 +48,16 @@ const FieldModules = () => {
       (hotel) => hotel.hotelId === e.target.value
     );
     setSelectedHotel(selected);
+    // Reset module and submodule selections when changing hotel
+    setSelectedModule(null);
+    setSelectedSubmodules([]);
+    setSelectedKeys(null);
   };
 
   const handleModuleSelect = (e) => {
     setSelectedModule({ name: e.target.value });
+    setSelectedSubmodules([]); // Reset submodule selection when selecting a module
+    setSelectedKeys(null);
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
@@ -79,7 +85,6 @@ const FieldModules = () => {
           if (hotel.hotelId === selectedHotel.hotelId) {
             const updatedHotel = {
               ...hotel,
-              [selectedKeys]: selectedValue, // Direct assignment for hotel level key-value pairs
               modules: updateModules(
                 hotel.modules,
                 selectedModule,
@@ -97,7 +102,6 @@ const FieldModules = () => {
         const newHotel = {
           hotelId: selectedHotel.hotelId,
           name: selectedHotel.name,
-          [selectedKeys]: selectedValue, // Direct assignment for hotel level key-value pairs
           modules: updateModules(
             [],
             selectedModule,
@@ -110,6 +114,7 @@ const FieldModules = () => {
       }
     }
 
+    // Reset selections after assigning value
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys(null);
