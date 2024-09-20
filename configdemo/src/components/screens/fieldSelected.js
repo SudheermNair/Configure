@@ -1,6 +1,6 @@
-import React from "react";
-import "./styles.scss";
- 
+import React from 'react';
+import './styles.scss';
+
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -34,22 +34,22 @@ const FieldSelected = ({ data = [], setData }) => {
         return hotel;
       })
       .filter(Boolean); // Filter out null hotels
- 
+
     setData(updatedData);
   };
- 
+
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
+      alert('Please add items to submit!');
     } else {
-      alert("Submitted!");
+      alert('Submitted!');
     }
   };
- 
+
   if (data.length === 0) {
     return null;
   }
- 
+
   return (
     <div className="field-selected">
       <h1>Selected Data</h1>
@@ -93,7 +93,7 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
             ))}
             {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .filter((key) => !['hotelId', 'name', 'modules'].includes(key))
               .map((key) => (
                 <div key={key}>{`${key}: ${hotel[key]}`}</div>
               ))}
@@ -104,5 +104,5 @@ const FieldSelected = ({ data = [], setData }) => {
     </div>
   );
 };
- 
+
 export default FieldSelected;
