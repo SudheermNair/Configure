@@ -1,3 +1,5 @@
+
+
 export const configFields = [
   {
     hotels: [
@@ -38,5 +40,18 @@ export const configFields = [
         saveToDb: ["yes", "no"],
       },
     ],
+    KeysforModule:[
+        {
+           code:['Preferences','Check-In','Services'] ,
+           isActive:['true','false']
+        }
+    ],
+    KeysforSubModule:[
+        {
+           code:['Headers','','Services'] ,
+           isActive:['true','false'],
+           title:['ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW','Please Complete Your Check-In Process', 'Guest Information']
+        }
+    ]
   },
 ];
