@@ -3,8 +3,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import FieldModules from "./components/screens/fieldModules";
 import FieldSelected from "./components/screens/fieldSelected";
-import AddConfig from "./components/AddConfig/addConfig";
-import SelectConfig from "./components/AddConfig/addConfigSelect";
 import { useState } from "react";
 
 function App() {
@@ -47,18 +45,6 @@ function App() {
                     </div>
                   </>
                 )}
-              </div>
-            </>
-          )}
-          {currentView === "addConfig" && (
-            <>
-              <h1>Configuration</h1>
-              <div className="field-modules-container">
-                <AddConfig onDropdownChange={handleDropdownChange} />
-                <SelectConfig
-                  selectedDropdowns={selectedDropdowns}
-                  setSelectedDropdowns={setSelectedDropdowns}
-                />
               </div>
             </>
           )}

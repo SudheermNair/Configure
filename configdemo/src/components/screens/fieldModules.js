@@ -1,8 +1,7 @@
-
-import React, { useState } from "react";
-import FieldSelected from "./fieldSelected";
-import { configFields } from "../../core/config";
-import "./styles.scss";
+import React, { useState } from 'react';
+import FieldSelected from './fieldSelected';
+import { configFields } from '../../core/config';
+import './styles.scss';
 
 const FieldModules = () => {
   const [data, setData] = useState([]);
@@ -50,11 +49,11 @@ const FieldModules = () => {
     setSelectedHotel(selected);
     setData([]);
     setSelectedModule(null);
-    setSelectedSubmodules([]); 
+    setSelectedSubmodules([]);
     setSelectedKeys(null);
     setKeyValues([]);
 
-    updateData(selected, null, [], null, null); 
+    updateData(selected, null, [], null, null);
   };
 
   const handleModuleSelect = (e) => {
@@ -76,7 +75,13 @@ const FieldModules = () => {
       setSelectedSubmodules(updatedSubmodules);
 
       if (selectedHotel && selectedModule) {
-        updateData(selectedHotel, { name: selectedModule.name }, updatedSubmodules, selectedKeys, null);
+        updateData(
+          selectedHotel,
+          { name: selectedModule.name },
+          updatedSubmodules,
+          selectedKeys,
+          null
+        );
       }
     }
   };
@@ -86,7 +91,13 @@ const FieldModules = () => {
     setSelectedSubmodules(updatedSubmodules);
 
     if (selectedHotel && selectedModule) {
-      updateData(selectedHotel, { name: selectedModule.name }, updatedSubmodules, selectedKeys, null);
+      updateData(
+        selectedHotel,
+        { name: selectedModule.name },
+        updatedSubmodules,
+        selectedKeys,
+        null
+      );
     }
   };
 
@@ -94,13 +105,25 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-    updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKey, null);
+    updateData(
+      selectedHotel,
+      selectedModule,
+      selectedSubmodules,
+      selectedKey,
+      null
+    );
   };
 
   const handleValueSelect = (e) => {
     const selectedValue = e.target.value;
     if (selectedHotel) {
-      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 
@@ -117,8 +140,8 @@ const FieldModules = () => {
           return {
             ...mod,
             submodules: [
-              ...new Set([...mod.submodules.map(s => s.name), ...submodules])
-            ].map(name => ({ name })),
+              ...new Set([...mod.submodules.map((s) => s.name), ...submodules]),
+            ].map((name) => ({ name })),
           };
         }
         return mod;
@@ -128,7 +151,8 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module.name,
-          submodules: submodules.length > 0 ? submodules.map(name => ({ name })) : [],
+          submodules:
+            submodules.length > 0 ? submodules.map((name) => ({ name })) : [],
         },
       ];
     }
@@ -137,14 +161,14 @@ const FieldModules = () => {
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodules, and Keys</h3>
+        <h3>Select Hotel, Module, Submodules and Keys</h3>
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
-            value={selectedHotel?.hotelId || ""}
+            value={selectedHotel?.hotelId || ''}
             onChange={handleHotelSelect}
           >
-            <option value="" disabled>
+            <option value="" disabled >
               Select Hotel
             </option>
             {configFields[0].hotels.map((hotel) => (
@@ -159,7 +183,7 @@ const FieldModules = () => {
             <div className="dropdown-container">
               <label>Module:</label>
               <select
-                value={selectedModule?.name || ""}
+                value={selectedModule?.name || ''}
                 onChange={handleModuleSelect}
               >
                 <option value="" disabled>
@@ -187,9 +211,9 @@ const FieldModules = () => {
                 </select>
               </div>
             )}
-            <div>
+            <div className='dropdown-container'>
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect}>
+              <select value={selectedKeys || ''} onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
@@ -201,7 +225,7 @@ const FieldModules = () => {
               </select>
             </div>
             {selectedKeys && (
-              <div>
+              <div className='dropdown-container'>
                 <label>Values:</label>
                 <select onChange={handleValueSelect}>
                   <option value="" disabled>

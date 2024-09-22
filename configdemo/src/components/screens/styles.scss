@@ -1,124 +1,159 @@
+html,
+body {
+  overflow: hidden;
+}
+
 .field-container {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    padding: 0%;
-    margin: 0%;
-  }
-   
-  h1 {
-    font-size: 28px;
-    margin-left: 3%;
-  }
-   
-  .field-modules-container {
-    display: flex;
-    flex-direction: row;
-    // padding: 20px;
-    // background-color: #f9f9f9;
-    box-sizing: border-box;
-    height: 70vh;
-  }
-   
-  .field-modules {
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin: 10px;
-    width: 40%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    height: auto;
-  }
-   
-  .field-selected {
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin: 10px;
-    width: 40%;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    height: auto;
-    max-height: 400px;
-    overflow-y: scroll;
-  }
-   
-  .field-selected h1 {
-    font-size: 18px;
-    background-color: #CFF8E0;
-    padding: 2%;
-  }
-   
-  .field-selected ul {
-    list-style: none;
-    background-color: #f3f2f2;
-    // margin-left: 1%;
-    // margin: 0;
-    margin: 1% 0.5%;
-    padding:4px 0 4px 4px;
-    // font-size: 10px;
-  }
-  // .field-selected li {
-  //   margin-bottom: 10px;
-  //   padding: 2%;
-  //   margin-right: 4px;
-  // }
-  button {
-    bottom: 10px;
-    padding: 10px 20px;
-    background-color: #63ca8e;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .remove-btn{
-      bottom: 10px;
-      float:right;
-      padding: 0px;
-      background-color: #f3f2f2;
-      color:  #ca6f63;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-  }
-   
-  .selected-json-container{
-    background-color: #f3f2f2;
-    margin: 1% 0.5%;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 0%;
+  margin: 0%;
+}
+
+h1 {
+  font-size: 28px;
+  margin-left: 3%;
+  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.field-modules-container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 70vh;
+}
+
+.field-modules {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: auto;
+}
+
+.field-selected {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  width: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: auto;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.field-selected h1,
+.field-container h3 {
+  font-size: 18px;
+  background-color: #cff8e0;
+  border: 1px solid wheat;
+  border-radius: 12px;
+  padding: 2%;
+  text-align: center;
+  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.field-selected ul {
+  list-style: none;
+  background-color: #f3f2f2;
+  margin: 1% 0.5%;
+  padding: 4px 0 4px 4px;
+}
+
+button {
+  bottom: 10px;
+  padding: 10px 20px;
+  background-color: #63ca8e;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.remove-btn {
+  bottom: 10px;
+  float: right;
+  padding: 0px;
+  background-color: #f3f2f2;
+  color: #ca6f63;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selected-json-container {
+  background-color: #f3f2f2;
+  margin: 1% 0.5%;
+}
 ::-webkit-scrollbar {
-  width: 10px; 
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #63ca8e; 
-  border-radius: 6px; 
+  background: #63ca8e;
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #63ca8e; 
+  background: #63ca8e;
 }
 
 .dropdown-container {
   display: flex;
-  align-items: center; 
+  align-items: center;
   margin-bottom: 10px;
 
   select {
-    margin: 0px; 
-    flex: 1; 
-    max-width: 200px; 
+    margin-left: 6px;
+    flex: 1;
+    max-width: 200px;
     background-color: white;
     border: 1px solid #a8a8a8;
     border-radius: 12px;
-    padding: 4px; 
+    padding: 4px;
   }
 }
 
-html, body {
-  overflow: hidden;
+.field-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 0%;
+  margin: 0%;
+}
+
+// h1 {
+//   font-size: 28px;
+//   margin-left: 3%;
+// }
+
+.field-modules-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
+}
+
+// .field-selected h1 {
+//   font-size: 18px;
+// }
+.field-selected button {
+  margin-left: 4%;
+}
+select {
+  margin-left: 20%;
+  margin: 0px;
+  flex: 1;
+  max-width: 200px;
+  background-color: white;
+  border: 1px solid #a8a8a8;
+  border-radius: 12px;
+  padding: 4px;
 }
