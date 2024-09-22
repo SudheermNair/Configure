@@ -168,7 +168,7 @@ const FieldModules = () => {
             value={selectedHotel?.hotelId || ''}
             onChange={handleHotelSelect}
           >
-            <option value="" disabled >
+            <option value="" disabled>
               Select Hotel
             </option>
             {configFields[0].hotels.map((hotel) => (
@@ -211,7 +211,7 @@ const FieldModules = () => {
                 </select>
               </div>
             )}
-            <div className='dropdown-container'>
+            <div className="dropdown-container">
               <label>Keys:</label>
               <select value={selectedKeys || ''} onChange={handleKeySelect}>
                 <option value="" disabled>
@@ -225,7 +225,7 @@ const FieldModules = () => {
               </select>
             </div>
             {selectedKeys && (
-              <div className='dropdown-container'>
+              <div className="dropdown-container">
                 <label>Values:</label>
                 <select onChange={handleValueSelect}>
                   <option value="" disabled>
