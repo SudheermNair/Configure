@@ -192,7 +192,7 @@ const FieldModules = () => {
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodules, and Keys</h3>
+        <h3>Select Configurations</h3>
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select

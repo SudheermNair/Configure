@@ -138,7 +138,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-      <h3>Selected Data</h3>
+      <h3>Selected Configurations</h3>
       <pre>{JSON.stringify(data, null, 2)}</pre> {/* Display JSON-like data */}
       <button onClick={handleSubmit}>Submit</button>
     </div>
