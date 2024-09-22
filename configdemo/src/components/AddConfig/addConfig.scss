@@ -26,6 +26,13 @@ h1 {
 }
 select {
   margin-left: 20%;
+  margin: 0px;
+    flex: 1; 
+    max-width: 200px; 
+    background-color: white;
+    border: 1px solid #a8a8a8;
+    border-radius: 12px;
+    padding: 4px; 
 }
 
 .field-modules,

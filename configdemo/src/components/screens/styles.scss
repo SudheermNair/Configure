@@ -14,9 +14,10 @@
   .field-modules-container {
     display: flex;
     flex-direction: row;
-    padding: 20px;
-    background-color: #f9f9f9;
+    // padding: 20px;
+    // background-color: #f9f9f9;
     box-sizing: border-box;
+    height: 70vh;
   }
    
   .field-modules {
@@ -50,23 +51,17 @@
   .field-selected ul {
     list-style: none;
     background-color: #f3f2f2;
-    margin-left: 3%;
+    // margin-left: 1%;
+    // margin: 0;
+    margin: 1% 0.5%;
+    padding:4px 0 4px 4px;
+    // font-size: 10px;
   }
-   
-  .field-selected li {
-    margin-bottom: 10px;
-    padding: 2%;
-  }
-   
-  select {
-    margin-left: 20%;
-    padding: 1%;
-    background-color: white;
-    border: 1px solid #a8a8a8;
-    border-radius: 10px;
-    margin-bottom: 4%;
-  }
-   
+  // .field-selected li {
+  //   margin-bottom: 10px;
+  //   padding: 2%;
+  //   margin-right: 4px;
+  // }
   button {
     bottom: 10px;
     padding: 10px 20px;
@@ -79,7 +74,7 @@
   .remove-btn{
       bottom: 10px;
       float:right;
-      padding: 3px;
+      padding: 0px;
       background-color: #f3f2f2;
       color:  #ca6f63;
       border: none;
@@ -89,14 +84,41 @@
    
   .selected-json-container{
     background-color: #f3f2f2;
-    margin: 1% 2%;
+    margin: 1% 0.5%;
   }
-   
-  .dropdown-container {
-    margin-bottom: 10px;
+::-webkit-scrollbar {
+  width: 10px; 
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #63ca8e; 
+  border-radius: 6px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #63ca8e; 
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center; 
+  margin-bottom: 10px;
+
+  select {
+    margin: 0px; 
+    flex: 1; 
+    max-width: 200px; 
+    background-color: white;
+    border: 1px solid #a8a8a8;
+    border-radius: 12px;
+    padding: 4px; 
   }
-   
- 
-   
-   
-  
+}
+
+html, body {
+  overflow: hidden;
+}
