@@ -39,7 +39,7 @@ const FieldModules = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
-  const [selectedSubmodules, setSelectedSubmodules] = useState([]);
+  const [selectedSubmodule, setSelectedSubmodule] = useState(null);
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
@@ -50,22 +50,21 @@ const FieldModules = () => {
     );
     setSelectedHotel(selected);
     setSelectedModule(null);
-    setSelectedSubmodules([]);
+    setSelectedSubmodule(null);
     setSelectedKeys("");
     setSelectedValue("");
   };
 
   const handleModuleSelect = (e) => {
     setSelectedModule({ name: e.target.value });
-    setSelectedSubmodules([]);
+    setSelectedSubmodule(null);
     setSelectedKeys("");
     setSelectedValue("");
   };
 
-  const handleSubmoduleSelect = (selectedOptions) => {
-    setSelectedSubmodules(
-      selectedOptions.map((option) => ({ name: option.value }))
-    );
+  const handleSubmoduleSelect = (e) => {
+    const selected = e.target.value;
+    setSelectedSubmodule(selected);
   };
 
   const handleKeySelect = (e) => {
@@ -85,15 +84,15 @@ const FieldModules = () => {
       );
 
       let updatedHotel;
-      if (selectedModule || selectedSubmodules.length > 0) {
-        // If a module or submodules are selected, update the modules
+      if (selectedModule || selectedSubmodule) {
+        // If a module or submodule is selected, update the modules
         updatedHotel = existingHotel
           ? {
               ...existingHotel,
               modules: updateModules(
                 existingHotel.modules || [],
                 selectedModule,
-                selectedSubmodules,
+                selectedSubmodule,
                 selectedKeys,
                 value
               ),
@@ -104,7 +103,7 @@ const FieldModules = () => {
               modules: updateModules(
                 [],
                 selectedModule,
-                selectedSubmodules,
+                selectedSubmodule,
                 selectedKeys,
                 value
               ),
@@ -137,11 +136,11 @@ const FieldModules = () => {
 
     // Reset other states after selection
     setSelectedModule(null);
-    setSelectedSubmodules([]);
+    setSelectedSubmodule(null);
     setSelectedKeys("");
   };
 
-  const updateModules = (existingModules, module, submodules, key, value) => {
+  const updateModules = (existingModules, module, submodule, key, value) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -149,17 +148,19 @@ const FieldModules = () => {
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
-          if (submodules.length > 0) {
-            // If submodules are selected, update them
+          if (submodule) {
+            // If a submodule is selected, update it
             return {
               ...mod,
-              submodules: submodules.map((sub) => ({
-                name: sub.name,
-                [key]: value,
-              })),
+              submodules: [
+                {
+                  name: submodule,
+                  [key]: value,
+                },
+              ],
             };
           } else {
-            // If no submodules are selected, just update the module
+            // If no submodule is selected, just update the module
             return {
               ...mod,
               [key]: value,
@@ -174,14 +175,15 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          [key]: submodules.length > 0 ? undefined : value,
-          submodules:
-            submodules.length > 0
-              ? submodules.map((sub) => ({
-                  name: sub.name,
+          [key]: submodule ? undefined : value,
+          submodules: submodule
+            ? [
+                {
+                  name: submodule,
                   [key]: value,
-                }))
-              : [],
+                },
+              ]
+            : [],
         },
       ];
     }
@@ -227,20 +229,20 @@ const FieldModules = () => {
             </div>
             {selectedModule && (
               <div className="dropdown-container">
-                <label>Submodules:</label>
-                <Select
-                  isMulti
-                  options={configFields[0].submodules.map((submodule) => ({
-                    value: submodule,
-                    label: submodule,
-                  }))}
-                  value={selectedSubmodules.map((submodule) => ({
-                    value: submodule.name,
-                    label: submodule.name,
-                  }))}
+                <label>Submodule:</label>
+                <select
+                  value={selectedSubmodule || ""}
                   onChange={handleSubmoduleSelect}
-                  styles={customStyles}
-                />
+                >
+                  <option value="" disabled>
+                    Select Submodule
+                  </option>
+                  {configFields[0].submodules.map((submodule, index) => (
+                    <option key={index} value={submodule}>
+                      {submodule}
+                    </option>
+                  ))}
+                </select>
               </div>
             )}
             <div>
