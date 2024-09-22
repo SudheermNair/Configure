@@ -43,7 +43,6 @@ const FieldModules = () => {
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
-  const [context, setContext] = useState("module"); // To track if we are selecting for module or submodule
 
   const handleHotelSelect = (e) => {
     const selected = configFields[0].hotels.find(
@@ -54,7 +53,6 @@ const FieldModules = () => {
     setSelectedSubmodules([]);
     setSelectedKeys("");
     setSelectedValue("");
-    setContext("module"); // Reset context to module
   };
 
   const handleModuleSelect = (e) => {
@@ -62,14 +60,12 @@ const FieldModules = () => {
     setSelectedSubmodules([]);
     setSelectedKeys("");
     setSelectedValue("");
-    setContext("module"); // Set context to module
   };
 
   const handleSubmoduleSelect = (selectedOptions) => {
     setSelectedSubmodules(
       selectedOptions.map((option) => ({ name: option.value }))
     );
-    setContext("submodule"); // Set context to submodule
   };
 
   const handleKeySelect = (e) => {
@@ -95,12 +91,11 @@ const FieldModules = () => {
           ? {
               ...existingHotel,
               modules: updateModules(
-                existingHotel.modules,
+                existingHotel.modules || [],
                 selectedModule,
                 selectedSubmodules,
                 selectedKeys,
-                value,
-                context // Pass context to differentiate between module and submodule
+                value
               ),
             }
           : {
@@ -111,8 +106,7 @@ const FieldModules = () => {
                 selectedModule,
                 selectedSubmodules,
                 selectedKeys,
-                value,
-                context
+                value
               ),
             };
       } else {
@@ -147,38 +141,29 @@ const FieldModules = () => {
     setSelectedKeys("");
   };
 
-  const updateModules = (
-    existingModules,
-    module,
-    submodules,
-    key,
-    value,
-    context
-  ) => {
+  const updateModules = (existingModules, module, submodules, key, value) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
+
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
-          if (context === "submodule") {
-            // If the context is submodule, update the selected submodules
+          if (submodules.length > 0) {
+            // If submodules are selected, update them
             return {
               ...mod,
-              submodules:
-                submodules.length > 0
-                  ? submodules.map((sub) => ({
-                      name: sub.name,
-                      [key]: value,
-                    }))
-                  : mod.submodules,
+              submodules: submodules.map((sub) => ({
+                name: sub.name,
+                [key]: value,
+              })),
             };
           } else {
-            // If the context is module, update the module directly
+            // If no submodules are selected, just update the module
             return {
               ...mod,
               [key]: value,
-              submodules: mod.submodules, // Keep existing submodules
+              submodules: mod.submodules || [], // Keep existing submodules
             };
           }
         }
@@ -189,9 +174,9 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          [key]: context === "module" ? value : undefined, // Set value directly under module if context is module
+          [key]: submodules.length > 0 ? undefined : value,
           submodules:
-            context === "submodule"
+            submodules.length > 0
               ? submodules.map((sub) => ({
                   name: sub.name,
                   [key]: value,
