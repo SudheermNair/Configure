@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState, useCallback } from "react";
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
@@ -25,9 +29,8 @@ const FieldModules = () => {
             ...h,
           };
 
-          // Only set key-value at hotel level if no module is selected
           if (!module) {
-            updatedHotel[keys] = value; // Set directly under hotel
+            updatedHotel[keys] = value;
           } else {
             updatedHotel.modules = updateModules(
               h.modules || [],
@@ -49,7 +52,6 @@ const FieldModules = () => {
         name: hotel.name,
       };
 
-      // Set key-value pair only under the module if selected
       if (module) {
         newHotel.modules = updateModules(
           [],
@@ -59,20 +61,14 @@ const FieldModules = () => {
           value
         );
       } else {
-        newHotel[keys] = value; // Set directly under hotel if no module
+        newHotel[keys] = value;
       }
 
       setData([...data, newHotel]);
     }
   };
 
-  const updateModules = (
-    existingModules = [],
-    module,
-    submodules,
-    key,
-    value
-  ) => {
+  const updateModules = (existingModules = [], module, submodules, key, value) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -81,10 +77,9 @@ const FieldModules = () => {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
           if (submodules.length === 0) {
-            return { ...mod, [key]: value }; // Update the key-value if no submodules
+            return { ...mod, [key]: value };
           }
 
-          // Update submodules only if they are new
           const newSubmodules = submodules.filter(
             (newSub) =>
               !mod.submodules.some(
@@ -119,6 +114,15 @@ const FieldModules = () => {
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
+
+    // Initialize data for the selected hotel
+    if (selected) {
+      const newHotelData = {
+        hotelId: selected.hotelId,
+        name: selected.name,
+      };
+      setData((prevData) => [...prevData, newHotelData]);
+    }
   }, []);
 
   const handleModuleSelect = useCallback((e) => {
@@ -166,7 +170,6 @@ const FieldModules = () => {
       );
     }
 
-    // Reset selections after updating data
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
@@ -175,7 +178,7 @@ const FieldModules = () => {
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodule and Keys</h3>
+        <h3>Select Hotel, Module, Submodule, and Keys</h3>
 
         <div className="dropdown-container">
           <label>Hotel:</label>
