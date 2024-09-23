@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from "react";
-import FieldSelected from "./fieldSelected";
-import { configFields } from "../../core/config";
-import "./styles.scss";
+import React, { useState } from 'react';
+import FieldSelected from './fieldSelected';
+import { configFields } from '../../core/config';
+import './styles.scss';
 
 const FieldModules = () => {
   const [data, setData] = useState([]);
