@@ -32,7 +32,7 @@ const FieldSelected = ({ data = [], setData }) => {
           }
           return null; 
         }
-        return hotel;
+        return hotel; 
       })
       .filter(Boolean);
 
@@ -43,12 +43,45 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel;
+          const { [key]: _, ...remainingKeys } = hotel; 
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId,
+            hotelId: hotel.hotelId, 
             name: hotel.name,
             modules: hotel.modules,
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          return {
+            ...hotel,
+            modules: hotel.modules.map((mod) => {
+              if (mod.name === moduleName) {
+                return {
+                  ...mod,
+                  submodules: mod.submodules.map((sub) => {
+                    if (sub.name === submoduleName) {
+                      const { [key]: _, ...remainingKeys } = sub; 
+                      return {
+                        ...remainingKeys,
+                        name: sub.name, 
+                      };
+                    }
+                    return sub;
+                  }),
+                };
+              }
+              return mod;
+            }),
           };
         }
         return hotel;
@@ -61,9 +94,19 @@ const FieldSelected = ({ data = [], setData }) => {
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
-    } else {
-      alert("Submitted!");
+      return;
     }
+
+    const textData = JSON.stringify(data, null, 2);
+    const blob = new Blob([textData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "selected_data.txt"; 
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   if (data.length === 0) {
@@ -89,9 +132,8 @@ const FieldSelected = ({ data = [], setData }) => {
               </button>
             </div>
 
-            {/* Display key-value pairs at hotel level */}
             {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .filter((key) => !["hotelId", "name", "modules", "title"].includes(key)) 
               .map((key) => (
                 <div key={key}>
                   {`${key}: ${hotel[key]}`}
@@ -126,15 +168,22 @@ const FieldSelected = ({ data = [], setData }) => {
                       >
                         <DeleteIcon style={{ fontSize: 18 }} />
                       </button>
-                      {/* Display key-value pairs for submodules */}
-                      {Object.keys(submodule).map((key) => {
+ 
+                       {Object.keys(submodule).map((key) => {
                         if (key !== "name") {
                           return (
                             <div key={key}>
                               {`${key}: ${submodule[key]}`}
                               <button
                                 className="remove-btn"
-                                onClick={() => removeKey(hotel.hotelId, key)}
+                                onClick={() =>
+                                  removeKeyFromSubmodule(
+                                    hotel.hotelId,
+                                    module.name,
+                                    submodule.name,
+                                    key
+                                  )
+                                }
                               >
                                 <DeleteIcon style={{ fontSize: 18 }} />
                               </button>
