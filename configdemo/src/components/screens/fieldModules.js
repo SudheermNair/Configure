@@ -23,13 +23,14 @@ const FieldModules = () => {
         if (h.hotelId === hotel.hotelId) {
           const updatedHotel = {
             ...h,
-            [keys]: value, // Add key-value pair directly under the hotel
           };
 
-          // Only include modules if a module is selected
-          if (module) {
+          // Only set key-value at hotel level if no module is selected
+          if (!module) {
+            updatedHotel[keys] = value; // Set directly under hotel
+          } else {
             updatedHotel.modules = updateModules(
-              h.modules,
+              h.modules || [],
               module,
               updatedSubmodules,
               keys,
@@ -46,10 +47,9 @@ const FieldModules = () => {
       const newHotel = {
         hotelId: hotel.hotelId,
         name: hotel.name,
-        [keys]: value, // Add key-value pair directly under the hotel
       };
 
-      // Only include modules if a module is selected
+      // Set key-value pair only under the module if selected
       if (module) {
         newHotel.modules = updateModules(
           [],
@@ -58,13 +58,21 @@ const FieldModules = () => {
           keys,
           value
         );
+      } else {
+        newHotel[keys] = value; // Set directly under hotel if no module
       }
 
       setData([...data, newHotel]);
     }
   };
 
-  const updateModules = (existingModules, module, submodules, key, value) => {
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodules,
+    key,
+    value
+  ) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -73,19 +81,20 @@ const FieldModules = () => {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
           if (submodules.length === 0) {
-            return { ...mod, [key]: value };
+            return { ...mod, [key]: value }; // Update the key-value if no submodules
           }
+
+          // Update submodules only if they are new
+          const newSubmodules = submodules.filter(
+            (newSub) =>
+              !mod.submodules.some(
+                (existingSub) => existingSub.name === newSub.name
+              )
+          );
+
           return {
             ...mod,
-            submodules: [
-              ...mod.submodules,
-              ...submodules.filter(
-                (newSub) =>
-                  !mod.submodules.some(
-                    (existingSub) => existingSub.name === newSub.name
-                  )
-              ),
-            ],
+            submodules: [...mod.submodules, ...newSubmodules],
           };
         }
         return mod;
@@ -157,6 +166,7 @@ const FieldModules = () => {
       );
     }
 
+    // Reset selections after updating data
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
