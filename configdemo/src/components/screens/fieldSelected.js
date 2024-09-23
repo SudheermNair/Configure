@@ -32,7 +32,7 @@ const FieldSelected = ({ data = [], setData }) => {
           }
           return null; 
         }
-        return hotel;
+        return hotel; 
       })
       .filter(Boolean);
 
@@ -43,15 +43,15 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel;
+          const { [key]: _, ...remainingKeys } = hotel; 
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId,
+            hotelId: hotel.hotelId, 
             name: hotel.name,
             modules: hotel.modules,
           };
         }
-        return hotel;
+        return hotel; 
       })
       .filter(Boolean);
 
@@ -61,9 +61,19 @@ const FieldSelected = ({ data = [], setData }) => {
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
-    } else {
-      alert("Submitted!");
+      return;
     }
+
+    const textData = JSON.stringify(data, null, 2);
+    const blob = new Blob([textData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "selected_data.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   if (data.length === 0) {
@@ -89,7 +99,6 @@ const FieldSelected = ({ data = [], setData }) => {
               </button>
             </div>
 
-            {/* Display key-value pairs at hotel level */}
             {Object.keys(hotel)
               .filter((key) => !["hotelId", "name", "modules"].includes(key))
               .map((key) => (
@@ -126,7 +135,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       >
                         <DeleteIcon style={{ fontSize: 18 }} />
                       </button>
-                      {/* Display key-value pairs for submodules */}
+
                       {Object.keys(submodule).map((key) => {
                         if (key !== "name") {
                           return (
