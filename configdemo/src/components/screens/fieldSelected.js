@@ -1,209 +1,236 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import FieldSelected from './fieldSelected';
+import { configFields } from '../../core/config';
 import './styles.scss';
-import DeleteIcon from '@mui/icons-material/Delete';
 
-const FieldSelected = ({ data = [], setData }) => {
-  const removeItem = (hotelId, moduleName, submoduleName) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          if (moduleName) {
-            if (submoduleName) {
-              return {
-                ...hotel,
-                modules: hotel.modules.map((mod) => {
-                  if (mod.name === moduleName) {
-                    return {
-                      ...mod,
-                      submodules: mod.submodules.filter(
-                        (sub) => sub.name !== submoduleName
-                      ),
-                    };
-                  }
-                  return mod;
-                }),
-              };
-            } else {
-              return {
-                ...hotel,
-                modules: hotel.modules.filter((mod) => mod.name !== moduleName),
-              };
-            }
+const FieldModules = () => {
+  const [data, setData] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [selectedModule, setSelectedModule] = useState(null);
+  const [selectedSubmodule, setSelectedSubmodule] = useState(''); // Store selected submodule
+  const [selectedKeys, setSelectedKeys] = useState('');
+  const [keyValues, setKeyValues] = useState([]);
+
+  const updateData = (hotel, module, submodule, keys, value) => {
+    const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
+
+    if (existingHotel) {
+      const updatedHotels = data.map((h) => {
+        if (h.hotelId === hotel.hotelId) {
+          const updatedHotel = { ...h };
+
+          // Update modules if the module is selected
+          if (module) {
+            updatedHotel.modules = updateModules(
+              h.modules || [],
+              module,
+              submodule,
+              keys,
+              value
+            );
           }
-          return null;
-        }
-        return hotel;
-      })
-      .filter(Boolean);
 
-    setData(updatedData);
+          return updatedHotel;
+        }
+        return h;
+      });
+      setData(updatedHotels);
+    } else {
+      const newHotel = {
+        hotelId: hotel.hotelId,
+        name: hotel.name,
+      };
+
+      if (module) {
+        newHotel.modules = updateModules([], module, submodule, keys, value);
+      }
+
+      setData([...data, newHotel]);
+    }
   };
 
-  const removeKey = (hotelId, key) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel;
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodule,
+    key,
+    value
+  ) => {
+    const moduleExists = existingModules.find(
+      (mod) => mod.name === module.name
+    );
+
+    if (moduleExists) {
+      return existingModules.map((mod) => {
+        if (mod.name === module.name) {
+          const updatedSubmodules = mod.submodules.map((sub) => {
+            if (sub.name === submodule) {
+              return { ...sub, [key]: value }; // Update only the selected submodule
+            }
+            return sub;
+          });
+
           return {
-            ...remainingKeys,
-            hotelId: hotel.hotelId,
-            name: hotel.name,
-            modules: hotel.modules,
+            ...mod,
+            submodules: updatedSubmodules,
           };
         }
-        return hotel;
-      })
-      .filter(Boolean);
-
-    setData(updatedData);
+        return mod;
+      });
+    } else {
+      return [
+        ...existingModules,
+        {
+          name: module.name,
+          submodules: [{ name: submodule, [key]: value }],
+        },
+      ];
+    }
   };
 
-  const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          return {
-            ...hotel,
-            modules: hotel.modules.map((mod) => {
-              if (mod.name === moduleName) {
-                return {
-                  ...mod,
-                  submodules: mod.submodules.map((sub) => {
-                    if (sub.name === submoduleName) {
-                      const { [key]: _, ...remainingKeys } = sub;
-                      return {
-                        ...remainingKeys,
-                        name: sub.name,
-                      };
-                    }
-                    return sub;
-                  }),
-                };
-              }
-              return mod;
-            }),
-          };
-        }
-        return hotel;
-      })
-      .filter(Boolean);
+  const handleHotelSelect = useCallback((e) => {
+    const selected = configFields[0].hotels.find(
+      (hotel) => hotel.hotelId === e.target.value
+    );
+    setSelectedHotel(selected);
+    setSelectedModule(null);
+    setSelectedSubmodule(''); // Reset submodule
+    setSelectedKeys('');
+  }, []);
 
-    setData(updatedData);
+  const handleModuleSelect = useCallback((e) => {
+    const moduleName = e.target.value;
+    setSelectedModule({ name: moduleName });
+    setSelectedSubmodule(''); // Reset submodule
+    setSelectedKeys('');
+  }, []);
+
+  const handleSubmoduleSelect = (e) => {
+    const submoduleName = e.target.value;
+    setSelectedSubmodule(submoduleName);
   };
 
-  const handleSubmit = () => {
-    if (data.length === 0) {
-      alert('Please add items to submit!');
-      return;
+  const handleKeySelect = (e) => {
+    const selectedKey = e.target.value;
+    setSelectedKeys(selectedKey);
+    setKeyValues(configFields[0].Keys[0][selectedKey] || []);
+  };
+
+  const handleValueSelect = (e) => {
+    const selectedValue = e.target.value;
+
+    if (selectedHotel && selectedModule && selectedSubmodule) {
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodule,
+        selectedKeys,
+        selectedValue // Only set under submodule
+      );
     }
 
-    const textData = JSON.stringify(data, null, 2);
-    const blob = new Blob([textData], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'GET_CONFIGURATION.tsx';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    // Reset selections after updating data
+    setSelectedModule(null);
+    setSelectedSubmodule('');
+    setSelectedKeys('');
   };
 
-  if (data.length === 0) {
-    return null;
-  }
-
   return (
-    <div className="field-selected">
-      <h1>Selected Configuration</h1>
-      <pre className="selected-json-container">
-        {JSON.stringify(data, null, 2)}
-      </pre>
-      <ul>
-        {data.map((hotel, hotelIndex) => (
-          <li key={hotelIndex}>
-            <div>
-              {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button
-                className="remove-btn"
-                onClick={() => removeItem(hotel.hotelId)}
+    <div className="field-modules-container">
+      <div className="field-modules">
+        <h3>Select Hotel, Module, Submodule and Keys</h3>
+
+        <div className="dropdown-container">
+          <label>Hotel:</label>
+          <select
+            value={selectedHotel?.hotelId || ''}
+            onChange={handleHotelSelect}
+          >
+            <option value="" disabled>
+              Select Hotel
+            </option>
+            {configFields[0].hotels.map((hotel) => (
+              <option key={hotel.hotelId} value={hotel.hotelId}>
+                {hotel.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {selectedHotel && (
+          <>
+            <div className="dropdown-container">
+              <label>Module:</label>
+              <select
+                value={selectedModule?.name || ''}
+                onChange={handleModuleSelect}
               >
-                <DeleteIcon style={{ fontSize: 18 }} />
-              </button>
+                <option value="" disabled>
+                  Select Module
+                </option>
+                {configFields[0].modules.map((module, index) => (
+                  <option key={index} value={module}>
+                    {module}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {Object.keys(hotel)
-              .filter(
-                (key) => !['hotelId', 'name', 'modules', 'title'].includes(key)
-              )
-              .map((key) => (
-                <div key={key}>
-                  {`${key}: ${hotel[key]}`}
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeKey(hotel.hotelId, key)}
-                  >
-                    <DeleteIcon style={{ fontSize: 18 }} />
-                  </button>
-                </div>
-              ))}
-
-            {hotel.modules &&
-              hotel.modules.length > 0 &&
-              hotel.modules.map((module, moduleIndex) => (
-                <div key={moduleIndex}>
-                  <span>{`Module: ${module.name}`}</span>
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeItem(hotel.hotelId, module.name)}
-                  >
-                    <DeleteIcon style={{ fontSize: 18 }} />
-                  </button>
-                  {module.submodules.map((submodule, submoduleIndex) => (
-                    <div key={submoduleIndex}>
-                      <span>{`Submodule: ${submodule.name}`}</span>
-                      <button
-                        className="remove-btn"
-                        onClick={() =>
-                          removeItem(hotel.hotelId, module.name, submodule.name)
-                        }
-                      >
-                        <DeleteIcon style={{ fontSize: 18 }} />
-                      </button>
-
-                      {Object.keys(submodule).map((key) => {
-                        if (key !== 'name') {
-                          return (
-                            <div key={key}>
-                              {`${key}: ${submodule[key]}`}
-                              <button
-                                className="remove-btn"
-                                onClick={() =>
-                                  removeKeyFromSubmodule(
-                                    hotel.hotelId,
-                                    module.name,
-                                    submodule.name,
-                                    key
-                                  )
-                                }
-                              >
-                                <DeleteIcon style={{ fontSize: 18 }} />
-                              </button>
-                            </div>
-                          );
-                        }
-                        return null;
-                      })}
-                    </div>
+            {selectedModule && (
+              <div className="dropdown-container">
+                <label>Submodule:</label>
+                <select
+                  onChange={handleSubmoduleSelect}
+                  value={selectedSubmodule || ''}
+                >
+                  <option value="" disabled>
+                    Select Submodule
+                  </option>
+                  {configFields[0].submodules.map((submodule) => (
+                    <option key={submodule} value={submodule}>
+                      {submodule}
+                    </option>
                   ))}
-                </div>
-              ))}
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleSubmit}>Save</button>
+                </select>
+              </div>
+            )}
+
+            <div className="dropdown-container">
+              <label>Keys:</label>
+              <select value={selectedKeys || ''} onChange={handleKeySelect}>
+                <option value="" disabled>
+                  Select Key
+                </option>
+                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
+                  <option key={index} value={key}>
+                    {key}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {selectedKeys && (
+              <div className="dropdown-container">
+                <label>Values:</label>
+                <select onChange={handleValueSelect} value="">
+                  <option value="" disabled>
+                    Select Value
+                  </option>
+                  {keyValues.map((value, index) => (
+                    <option key={index} value={value}>
+                      {value}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+
+      {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
 };
 
-export default FieldSelected;
+export default FieldModules;
