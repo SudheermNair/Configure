@@ -1,9 +1,6 @@
 import React from "react";
 import "./styles.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React from "react";
-import "./styles.scss";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
