@@ -21,9 +21,7 @@ const FieldModules = () => {
     if (existingHotel) {
       const updatedHotels = data.map((h) => {
         if (h.hotelId === hotel.hotelId) {
-          const updatedHotel = {
-            ...h,
-          };
+          const updatedHotel = { ...h };
 
           // Only set key-value at hotel level if no module is selected
           if (!module) {
@@ -218,7 +216,9 @@ const FieldModules = () => {
                 <label>Submodule:</label>
                 <select onChange={handleSubmoduleSelect} value="">
                   <option value="" disabled>
-                    Select Submodule
+                    {selectedSubmodules.length > 0
+                      ? `${selectedSubmodules.join(", ")}`
+                      : "Select Submodule"}
                   </option>
                   {configFields[0].submodules
                     .filter(
