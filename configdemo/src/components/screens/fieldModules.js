@@ -22,6 +22,9 @@ const FieldModules = () => {
             fetchFromDb: key && value ? value : h.fetchFromDb, // Update fetchFromDb if key and value are selected
             modules: updateModules(h.modules, module, submodules, key, value),
           };
+          if (keys && value && !module && submodules.length === 0) {
+            updatedHotel[keys] = value; // Apply key-value at hotel level
+          }
           return updatedHotel;
         }
         return h;
@@ -34,6 +37,9 @@ const FieldModules = () => {
         fetchFromDb: key && value ? value : undefined, // Set fetchFromDb if key and value are selected
         modules: updateModules([], module, submodules, key, value),
       };
+      if (keys && value && !module && submodules.length === 0) {
+        newHotel[keys] = value; // Apply key-value at hotel level
+      }
       setData([...data, newHotel]);
     }
   };
@@ -46,7 +52,21 @@ const FieldModules = () => {
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys(null);
-    updateData(selected, null, [], null, null);
+
+    // Update data immediately
+    if (selected) {
+      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
+      if (!existingHotel) {
+        setData((prevData) => [
+          ...prevData,
+          {
+            hotelId: selected.hotelId,
+            name: selected.name,
+            modules: [],
+          },
+        ]);
+      }
+    }
   };
 
   const handleModuleSelect = (e) => {
@@ -64,7 +84,15 @@ const FieldModules = () => {
       const newSubmodules = [...selectedSubmodules, submoduleName];
       setSelectedSubmodules(newSubmodules);
 
-      updateData(selectedHotel, { name: selectedModule.name }, newSubmodules, null, null);
+      if (selectedHotel && selectedModule && selectedKeys) {
+        updateData(
+          selectedHotel,
+          { name: selectedModule.name },
+          newSubmodules,
+          selectedKeys,
+          null // No value assigned yet
+        );
+      }
     }
   };
 
@@ -81,13 +109,44 @@ const FieldModules = () => {
     const selectedValue = e.target.value;
 
     if (selectedHotel) {
-      updateData(
-        selectedHotel,
-        selectedModule,
-        selectedSubmodules,
-        selectedKeys,
-        selectedValue
+      const existingHotel = data.find(
+        (h) => h.hotelId === selectedHotel.hotelId
       );
+
+      if (existingHotel) {
+        const updatedHotels = data.map((hotel) => {
+          if (hotel.hotelId === selectedHotel.hotelId) {
+            const updatedHotel = {
+              ...hotel,
+              modules: updateModules(
+                hotel.modules,
+                selectedModule,
+                selectedSubmodules,
+                selectedKeys,
+                selectedValue
+              ),
+              [selectedKeys]: selectedModule ? undefined : selectedValue, // Assign at hotel level if no module selected
+            };
+            return updatedHotel;
+          }
+          return hotel;
+        });
+        setData(updatedHotels);
+      } else {
+        const newHotel = {
+          hotelId: selectedHotel.hotelId,
+          name: selectedHotel.name,
+          [selectedKeys]: selectedModule ? undefined : selectedValue, // Assign at hotel level if no module selected
+          modules: updateModules(
+            [],
+            selectedModule,
+            selectedSubmodules,
+            selectedKeys,
+            selectedValue
+          ),
+        };
+        setData([...data, newHotel]);
+      }
     }
 
     setSelectedModule(null);
@@ -105,22 +164,22 @@ const FieldModules = () => {
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : '')) {
-          const updatedSubmodules = submodules.map((sub) => ({
-            name: sub,
-          }));
+          const updatedSubmodules = submodules.map((sub) => {
+            return {
+              name: sub,
+              [key]: value, // Assign key-value for each submodule independently
+            };
+          });
 
           return {
             ...mod,
             submodules: [
-              ...mod.submodules,
-              ...updatedSubmodules.filter(
-                (newSub) =>
-                  !mod.submodules.some(
-                    (existingSub) => existingSub.name === newSub.name
-                  )
+              ...mod.submodules.filter(
+                (sub) =>
+                  !updatedSubmodules.some((newSub) => newSub.name === sub.name)
               ),
+              ...updatedSubmodules,
             ],
-            ...(key && value ? { [key]: value } : {}), // Only add key-value if both are valid
           };
         }
         return mod;
@@ -130,10 +189,8 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          submodules: submodules.map((sub) => ({
-            name: sub,
-          })),
-          ...(key && value ? { [key]: value } : {}), // Only add key-value if both are valid
+          [key]: module ? value : undefined, // Assign key-value at the new module level
+          submodules: submodules.map((sub) => ({ name: sub, [key]: value })),
         },
       ];
     }
@@ -233,19 +290,7 @@ const FieldModules = () => {
         )}
       </div>
 
-      {/* Selected Data Display */}
-      {data.length > 0 && (
-        <FieldSelected
-          data={data.map(item => ({
-            ...item,
-            modules: item.modules.map(mod => ({
-              ...mod,
-              submodules: mod.submodules.filter(sub => sub.name),
-            })).filter(mod => mod.name)
-          }))}
-          setData={setData}
-        />
-      )}
+      {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
 };
