@@ -23,14 +23,20 @@ const FieldModules = () => {
         if (h.hotelId === hotel.hotelId) {
           const updatedHotel = {
             ...h,
-            modules: updateModules(
+            [keys]: value, // Add key-value pair directly under the hotel
+          };
+
+          // Only include modules if a module is selected
+          if (module) {
+            updatedHotel.modules = updateModules(
               h.modules,
               module,
               updatedSubmodules,
               keys,
               value
-            ),
-          };
+            );
+          }
+
           return updatedHotel;
         }
         return h;
@@ -40,8 +46,20 @@ const FieldModules = () => {
       const newHotel = {
         hotelId: hotel.hotelId,
         name: hotel.name,
-        modules: updateModules([], module, updatedSubmodules, keys, value),
+        [keys]: value, // Add key-value pair directly under the hotel
       };
+
+      // Only include modules if a module is selected
+      if (module) {
+        newHotel.modules = updateModules(
+          [],
+          module,
+          updatedSubmodules,
+          keys,
+          value
+        );
+      }
+
       setData([...data, newHotel]);
     }
   };
@@ -55,10 +73,7 @@ const FieldModules = () => {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
           if (submodules.length === 0) {
-            return {
-              ...mod,
-              [key]: value,
-            };
+            return { ...mod, [key]: value };
           }
           return {
             ...mod,
