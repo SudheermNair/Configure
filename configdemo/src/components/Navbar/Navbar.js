@@ -28,7 +28,7 @@ function Navbar() {
 
   return (
     <div className='Navbar'>
-      <div className='dropdownField-container'>
+      {/* <div className='dropdownField-container'>
         <FormControl variant="standard" >
           <Select
             className='dropdown-title'
@@ -75,7 +75,7 @@ function Navbar() {
             <MenuItem value="setting2">App Config Integration</MenuItem>
           </Select>
         </FormControl>
-      </div>
+      </div> */}
 
       <div className='date-container'>
         <EventIcon sx={{ verticalAlign: 'middle', color: 'lightgray' }} />
