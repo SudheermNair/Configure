@@ -15,7 +15,7 @@ const FieldModules = () => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     const updatedSubmodules = submodules.map((sub) => ({
       name: sub,
-      [keys]: value,
+      [selectedKeys]: value,
     }));
 
     if (existingHotel) {
@@ -27,13 +27,13 @@ const FieldModules = () => {
 
           // Only set key-value at hotel level if no module is selected
           if (!module) {
-            updatedHotel[keys] = value; // Set directly under hotel
+            updatedHotel[selectedKeys] = value; // Set directly under hotel
           } else {
             updatedHotel.modules = updateModules(
               h.modules || [],
               module,
               updatedSubmodules,
-              keys,
+              selectedKeys,
               value
             );
           }
@@ -55,11 +55,11 @@ const FieldModules = () => {
           [],
           module,
           updatedSubmodules,
-          keys,
+          selectedKeys,
           value
         );
       } else {
-        newHotel[keys] = value; // Set directly under hotel if no module
+        newHotel[selectedKeys] = value; // Set directly under hotel if no module
       }
 
       setData([...data, newHotel]);
