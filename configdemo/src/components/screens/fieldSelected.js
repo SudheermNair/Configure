@@ -102,7 +102,7 @@ const FieldSelected = ({ data = [], setData }) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "selected_data.txt"; 
+    a.download = "selected_data.tsx"; 
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -199,7 +199,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit}>Save</button>
     </div>
   );
 };
