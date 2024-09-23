@@ -13,24 +13,18 @@ const FieldModules = () => {
 
   const updateData = (hotel, module, submodule, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
-    const updatedSubmodule = {
-      name: submodule,
-      [keys]: value,
-    };
 
     if (existingHotel) {
       const updatedHotels = data.map((h) => {
         if (h.hotelId === hotel.hotelId) {
           const updatedHotel = { ...h };
 
-          // Only set key-value at hotel level if no module is selected
-          if (!module) {
-            updatedHotel[keys] = value; // Set directly under hotel
-          } else {
+          // Update modules if the module is selected
+          if (module) {
             updatedHotel.modules = updateModules(
               h.modules || [],
               module,
-              updatedSubmodule,
+              submodule,
               keys,
               value
             );
@@ -47,17 +41,8 @@ const FieldModules = () => {
         name: hotel.name,
       };
 
-      // Set key-value pair only under the module if selected
       if (module) {
-        newHotel.modules = updateModules(
-          [],
-          module,
-          updatedSubmodule,
-          keys,
-          value
-        );
-      } else {
-        newHotel[keys] = value; // Set directly under hotel if no module
+        newHotel.modules = updateModules([], module, submodule, keys, value);
       }
 
       setData([...data, newHotel]);
@@ -72,16 +57,22 @@ const FieldModules = () => {
     value
   ) => {
     const moduleExists = existingModules.find(
-      (mod) => mod.name === (module ? module.name : "")
+      (mod) => mod.name === module.name
     );
 
     if (moduleExists) {
       return existingModules.map((mod) => {
-        if (mod.name === (module ? module.name : "")) {
+        if (mod.name === module.name) {
+          const updatedSubmodules = mod.submodules.map((sub) => {
+            if (sub.name === submodule) {
+              return { ...sub, [key]: value }; // Update only the selected submodule
+            }
+            return sub;
+          });
+
           return {
             ...mod,
-            submodules: [...new Set([...mod.submodules, submodule])], // Add submodule
-            [key]: value,
+            submodules: updatedSubmodules,
           };
         }
         return mod;
@@ -90,9 +81,8 @@ const FieldModules = () => {
       return [
         ...existingModules,
         {
-          name: module ? module.name : null,
-          [key]: value,
-          submodules: [submodule],
+          name: module.name,
+          submodules: [{ name: submodule, [key]: value }],
         },
       ];
     }
@@ -118,16 +108,6 @@ const FieldModules = () => {
   const handleSubmoduleSelect = (e) => {
     const submoduleName = e.target.value;
     setSelectedSubmodule(submoduleName);
-
-    if (selectedHotel && selectedModule && selectedKeys) {
-      updateData(
-        selectedHotel,
-        { name: selectedModule.name },
-        submoduleName,
-        selectedKeys,
-        null
-      );
-    }
   };
 
   const handleKeySelect = (e) => {
@@ -139,13 +119,13 @@ const FieldModules = () => {
   const handleValueSelect = (e) => {
     const selectedValue = e.target.value;
 
-    if (selectedHotel) {
+    if (selectedHotel && selectedModule && selectedSubmodule) {
       updateData(
         selectedHotel,
         selectedModule,
         selectedSubmodule,
         selectedKeys,
-        selectedValue
+        selectedValue // Only set under submodule
       );
     }
 
@@ -206,18 +186,11 @@ const FieldModules = () => {
                   <option value="" disabled>
                     Select Submodule
                   </option>
-                  {configFields[0].submodules
-                    .filter((submodule) => submodule !== selectedSubmodule) // Exclude the selected one
-                    .map((submodule) => (
-                      <option key={submodule} value={submodule}>
-                        {submodule}
-                      </option>
-                    ))}
-                  {selectedSubmodule && ( // Show the selected submodule at the top
-                    <option value={selectedSubmodule} disabled>
-                      {selectedSubmodule}
+                  {configFields[0].submodules.map((submodule) => (
+                    <option key={submodule} value={submodule}>
+                      {submodule}
                     </option>
-                  )}
+                  ))}
                 </select>
               </div>
             )}
