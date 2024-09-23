@@ -1,8 +1,4 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-
 
 html,
 body {
@@ -20,7 +16,6 @@ body {
 h1 {
   font-size: 28px;
   margin-left: 3%;
-  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-family: 'Questrial';
 }
 
@@ -35,7 +30,7 @@ h1 {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 70%;
+  width: 60%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -45,7 +40,7 @@ h1 {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 70%;
+  width: 60%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -57,11 +52,10 @@ h1 {
 .field-container h3 {
   font-size: 18px;
   background-color: #cff8e0;
-  border: 0.1px solid wheat;
-  border-radius: 8px;
+  border: 1px solid wheat;
+  border-radius: 12px;
   padding: 2%;
   text-align: center;
-  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-family: 'Questrial';
   font-weight: normal;
   font-size: 16px;
@@ -72,7 +66,7 @@ h1 {
   background-color: #f3f2f2;
   margin: 1% 0.5%;
   padding: 6px 6px 6px 6px;
-  font-size: small;
+  font-size: normal;
 }
 
 button {
@@ -86,13 +80,6 @@ button {
   cursor: pointer;
   text-transform: uppercase;
 }
-
-label {
-  font-family: 'Questrial';
-  font-weight: normal;
-  font-size: 14px;
-}
-
 .remove-btn {
   display: flex;
   flex-direction: column;

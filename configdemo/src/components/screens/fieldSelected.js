@@ -1,6 +1,6 @@
-import React from "react";
-import "./styles.scss";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from 'react';
+import './styles.scss';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -30,9 +30,9 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; 
+          return null;
         }
-        return hotel; 
+        return hotel;
       })
       .filter(Boolean);
 
@@ -43,10 +43,10 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel; 
+          const { [key]: _, ...remainingKeys } = hotel;
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId, 
+            hotelId: hotel.hotelId,
             name: hotel.name,
             modules: hotel.modules,
           };
@@ -70,10 +70,10 @@ const FieldSelected = ({ data = [], setData }) => {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
                     if (sub.name === submoduleName) {
-                      const { [key]: _, ...remainingKeys } = sub; 
+                      const { [key]: _, ...remainingKeys } = sub;
                       return {
                         ...remainingKeys,
-                        name: sub.name, 
+                        name: sub.name,
                       };
                     }
                     return sub;
@@ -93,16 +93,16 @@ const FieldSelected = ({ data = [], setData }) => {
 
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
+      alert('Please add items to submit!');
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
-    const blob = new Blob([textData], { type: "text/plain" });
+    const blob = new Blob([textData], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
-    a.download = "selected_data.tsx"; 
+    a.download = 'GET_CONFIGURATION.tsx';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -133,7 +133,9 @@ const FieldSelected = ({ data = [], setData }) => {
             </div>
 
             {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules", "title"].includes(key)) 
+              .filter(
+                (key) => !['hotelId', 'name', 'modules', 'title'].includes(key)
+              )
               .map((key) => (
                 <div key={key}>
                   {`${key}: ${hotel[key]}`}
@@ -168,9 +170,9 @@ const FieldSelected = ({ data = [], setData }) => {
                       >
                         <DeleteIcon style={{ fontSize: 18 }} />
                       </button>
- 
-                       {Object.keys(submodule).map((key) => {
-                        if (key !== "name") {
+
+                      {Object.keys(submodule).map((key) => {
+                        if (key !== 'name') {
                           return (
                             <div key={key}>
                               {`${key}: ${submodule[key]}`}
