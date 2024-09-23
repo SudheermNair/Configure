@@ -30,7 +30,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; // Remove the hotel if no modules are left
+          return null; 
         }
         return hotel;
       })
