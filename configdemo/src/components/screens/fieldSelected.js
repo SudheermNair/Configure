@@ -168,7 +168,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Submit</button>
+
     </div>
   );
 };
