@@ -51,7 +51,40 @@ const FieldSelected = ({ data = [], setData }) => {
             modules: hotel.modules,
           };
         }
-        return hotel; 
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          return {
+            ...hotel,
+            modules: hotel.modules.map((mod) => {
+              if (mod.name === moduleName) {
+                return {
+                  ...mod,
+                  submodules: mod.submodules.map((sub) => {
+                    if (sub.name === submoduleName) {
+                      const { [key]: _, ...remainingKeys } = sub; 
+                      return {
+                        ...remainingKeys,
+                        name: sub.name, 
+                      };
+                    }
+                    return sub;
+                  }),
+                };
+              }
+              return mod;
+            }),
+          };
+        }
+        return hotel;
       })
       .filter(Boolean);
 
@@ -69,7 +102,7 @@ const FieldSelected = ({ data = [], setData }) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "selected_data.txt";
+    a.download = "selected_data.txt"; 
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -100,7 +133,7 @@ const FieldSelected = ({ data = [], setData }) => {
             </div>
 
             {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .filter((key) => !["hotelId", "name", "modules", "title"].includes(key)) 
               .map((key) => (
                 <div key={key}>
                   {`${key}: ${hotel[key]}`}
@@ -135,15 +168,22 @@ const FieldSelected = ({ data = [], setData }) => {
                       >
                         <DeleteIcon style={{ fontSize: 18 }} />
                       </button>
-
-                      {Object.keys(submodule).map((key) => {
+ 
+                       {Object.keys(submodule).map((key) => {
                         if (key !== "name") {
                           return (
                             <div key={key}>
                               {`${key}: ${submodule[key]}`}
                               <button
                                 className="remove-btn"
-                                onClick={() => removeKey(hotel.hotelId, key)}
+                                onClick={() =>
+                                  removeKeyFromSubmodule(
+                                    hotel.hotelId,
+                                    module.name,
+                                    submodule.name,
+                                    key
+                                  )
+                                }
                               >
                                 <DeleteIcon style={{ fontSize: 18 }} />
                               </button>
