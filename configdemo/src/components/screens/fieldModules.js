@@ -8,14 +8,14 @@ const FieldModules = () => {
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState(null);
+  const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
   const updateData = (hotel, module, submodules, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     const updatedSubmodules = submodules.map((sub) => ({
       name: sub,
-      [keys]: value, // Assign key-value to each selected submodule
+      [keys]: value,
     }));
 
     if (existingHotel) {
@@ -54,11 +54,10 @@ const FieldModules = () => {
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
-          // If no submodules are selected, assign the key-value to the module
           if (submodules.length === 0) {
             return {
               ...mod,
-              [key]: value, // Assign key-value to the module
+              [key]: value,
             };
           }
           return {
@@ -81,7 +80,7 @@ const FieldModules = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          [key]: submodules.length === 0 ? value : undefined, // Assign key-value to module if no submodules
+          [key]: submodules.length === 0 ? value : undefined,
           submodules: submodules,
         },
       ];
@@ -95,14 +94,14 @@ const FieldModules = () => {
     setSelectedHotel(selected);
     setSelectedModule(null);
     setSelectedSubmodules([]);
-    setSelectedKeys(null);
+    setSelectedKeys("");
   }, []);
 
   const handleModuleSelect = useCallback((e) => {
     const moduleName = e.target.value;
     setSelectedModule({ name: moduleName });
     setSelectedSubmodules([]);
-    setSelectedKeys(null);
+    setSelectedKeys("");
   }, []);
 
   const handleSubmoduleSelect = (e) => {
@@ -112,14 +111,13 @@ const FieldModules = () => {
       const newSubmodules = [...selectedSubmodules, submoduleName];
       setSelectedSubmodules(newSubmodules);
 
-      // Update data when a submodule is selected
       if (selectedHotel && selectedModule && selectedKeys) {
         updateData(
           selectedHotel,
           { name: selectedModule.name },
           newSubmodules,
           selectedKeys,
-          null // No value assigned yet
+          null
         );
       }
     }
@@ -140,22 +138,20 @@ const FieldModules = () => {
         selectedModule,
         selectedSubmodules,
         selectedKeys,
-        selectedValue // Assign the selected value
+        selectedValue
       );
     }
 
-    // Reset selections after assigning value
     setSelectedModule(null);
     setSelectedSubmodules([]);
-    setSelectedKeys(null);
+    setSelectedKeys("");
   };
 
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodule, and Keys</h3>
+        <h3>Select Hotel, Module, Submodule and Keys</h3>
 
-        {/* Hotel Dropdown */}
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
@@ -173,7 +169,6 @@ const FieldModules = () => {
           </select>
         </div>
 
-        {/* Module Dropdown */}
         {selectedHotel && (
           <>
             <div className="dropdown-container">
@@ -193,7 +188,6 @@ const FieldModules = () => {
               </select>
             </div>
 
-            {/* Submodule Dropdown */}
             {selectedModule && (
               <div className="dropdown-container">
                 <label>Submodule:</label>
@@ -214,7 +208,6 @@ const FieldModules = () => {
               </div>
             )}
 
-            {/* Keys Dropdown */}
             <div className="dropdown-container">
               <label>Keys:</label>
               <select value={selectedKeys || ""} onChange={handleKeySelect}>
@@ -229,11 +222,10 @@ const FieldModules = () => {
               </select>
             </div>
 
-            {/* Values Dropdown */}
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
-                <select onChange={handleValueSelect}>
+                <select onChange={handleValueSelect} value="">
                   <option value="" disabled>
                     Select Value
                   </option>
@@ -249,7 +241,6 @@ const FieldModules = () => {
         )}
       </div>
 
-      {/* Selected Data Display */}
       {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
