@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.scss";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -32,7 +32,7 @@ const FieldSelected = ({ data = [], setData }) => {
           }
           return null;
         }
-        return hotel; 
+        return hotel;
       })
       .filter(Boolean);
 
@@ -43,10 +43,10 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel; 
+          const { [key]: _, ...remainingKeys } = hotel;
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId, 
+            hotelId: hotel.hotelId,
             name: hotel.name,
             modules: hotel.modules,
           };
@@ -109,7 +109,8 @@ const FieldSelected = ({ data = [], setData }) => {
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
                     {Object.keys(submodule).map((key) => {
-                      if (key !== 'name' && submodule[key] !== undefined) { // Check for undefined
+                      if (key !== "name" && submodule[key] !== undefined) {
+                        // Check for undefined
                         return (
                           <div key={key}>
                             {`${key}: ${submodule[key]}`}
@@ -128,7 +129,12 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
                 {/* Display additional key-value pairs for modules */}
                 {Object.keys(module).map((key) => {
-                  if (key !== 'name' && key !== 'submodules' && module[key] !== undefined) { // Check for undefined
+                  if (
+                    key !== "name" &&
+                    key !== "submodules" &&
+                    module[key] !== undefined
+                  ) {
+                    // Check for undefined
                     return (
                       <div key={key}>
                         {`${key}: ${module[key]}`}
