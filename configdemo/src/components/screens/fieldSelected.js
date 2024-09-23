@@ -30,9 +30,9 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null;
+          return null; // Remove hotel
         }
-        return hotel;
+        return hotel; // Keep hotel
       })
       .filter(Boolean);
 
@@ -43,12 +43,45 @@ const FieldSelected = ({ data = [], setData }) => {
     const updatedData = data
       .map((hotel) => {
         if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel;
+          const { [key]: _, ...remainingKeys } = hotel; // Exclude the key
           return {
             ...remainingKeys,
-            hotelId: hotel.hotelId,
+            hotelId: hotel.hotelId, // Ensure to keep hotelId and name
             name: hotel.name,
             modules: hotel.modules,
+          };
+        }
+        return hotel; // Keep hotel unchanged
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          return {
+            ...hotel,
+            modules: hotel.modules.map((mod) => {
+              if (mod.name === moduleName) {
+                return {
+                  ...mod,
+                  submodules: mod.submodules.map((sub) => {
+                    if (sub.name === submoduleName) {
+                      const { [key]: _, ...remainingKeys } = sub; // Exclude the key
+                      return {
+                        ...remainingKeys,
+                        name: sub.name, // Ensure name stays
+                      };
+                    }
+                    return sub;
+                  }),
+                };
+              }
+              return mod;
+            }),
           };
         }
         return hotel;
@@ -61,9 +94,19 @@ const FieldSelected = ({ data = [], setData }) => {
   const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
-    } else {
-      alert("Submitted!");
+      return;
     }
+
+    const textData = JSON.stringify(data, null, 2);
+    const blob = new Blob([textData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "selected_data.txt"; // Name of the file
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   if (data.length === 0) {
@@ -110,31 +153,35 @@ const FieldSelected = ({ data = [], setData }) => {
                     </button>
                     {Object.keys(submodule).map((key) => {
                       if (key !== "name" && submodule[key] !== undefined) {
-                        // Check for undefined
                         return (
                           <div key={key}>
                             {`${key}: ${submodule[key]}`}
                             <button
                               className="remove-btn"
-                              onClick={() => removeKey(hotel.hotelId, key)}
+                              onClick={() =>
+                                removeKeyFromSubmodule(
+                                  hotel.hotelId,
+                                  module.name,
+                                  submodule.name,
+                                  key
+                                )
+                              }
                             >
                               <DeleteIcon style={{ fontSize: 18 }} />
                             </button>
                           </div>
                         );
                       }
-                      return null; // Do not render anything if undefined
+                      return null;
                     })}
                   </div>
                 ))}
-                {/* Display additional key-value pairs for modules */}
                 {Object.keys(module).map((key) => {
                   if (
                     key !== "name" &&
                     key !== "submodules" &&
                     module[key] !== undefined
                   ) {
-                    // Check for undefined
                     return (
                       <div key={key}>
                         {`${key}: ${module[key]}`}
@@ -147,13 +194,12 @@ const FieldSelected = ({ data = [], setData }) => {
                       </div>
                     );
                   }
-                  return null; // Do not render anything if undefined
+                  return null;
                 })}
               </div>
             ))}
-            {/* Display key-value pairs at hotel level */}
             {Object.keys(hotel)
-              .filter((key) => !['hotelId', 'name', 'modules'].includes(key))
+              .filter((key) => !["hotelId", "name", "modules"].includes(key))
               .map((key) => (
                 <div key={key}>
                   {`${key}: ${hotel[key]}`}
@@ -168,7 +214,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
 };
