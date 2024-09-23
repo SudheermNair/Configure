@@ -92,6 +92,13 @@ export const configFields = [
         pms: ["OPERA", "INFOR"],
         fetchFromDb: ["yes", "no"],
         saveToDb: ["yes", "no"],
+        title: [
+          "Place Your Key",
+          "Jingle, Shop & Stay",
+          "Card Confirmation",
+          "Email Invoice",
+          "PREAMBLE",
+        ],
       },
     ],
   },
