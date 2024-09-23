@@ -40,23 +40,22 @@ const FieldSelected = ({ data = [], setData }) => {
   };
 
   const removeKey = (hotelId, key) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel;
-          return {
-            ...remainingKeys,
-            hotelId: hotel.hotelId,
-            name: hotel.name,
-            modules: hotel.modules,
-          };
-        }
-        return hotel;
-      })
-      .filter(Boolean);
-
+    const updatedData = data.map((hotel) => {
+      if (hotel.hotelId === hotelId) {
+        const { [key]: _, ...remainingKeys } = hotel; // Destructure to exclude the key
+        return {
+          ...remainingKeys, // Return the remaining keys
+          hotelId: hotel.hotelId, // Ensure to retain hotelId and name
+          name: hotel.name,
+          modules: hotel.modules,
+        };
+      }
+      return hotel; // Return hotel unchanged if it doesn't match
+    });
+  
     setData(updatedData);
   };
+  
 
   const handleSubmit = () => {
     if (data.length === 0) {
@@ -81,62 +80,33 @@ const FieldSelected = ({ data = [], setData }) => {
           <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button
-                className="remove-btn"
-                onClick={() => removeItem(hotel.hotelId)}
-              >
+              <button className="remove-btn" onClick={() => removeItem(hotel.hotelId)} >
                 <DeleteIcon style={{ fontSize: 18 }} />
               </button>
             </div>
+
             {hotel.modules.map((module, moduleIndex) => (
               <div key={moduleIndex}>
                 <span>{`Module: ${module.name}`}</span>
-                <button
-                  className="remove-btn"
-                  onClick={() => removeItem(hotel.hotelId, module.name)}
-                >
+                <button className="remove-btn" onClick={() => removeItem(hotel.hotelId, module.name)} >
                   <DeleteIcon style={{ fontSize: 18 }} />
                 </button>
+
                 {module.submodules.map((submodule, submoduleIndex) => (
                   <div key={submoduleIndex}>
                     <span>{`Submodule: ${submodule.name}`}</span>
-                    <button
-                      className="remove-btn"
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
-                    >
+                    <button className="remove-btn" onClick={() => removeItem(hotel.hotelId, module.name, submodule.name)} >
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
-                    {/* Display key-value pairs for submodules */}
-                    {Object.keys(submodule).map((key) => {
-                      if (key !== 'name') {
-                        return (
-                          <div key={key}>
-                            {`${key}: ${submodule[key]}`}
-                            <button
-                              className="remove-btn"
-                              onClick={() => removeKey(hotel.hotelId, key)}
-                            >
-                              <DeleteIcon style={{ fontSize: 18 }} />
-                            </button>
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
                   </div>
                 ))}
-                {/* Display key-value pairs for modules */}
+               
                 {Object.keys(module).map((key) => {
                   if (key !== 'name' && key !== 'submodules') {
                     return (
                       <div key={key}>
                         {`${key}: ${module[key]}`}
-                        <button
-                          className="remove-btn"
-                          onClick={() => removeKey(hotel.hotelId, key)}
-                        >
+                        <button className="remove-btn" onClick={() => removeKey(hotel.hotelId, key)} >
                           <DeleteIcon style={{ fontSize: 18 }} />
                         </button>
                       </div>
@@ -144,22 +114,22 @@ const FieldSelected = ({ data = [], setData }) => {
                   }
                   return null;
                 })}
+
               </div>
             ))}
-            {/* Display key-value pairs at hotel level */}
+
             {Object.keys(hotel)
               .filter((key) => !['hotelId', 'name', 'modules'].includes(key))
               .map((key) => (
                 <div key={key}>
                   {`${key}: ${hotel[key]}`}
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeKey(hotel.hotelId, key)}
-                  >
+                  <button className="remove-btn" onClick={() => removeKey(hotel.hotelId, key)}>
                     <DeleteIcon style={{ fontSize: 18 }} />
                   </button>
                 </div>
-              ))}
+            ))}
+
+
           </li>
         ))}
       </ul>
