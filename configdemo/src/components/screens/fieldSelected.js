@@ -1,7 +1,6 @@
-
-import React from 'react';
-import './styles.scss';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from "react";
+import "./styles.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -31,7 +30,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return hotel;
+          return null; 
         }
         return hotel;
       })
@@ -61,9 +60,9 @@ const FieldSelected = ({ data = [], setData }) => {
 
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert('Please add items to submit!');
+      alert("Please add items to submit!");
     } else {
-      alert('Submitted!');
+      alert("Submitted!");
     }
   };
 
@@ -89,76 +88,63 @@ const FieldSelected = ({ data = [], setData }) => {
                 <DeleteIcon style={{ fontSize: 18 }} />
               </button>
             </div>
-            {hotel.modules.map((module) => (
-              <div key={module.name}>
-                <span>{`Module: ${module.name}`}</span>
-                <button
-                  className="remove-btn"
-                  onClick={() => removeItem(hotel.hotelId, module.name)}
-                >
-                  <DeleteIcon style={{ fontSize: 18 }} />
-                </button>
-                {module.submodules.map((submodule) => (
-                  <div key={submodule.name}>
-                    <span>{`Submodule: ${submodule.name}`}</span>
-                    <button
-                      className="remove-btn"
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
-                    >
-                      <DeleteIcon style={{ fontSize: 18 }} />
-                    </button>
-                    {/* Display key-value pairs for submodules */}
-                    {Object.entries(submodule).map(([key, value]) => {
-                      if (key !== 'name' && value !== undefined) {
-                        return (
-                          <div key={key}>
-                            {`${key}: ${value}`}
-                            <button
-                              className="remove-btn"
-                              onClick={() => removeKey(hotel.hotelId, key)}
-                            >
-                              <DeleteIcon style={{ fontSize: 18 }} />
-                            </button>
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
-                  </div>
-                ))}
-                {/* Display key-value pairs for modules */}
-                {Object.entries(module).map(([key, value]) => {
-                  if (key !== 'name' && key !== 'submodules' && value !== undefined) {
-                    return (
-                      <div key={key}>
-                        {`${key}: ${value}`}
-                        <button
-                          className="remove-btn"
-                          onClick={() => removeKey(hotel.hotelId, key)}
-                        >
-                          <DeleteIcon style={{ fontSize: 18 }} />
-                        </button>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            ))}
+
             {/* Display key-value pairs at hotel level */}
-            {Object.entries(hotel)
-              .filter(([key, value]) => !['hotelId', 'name', 'modules'].includes(key) && value !== undefined)
-              .map(([key, value]) => (
+            {Object.keys(hotel)
+              .filter((key) => !["hotelId", "name", "modules"].includes(key))
+              .map((key) => (
                 <div key={key}>
-                  {`${key}: ${value}`}
+                  {`${key}: ${hotel[key]}`}
                   <button
                     className="remove-btn"
                     onClick={() => removeKey(hotel.hotelId, key)}
                   >
                     <DeleteIcon style={{ fontSize: 18 }} />
                   </button>
+                </div>
+              ))}
+
+            {hotel.modules &&
+              hotel.modules.length > 0 &&
+              hotel.modules.map((module, moduleIndex) => (
+                <div key={moduleIndex}>
+                  <span>{`Module: ${module.name}`}</span>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeItem(hotel.hotelId, module.name)}
+                  >
+                    <DeleteIcon style={{ fontSize: 18 }} />
+                  </button>
+                  {module.submodules.map((submodule, submoduleIndex) => (
+                    <div key={submoduleIndex}>
+                      <span>{`Submodule: ${submodule.name}`}</span>
+                      <button
+                        className="remove-btn"
+                        onClick={() =>
+                          removeItem(hotel.hotelId, module.name, submodule.name)
+                        }
+                      >
+                        <DeleteIcon style={{ fontSize: 18 }} />
+                      </button>
+                      {/* Display key-value pairs for submodules */}
+                      {Object.keys(submodule).map((key) => {
+                        if (key !== "name") {
+                          return (
+                            <div key={key}>
+                              {`${key}: ${submodule[key]}`}
+                              <button
+                                className="remove-btn"
+                                onClick={() => removeKey(hotel.hotelId, key)}
+                              >
+                                <DeleteIcon style={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  ))}
                 </div>
               ))}
           </li>
