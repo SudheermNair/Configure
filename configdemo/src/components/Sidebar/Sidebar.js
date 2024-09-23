@@ -14,25 +14,18 @@ function Sidebar({ setIsConfigActive }) {
 
   const handleTileClick = (index) => {
     setActiveIndex(index);
-
-   
-    if (index !== 3) {
+    if (index === 3) {
+      setIsConfigActive(true);
+    } else {
       setIsConfigActive(false);
     }
-  };
-
-  const handleConfigClick = () => {
-    setIsConfigActive(true); 
   };
 
   return (
     <div className="Sidebar">
       <div className="image-container">
-      <img
-        className="hudini-logo"
-        src={HudiniLogo}
-        alt="logo"
-      /></div>
+        <img className="hudini-logo" src={HudiniLogo} alt="logo" />
+      </div>
       <ul className="module-list">
         <li
           className={`module-tile ${activeIndex === 0 ? "active" : ""}`}
@@ -78,10 +71,7 @@ function Sidebar({ setIsConfigActive }) {
         </li>
         <li
           className={`module-tile ${activeIndex === 3 ? "active" : ""}`}
-          onClick={() => {
-            handleTileClick(3); 
-            handleConfigClick(); 
-          }}
+          onClick={() => handleTileClick(3)}
         >
           <DataObjectIcon />
           <p>Configurations</p>

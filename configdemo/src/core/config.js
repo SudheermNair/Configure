@@ -66,7 +66,7 @@ export const configFields = [
           "Finish your Check-in",
         ],
         description: [
-          "Kindly add or use the card on file for payment of your dues.",
+          "Kindly use your card for payment",
           "499++ per room per night for 2 persons",
           "Confirm your email ID to receive the invoice",
         ],

@@ -1,7 +1,6 @@
-
-import React from 'react';
-import './styles.scss';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from "react";
+import "./styles.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
   const removeItem = (hotelId, moduleName, submoduleName) => {
@@ -31,7 +30,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return hotel;
+          return null;
         }
         return hotel;
       })
@@ -59,12 +58,55 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
+  const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          return {
+            ...hotel,
+            modules: hotel.modules.map((mod) => {
+              if (mod.name === moduleName) {
+                return {
+                  ...mod,
+                  submodules: mod.submodules.map((sub) => {
+                    if (sub.name === submoduleName) {
+                      const { [key]: _, ...remainingKeys } = sub;
+                      return {
+                        ...remainingKeys,
+                        name: sub.name,
+                      };
+                    }
+                    return sub;
+                  }),
+                };
+              }
+              return mod;
+            }),
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
   const handleSubmit = () => {
     if (data.length === 0) {
-      alert('Please add items to submit!');
-    } else {
-      alert('Submitted!');
+      alert("Please add items to submit!");
+      return;
     }
+
+    const textData = JSON.stringify(data, null, 2);
+    const blob = new Blob([textData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "GET_CONFIGURATION.tsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   if (data.length === 0) {
@@ -78,8 +120,8 @@ const FieldSelected = ({ data = [], setData }) => {
         {JSON.stringify(data, null, 2)}
       </pre>
       <ul>
-        {data.map((hotel) => (
-          <li key={hotel.hotelId}>
+        {data.map((hotel, hotelIndex) => (
+          <li key={hotelIndex}>
             <div>
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
               <button
@@ -89,70 +131,14 @@ const FieldSelected = ({ data = [], setData }) => {
                 <DeleteIcon style={{ fontSize: 18 }} />
               </button>
             </div>
-            {hotel.modules.map((module) => (
-              <div key={module.name}>
-                <span>{`Module: ${module.name}`}</span>
-                <button
-                  className="remove-btn"
-                  onClick={() => removeItem(hotel.hotelId, module.name)}
-                >
-                  <DeleteIcon style={{ fontSize: 18 }} />
-                </button>
-                {module.submodules.map((submodule) => (
-                  <div key={submodule.name}>
-                    <span>{`Submodule: ${submodule.name}`}</span>
-                    <button
-                      className="remove-btn"
-                      onClick={() =>
-                        removeItem(hotel.hotelId, module.name, submodule.name)
-                      }
-                    >
-                      <DeleteIcon style={{ fontSize: 18 }} />
-                    </button>
-                    {/* Display key-value pairs for submodules */}
-                    {Object.entries(submodule).map(([key, value]) => {
-                      if (key !== 'name' && value !== undefined) {
-                        return (
-                          <div key={key}>
-                            {`${key}: ${value}`}
-                            <button
-                              className="remove-btn"
-                              onClick={() => removeKey(hotel.hotelId, key)}
-                            >
-                              <DeleteIcon style={{ fontSize: 18 }} />
-                            </button>
-                          </div>
-                        );
-                      }
-                      return null;
-                    })}
-                  </div>
-                ))}
-                {/* Display key-value pairs for modules */}
-                {Object.entries(module).map(([key, value]) => {
-                  if (key !== 'name' && key !== 'submodules' && value !== undefined) {
-                    return (
-                      <div key={key}>
-                        {`${key}: ${value}`}
-                        <button
-                          className="remove-btn"
-                          onClick={() => removeKey(hotel.hotelId, key)}
-                        >
-                          <DeleteIcon style={{ fontSize: 18 }} />
-                        </button>
-                      </div>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-            ))}
-            {/* Display key-value pairs at hotel level */}
-            {Object.entries(hotel)
-              .filter(([key, value]) => !['hotelId', 'name', 'modules'].includes(key) && value !== undefined)
-              .map(([key, value]) => (
+
+            {Object.keys(hotel)
+              .filter(
+                (key) => !["hotelId", "name", "modules", "title"].includes(key)
+              )
+              .map((key) => (
                 <div key={key}>
-                  {`${key}: ${value}`}
+                  {`${key}: ${hotel[key]}`}
                   <button
                     className="remove-btn"
                     onClick={() => removeKey(hotel.hotelId, key)}
@@ -161,10 +147,61 @@ const FieldSelected = ({ data = [], setData }) => {
                   </button>
                 </div>
               ))}
+
+            {hotel.modules &&
+              hotel.modules.length > 0 &&
+              hotel.modules.map((module, moduleIndex) => (
+                <div key={moduleIndex}>
+                  <span>{`Module: ${module.name}`}</span>
+                  <button
+                    className="remove-btn"
+                    onClick={() => removeItem(hotel.hotelId, module.name)}
+                  >
+                    <DeleteIcon style={{ fontSize: 18 }} />
+                  </button>
+                  {module.submodules.map((submodule, submoduleIndex) => (
+                    <div key={submoduleIndex}>
+                      <span>{`Submodule: ${submodule.name}`}</span>
+                      <button
+                        className="remove-btn"
+                        onClick={() =>
+                          removeItem(hotel.hotelId, module.name, submodule.name)
+                        }
+                      >
+                        <DeleteIcon style={{ fontSize: 18 }} />
+                      </button>
+
+                      {Object.keys(submodule).map((key) => {
+                        if (key !== "name") {
+                          return (
+                            <div key={key}>
+                              {`${key}: ${submodule[key]}`}
+                              <button
+                                className="remove-btn"
+                                onClick={() =>
+                                  removeKeyFromSubmodule(
+                                    hotel.hotelId,
+                                    module.name,
+                                    submodule.name,
+                                    key
+                                  )
+                                }
+                              >
+                                <DeleteIcon style={{ fontSize: 18 }} />
+                              </button>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                  ))}
+                </div>
+              ))}
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit}>Save</button>
     </div>
   );
 };
