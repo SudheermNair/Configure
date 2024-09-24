@@ -1,17 +1,17 @@
-import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
-import Sidebar from "./components/Sidebar/Sidebar";
-import FieldModules from "./components/screens/fieldModules";
-import FieldSelected from "./components/screens/fieldSelected";
-import { useState } from "react";
+import './App.css';
+import Navbar from './components/Navbar/Navbar';
+import Sidebar from './components/Sidebar/Sidebar';
+import FieldModules from './components/screens/fieldModules';
+import FieldSelected from './components/screens/fieldSelected';
+import { useState } from 'react';
 
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
-  const [currentView, setCurrentView] = useState("fieldModules");
+  const [currentView, setCurrentView] = useState('fieldModules');
 
   const handleSubmit = () => {
-    setCurrentView("addConfig");
+    setCurrentView('addConfig');
   };
 
   const handleDropdownChange = (value) => {
@@ -26,7 +26,7 @@ function App() {
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
           <Navbar />
-          {currentView === "fieldModules" && (
+          {isConfigActive && currentView === 'fieldModules' && (
             <>
               {/* <h1>Configuration</h1> */}
 
