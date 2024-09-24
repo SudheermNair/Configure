@@ -29,13 +29,14 @@ h1 {
   flex-direction: row;
   box-sizing: border-box;
   height: 70vh;
+//   margin-left: 25px;
 }
 
 .field-modules {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 60%;
+  width: 50%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -45,7 +46,7 @@ h1 {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 60%;
+  width: 85%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -66,12 +67,20 @@ h1 {
 }
 
 .field-selected ul {
+  display: grid;
   list-style: none;
   background-color: #f3f2f2;
   margin: 1% 0.5%;
   padding: 6px 6px 6px 6px;
-  // font-size: 18px;
+  font-size: small;
 }
+
+// .field-selected li {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-bottom: 5px;
+// }
 
 button {
   margin-top: 8px;
@@ -85,12 +94,7 @@ button {
   text-transform: uppercase;
 }
 .remove-btn {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  bottom: 10px;
-  float: right;
-  padding: 0px;
+  display:grid;
   background-color: #f3f2f2;
   color: #ca6f63;
   border: none;
@@ -124,11 +128,12 @@ button {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  justify-content: space-between;
 
   select {
     margin-left: 6px;
     flex: 1;
-    max-width: 200px;
+    max-width: 70%;
     background-color: white;
     border: 1px solid #a8a8a8;
     border-radius: 12px;
@@ -164,4 +169,23 @@ select {
   border: 1px solid #a8a8a8;
   border-radius: 12px;
   padding: 4px;
+}
+
+// .hotel-info {
+//   display: flex;
+//   flex-direction: row;
+// }
+
+.hotel-id-info {
+  display: grid;
+}
+.submodule-info{
+  display: grid;
+}
+.module-info{
+  display: flex;
+  justify-content: space-between;
+}
+.selected-json {
+    word-wrap: break-word;
 }

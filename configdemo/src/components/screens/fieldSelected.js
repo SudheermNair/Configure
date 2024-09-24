@@ -116,13 +116,16 @@ const FieldSelected = ({ data = [], setData }) => {
   return (
     <div className="field-selected">
       <h1>Selected Configuration</h1>
+      <div className="selected-json">
       <pre className="selected-json-container">
         {JSON.stringify(data, null, 2)}
       </pre>
+      </div>
       <ul>
         {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
-            <div>
+            <div className="hotel-id-info">
+            <div className="hotel-info">
               {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
               <button
                 className="remove-btn"
@@ -135,7 +138,7 @@ const FieldSelected = ({ data = [], setData }) => {
             {Object.keys(hotel)
               .filter((key) => !["hotelId", "name", "modules", "title"].includes(key)) 
               .map((key) => (
-                <div key={key}>
+                <div key={key} className="hotel-info">
                   {`${key}: ${hotel[key]}`}
                   <button
                     className="remove-btn"
@@ -145,21 +148,24 @@ const FieldSelected = ({ data = [], setData }) => {
                   </button>
                 </div>
               ))}
-
+            </div>
             {hotel.modules &&
               hotel.modules.length > 0 &&
               hotel.modules.map((module, moduleIndex) => (
-                <div key={moduleIndex}>
-                  <span>{`Module: ${module.name}`}</span>
+                <div key={moduleIndex} className="hotel-sub-info">
+                  <div className="module-info">
+                  {`Module: ${module.name}`}
                   <button
                     className="remove-btn"
                     onClick={() => removeItem(hotel.hotelId, module.name)}
                   >
                     <DeleteIcon style={{ fontSize: 18 }} />
                   </button>
+                  </div>
                   {module.submodules.map((submodule, submoduleIndex) => (
-                    <div key={submoduleIndex}>
-                      <span>{`Submodule: ${submodule.name}`}</span>
+                    <div key={submoduleIndex} className="submodule-info" >
+                    <div>
+                      {`Submodule: ${submodule.name}`}
                       <button
                         className="remove-btn"
                         onClick={() =>
@@ -168,7 +174,8 @@ const FieldSelected = ({ data = [], setData }) => {
                       >
                         <DeleteIcon style={{ fontSize: 18 }} />
                       </button>
- 
+                    </div>
+                            
                        {Object.keys(submodule).map((key) => {
                         if (key !== "name") {
                           return (
@@ -205,3 +212,5 @@ const FieldSelected = ({ data = [], setData }) => {
 };
 
 export default FieldSelected;
+
+
