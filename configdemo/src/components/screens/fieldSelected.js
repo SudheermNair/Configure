@@ -161,7 +161,7 @@ const FieldModules = () => {
                     {module}
                   </option>
                 ))}
-              </select>
+              </button>
             </div>
 
             {Object.keys(hotel)
