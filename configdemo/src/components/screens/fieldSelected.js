@@ -152,15 +152,13 @@ const FieldSelected = ({ data = [], setData }) => {
 
                 {module.submodules && module.submodules.length > 0 && (
                   <div className="submodule-info">
-                    {module.submodules.map((submodule, submoduleIndex) => {
-                      const submoduleName = typeof submodule === 'object' ? submodule.name : submodule;
-
+                    {/* Set to keep track of displayed submodules */}
+                    {Array.from(new Set(module.submodules.map(sub => typeof sub === 'object' ? sub.name : sub))).map((submoduleName) => {
                       return (
-                        <div key={`${moduleIndex}-${submoduleIndex}`} className="submodule-info">
+                        <div key={submoduleName} className="submodule-info">
                           <div>
                             {`Submodule: ${submoduleName}`}
-                            <button 
-                            
+                            <button
                               className="remove-btn"
                               onClick={() => removeItem(hotel.hotelId, module.name, submoduleName)}
                             >
@@ -168,13 +166,14 @@ const FieldSelected = ({ data = [], setData }) => {
                             </button>
                           </div>
 
-                          {typeof submodule === 'object' && (
-                            <>
-                              {Object.keys(submodule).map((key) => {
+                          {/* Display submodule properties */}
+                          {module.submodules.map((sub) => {
+                            if (typeof sub === 'object' && sub.name === submoduleName) {
+                              return Object.keys(sub).map((key) => {
                                 if (key !== "name") {
                                   return (
-                                    <div key={`${submoduleIndex}-${key}`}>
-                                      {`${key}: ${submodule[key]}`}
+                                    <div key={`${submoduleName}-${key}`}>
+                                      {`${key}: ${sub[key]}`}
                                       <button
                                         className="remove-btn"
                                         onClick={() =>
@@ -192,9 +191,10 @@ const FieldSelected = ({ data = [], setData }) => {
                                   );
                                 }
                                 return null;
-                              })}
-                            </>
-                          )}
+                              });
+                            }
+                            return null;
+                          })}
                         </div>
                       );
                     })}
