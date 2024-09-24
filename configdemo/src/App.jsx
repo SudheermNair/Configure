@@ -1,9 +1,9 @@
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Sidebar from './components/Sidebar/Sidebar';
-import FieldModules from './components/screens/fieldModules';
-import FieldSelected from './components/screens/fieldSelected';
-import { useState } from 'react';
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Sidebar from "./components/Sidebar/Sidebar";
+import FieldModules from "./components/screens/fieldModules";
+import FieldSelected from "./components/screens/fieldSelected";
+import { useState } from "react";
 
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
@@ -26,21 +26,27 @@ function App() {
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
           <Navbar />
-          {isConfigActive && currentView === 'fieldModules' && (
+          {currentView === "fieldModules" && (
             <>
-              <h1>Configuration</h1>
+              {/* <h1>Configuration</h1> */}
 
               <div className="field-modules-container">
-                <div>
-                  <FieldModules onDropdownChange={handleDropdownChange} />
-                </div>
-                <div>
-                  <FieldSelected
-                    selectedDropdowns={selectedDropdowns}
-                    setSelectedDropdowns={setSelectedDropdowns}
-                    handleSubmit={handleSubmit}
-                  />
-                </div>
+                {isConfigActive && (
+                  <>
+                   
+                    <div>
+                    <h1>Configuration</h1>
+                      <FieldModules onDropdownChange={handleDropdownChange} />
+                    </div>
+                    <div>
+                      <FieldSelected
+                        selectedDropdowns={selectedDropdowns}
+                        setSelectedDropdowns={setSelectedDropdowns}
+                        handleSubmit={handleSubmit}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </>
           )}

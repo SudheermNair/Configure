@@ -62,13 +62,7 @@ const FieldModules = () => {
     }
   };
 
-  const updateModules = (
-    existingModules = [],
-    module,
-    submodules,
-    key,
-    value
-  ) => {
+  const updateModules = (existingModules = [], module, submodules, key, value) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -178,7 +172,7 @@ const FieldModules = () => {
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodule, and Keys</h3>
+        <h3>Select Configuration</h3>
 
         <div className="dropdown-container">
           <label>Hotel:</label>
