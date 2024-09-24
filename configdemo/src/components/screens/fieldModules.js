@@ -159,6 +159,7 @@ const FieldModules = () => {
       secondCheckbox: false,
     });
 
+    // Load the corresponding values based on the selected key
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
   };
 
@@ -249,10 +250,7 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select
-                value={selectedKeys.join(",") || ""}
-                onChange={handleKeySelect}
-              >
+              <select value="" onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
