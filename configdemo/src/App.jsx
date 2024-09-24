@@ -8,10 +8,10 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
-  const [currentView, setCurrentView] = useState("fieldModules");
+  const [currentView, setCurrentView] = useState('fieldModules');
 
   const handleSubmit = () => {
-    setCurrentView("addConfig");
+    setCurrentView('addConfig');
   };
 
   const handleDropdownChange = (value) => {
