@@ -3,8 +3,6 @@ import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import FieldModules from "./components/screens/fieldModules";
 import FieldSelected from "./components/screens/fieldSelected";
-import AddConfig from "./components/AddConfig/addConfig";
-import SelectConfig from "./components/AddConfig/addConfigSelect";
 import { useState } from "react";
 
 function App() {
@@ -27,36 +25,31 @@ function App() {
       <div className="information-container">
         <Sidebar setIsConfigActive={setIsConfigActive} />
         <div className="field-container">
-        <Navbar />
-        {currentView === "fieldModules" && (
-          <>
-                  <h1>Configuration</h1>
-                  
-          <div className="field-modules-container">
-          {isConfigActive && (
-           <>
-                <FieldModules onDropdownChange={handleDropdownChange} />
-                <FieldSelected
-                  selectedDropdowns={selectedDropdowns}
-                  setSelectedDropdowns={setSelectedDropdowns}
-                  handleSubmit={handleSubmit}
-                />
-              </>
-          )}
-        </div>
-        </>
-        )}
-        {currentView === "addConfig" && (
-          <>
-                  <h1>Configuration</h1>
-                  <div className="field-modules-container">   
-                <AddConfig onDropdownChange={handleDropdownChange} />
-                <SelectConfig selectedDropdowns={selectedDropdowns} 
-                 setSelectedDropdowns={setSelectedDropdowns} /> 
-              </div>
-              </>
-        )}
+          <Navbar />
+          {currentView === "fieldModules" && (
+            <>
+              {/* <h1>Configuration</h1> */}
 
+              <div className="field-modules-container">
+                {isConfigActive && (
+                  <>
+                   
+                    <div>
+                    <h1>Configuration</h1>
+                      <FieldModules onDropdownChange={handleDropdownChange} />
+                    </div>
+                    <div>
+                      <FieldSelected
+                        selectedDropdowns={selectedDropdowns}
+                        setSelectedDropdowns={setSelectedDropdowns}
+                        handleSubmit={handleSubmit}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
