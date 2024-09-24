@@ -163,20 +163,56 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
   
               {module.submodules && module.submodules.length > 0 && (
-                <div className="submodule-info">
-                  {module.submodules.map((submodule, submoduleIndex) => (
-                    <div key={submoduleIndex} className="submodule-item">
-                      {`Submodule: ${submodule}`}
-                      <button
-                        className="remove-btn"
-                        onClick={() => removeKey(hotel.hotelId, module.name, submodule)}
-                      >
-                        <DeleteIcon style={{ fontSize: 18 }} />
-                      </button>
-                    </div>
-                  ))}
+  <div className="submodule-info">
+    {module.submodules.map((submodule, submoduleIndex) => {
+      // Check if submodule has a name
+      if (!submodule.name) return null; // Skip if no name
+      
+      return (
+        <div key={submoduleIndex} className="submodule-info">
+          <div>
+            {`Submodule: ${submodule.name}`}
+            <button
+              className="remove-btn"
+              onClick={() =>
+                removeItem(hotel.hotelId, module.name, submodule.name)
+              }
+            >
+              <DeleteIcon style={{ fontSize: 18 }} />
+            </button>
+          </div>
+
+          {/* Display key-value pairs for each submodule */}
+          {Object.keys(submodule).map((key) => {
+            if (key !== "name") {
+              return (
+                <div key={key}>
+                  {`${key}: ${submodule[key]}`}
+                  <button
+                    className="remove-btn"
+                    onClick={() =>
+                      removeKeyFromSubmodule(
+                        hotel.hotelId,
+                        module.name,
+                        submodule.name,
+                        key
+                      )
+                    }
+                  >
+                    <DeleteIcon style={{ fontSize: 18 }} />
+                  </button>
                 </div>
-              )}
+              );
+            }
+            return null;
+          })}
+        </div>
+      );
+    })}
+  </div>
+)}
+
+
             </div>
           ))}
         </li>
