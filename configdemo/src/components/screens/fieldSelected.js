@@ -159,7 +159,8 @@ const FieldSelected = ({ data = [], setData }) => {
                         <div key={`${moduleIndex}-${submoduleIndex}`} className="submodule-info">
                           <div>
                             {`Submodule: ${submoduleName}`}
-                            <button
+                            <button 
+                            
                               className="remove-btn"
                               onClick={() => removeItem(hotel.hotelId, module.name, submoduleName)}
                             >
