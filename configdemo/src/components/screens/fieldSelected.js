@@ -16,7 +16,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     return {
                       ...mod,
                       submodules: mod.submodules.filter(
-                        (sub) => sub.name !== submoduleName
+                        (sub) => (typeof sub === 'object' ? sub.name : sub) !== submoduleName
                       ),
                     };
                   }
@@ -30,26 +30,7 @@ const FieldSelected = ({ data = [], setData }) => {
               };
             }
           }
-          return null; 
-        }
-        return hotel; 
-      })
-      .filter(Boolean);
-
-    setData(updatedData);
-  };
-
-  const removeKey = (hotelId, key) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          const { [key]: _, ...remainingKeys } = hotel; 
-          return {
-            ...remainingKeys,
-            hotelId: hotel.hotelId, 
-            name: hotel.name,
-            modules: hotel.modules,
-          };
+          return null;
         }
         return hotel;
       })
@@ -69,11 +50,11 @@ const FieldSelected = ({ data = [], setData }) => {
                 return {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
-                    if (sub.name === submoduleName) {
-                      const { [key]: _, ...remainingKeys } = sub; 
+                    if (typeof sub === 'object' && sub.name === submoduleName) {
+                      const { [key]: _, ...remainingKeys } = sub;
                       return {
                         ...remainingKeys,
-                        name: sub.name, 
+                        name: sub.name,
                       };
                     }
                     return sub;
@@ -102,7 +83,7 @@ const FieldSelected = ({ data = [], setData }) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "selected_data.tsx"; 
+    a.download = "selected_data.tsx";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -115,113 +96,117 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-    <h1>Selected Configuration</h1>
-    <div className="selected-json">
-      <pre className="selected-json-container">
-        {JSON.stringify(data, null, 2)}
-      </pre>
-    </div>
-    <ul>
-      {data.map((hotel, hotelIndex) => (
-        <li key={hotelIndex}>
-          <div className="hotel-id-info">
-            <div className="hotel-info">
-              {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-              <button
-                className="remove-btn"
-                onClick={() => removeItem(hotel.hotelId)}
-              >
-                <DeleteIcon style={{ fontSize: 18 }} />
-              </button>
-            </div>
-  
-            {Object.keys(hotel)
-              .filter((key) => !["hotelId", "name", "modules", "title"].includes(key))
-              .map((key) => (
-                <div key={key} className="hotel-info">
-                  {`${key}: ${hotel[key]}`}
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeKey(hotel.hotelId, key)}
-                  >
-                    <DeleteIcon style={{ fontSize: 18 }} />
-                  </button>
-                </div>
-              ))}
-          </div>
-  
-          {hotel.modules && hotel.modules.length > 0 && hotel.modules.map((module, moduleIndex) => (
-            <div key={moduleIndex} className="hotel-sub-info">
-              <div className="module-info">
-                {`Module: ${module.name}`}
+      <h1>Selected Configuration</h1>
+      <div className="selected-json">
+        <pre className="selected-json-container">
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      </div>
+      <ul>
+        {data.map((hotel, hotelIndex) => (
+          <li key={hotelIndex}>
+            <div className="hotel-id-info">
+              <div className="hotel-info">
+                {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
                 <button
                   className="remove-btn"
-                  onClick={() => removeItem(hotel.hotelId, module.name)}
+                  onClick={() => removeItem(hotel.hotelId)}
                 >
                   <DeleteIcon style={{ fontSize: 18 }} />
                 </button>
               </div>
-  
-              {module.submodules && module.submodules.length > 0 && (
-  <div className="submodule-info">
-    {module.submodules.map((submodule, submoduleIndex) => {
-      // Check if submodule has a name
-      if (!submodule.name) return null; // Skip if no name
-      
-      return (
-        <div key={submoduleIndex} className="submodule-info">
-          <div>
-            {`Submodule: ${submodule.name}`}
-            <button
-              className="remove-btn"
-              onClick={() =>
-                removeItem(hotel.hotelId, module.name, submodule.name)
-              }
-            >
-              <DeleteIcon style={{ fontSize: 18 }} />
-            </button>
-          </div>
 
-          {/* Display key-value pairs for each submodule */}
-          {Object.keys(submodule).map((key) => {
-            if (key !== "name") {
-              return (
-                <div key={key}>
-                  {`${key}: ${submodule[key]}`}
+              {Object.keys(hotel)
+                .filter((key) => !["hotelId", "name", "modules", "title"].includes(key))
+                .map((key) => (
+                  <div key={key} className="hotel-info">
+                    {`${key}: ${hotel[key]}`}
+                    <button
+                      className="remove-btn"
+                      onClick={() => removeKeyFromSubmodule(hotel.hotelId, key)}
+                    >
+                      <DeleteIcon style={{ fontSize: 18 }} />
+                    </button>
+                  </div>
+                ))}
+            </div>
+
+            {hotel.modules && hotel.modules.length > 0 && hotel.modules.map((module, moduleIndex) => (
+              <div key={moduleIndex} className="hotel-sub-info">
+                <div className="module-info">
+                  {`Module: ${module.name}`}
                   <button
                     className="remove-btn"
-                    onClick={() =>
-                      removeKeyFromSubmodule(
-                        hotel.hotelId,
-                        module.name,
-                        submodule.name,
-                        key
-                      )
-                    }
+                    onClick={() => removeItem(hotel.hotelId, module.name)}
                   >
                     <DeleteIcon style={{ fontSize: 18 }} />
                   </button>
                 </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      );
-    })}
-  </div>
-)}
 
+                {/* Display module-level properties */}
+                {Object.keys(module).filter(key => key !== 'name' && key !== 'submodules').map(key => (
+                  <div key={key}>
+                    {`${key}: ${module[key]}`}
+                  </div>
+                ))}
 
-            </div>
-          ))}
-        </li>
-      ))}
-    </ul>
-    <button onClick={handleSubmit}>Save</button>
-  </div>
-  
+                {module.submodules && module.submodules.length > 0 && (
+                  <div className="submodule-info">
+                    {module.submodules.map((submodule, submoduleIndex) => {
+                      const submoduleName = typeof submodule === 'object' ? submodule.name : submodule;
+
+                      return (
+                        <div key={`${moduleIndex}-${submoduleIndex}`} className="submodule-info">
+                          <div>
+                            {`Submodule: ${submoduleName}`}
+                            <button
+                              className="remove-btn"
+                              onClick={() => removeItem(hotel.hotelId, module.name, submoduleName)}
+                            >
+                              <DeleteIcon style={{ fontSize: 18 }} />
+                            </button>
+                          </div>
+
+                          {typeof submodule === 'object' && (
+                            <>
+                              {Object.keys(submodule).map((key) => {
+                                if (key !== "name") {
+                                  return (
+                                    <div key={`${submoduleIndex}-${key}`}>
+                                      {`${key}: ${submodule[key]}`}
+                                      <button
+                                        className="remove-btn"
+                                        onClick={() =>
+                                          removeKeyFromSubmodule(
+                                            hotel.hotelId,
+                                            module.name,
+                                            submoduleName,
+                                            key
+                                          )
+                                        }
+                                      >
+                                        <DeleteIcon style={{ fontSize: 18 }} />
+                                      </button>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })}
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            ))}
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleSubmit}>Save</button>
+    </div>
   );
-}  
+};
 
 export default FieldSelected;

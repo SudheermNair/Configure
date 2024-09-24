@@ -152,44 +152,43 @@ const FieldModules = () => {
 
   const handleSubmoduleSelect = useCallback((e) => {
     const submoduleName = e.target.value;
-  
-    if (!selectedSubmodules.includes(submoduleName)) {
-      const newSubmodules = [...selectedSubmodules, submoduleName];
-      setSelectedSubmodules(newSubmodules);
-  
-      if (selectedHotel && selectedModule) {
+
+    // Always add the submodule to the list, allowing duplicates
+    const newSubmodules = [...selectedSubmodules, submoduleName];
+    setSelectedSubmodules(newSubmodules);
+
+    if (selectedHotel && selectedModule) {
         const existingHotel = data.find((h) => h.hotelId === selectedHotel.hotelId);
-  
+
         if (existingHotel) {
-          const updatedModules = existingHotel.modules || [];
-          const moduleExists = updatedModules.some((mod) => mod.name === selectedModule.name);
-  
-          if (moduleExists) {
-            const updatedSubmodules = updatedModules.map((mod) => {
-              if (mod.name === selectedModule.name) {
-                const currentSubmodules = mod.submodules || [];
-                if (!currentSubmodules.includes(submoduleName)) {
-                  return {
-                    ...mod,
-                    submodules: [...currentSubmodules, submoduleName],
-                  };
-                }
-              }
-              return mod;
-            });
-  
-            setData((prevData) =>
-              prevData.map((h) =>
-                h.hotelId === selectedHotel.hotelId
-                  ? { ...h, modules: updatedSubmodules }
-                  : h
-              )
-            );
-          }
+            const updatedModules = existingHotel.modules || [];
+            const moduleExists = updatedModules.some((mod) => mod.name === selectedModule.name);
+
+            if (moduleExists) {
+                const updatedSubmodules = updatedModules.map((mod) => {
+                    if (mod.name === selectedModule.name) {
+                        const currentSubmodules = mod.submodules || [];
+                        // Allow duplicates in the submodule list
+                        return {
+                            ...mod,
+                            submodules: [...currentSubmodules, submoduleName],
+                        };
+                    }
+                    return mod;
+                });
+
+                setData((prevData) =>
+                    prevData.map((h) =>
+                        h.hotelId === selectedHotel.hotelId
+                            ? { ...h, modules: updatedSubmodules }
+                            : h
+                    )
+                );
+            }
         }
-      }
     }
-  }, [selectedHotel, selectedModule, selectedSubmodules, data]);
+}, [selectedHotel, selectedModule, selectedSubmodules, data]);
+
   
 
 
