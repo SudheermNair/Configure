@@ -67,8 +67,7 @@ export const configFields = [
         ],
         description: [
           'Kindly use your card for payment',
-          '499++ per room per night for 2 persons',
-          'Confirm your email ID to receive the invoice',
+          'Confirm your email ID ',
         ],
         description1: [
           'Key Card Activated',
@@ -85,7 +84,7 @@ export const configFields = [
           'Document Number',
           'Email',
           'Payment Successful',
-          'Finish checking in by adding your e-signature',
+          'Addyour e-signature',
         ],
         title: [
           'Place Your Key',

@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import FieldSelected from './fieldSelected';
-import { configFields } from '../../core/config';
-import './styles.scss';
+import React, { useState, useCallback } from "react";
+import FieldSelected from "./fieldSelected";
+import { configFields } from "../../core/config";
+import "./styles.scss";
 
 const FieldModules = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState('');
+  const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
   const updateData = (hotel, module, submodules, keys, value) => {
@@ -62,20 +62,14 @@ const FieldModules = () => {
     }
   };
 
-  const updateModules = (
-    existingModules = [],
-    module,
-    submodules,
-    key,
-    value
-  ) => {
+  const updateModules = (existingModules = [], module, submodules, key, value) => {
     const moduleExists = existingModules.find(
-      (mod) => mod.name === (module ? module.name : '')
+      (mod) => mod.name === (module ? module.name : "")
     );
 
     if (moduleExists) {
       return existingModules.map((mod) => {
-        if (mod.name === (module ? module.name : '')) {
+        if (mod.name === (module ? module.name : "")) {
           if (submodules.length === 0) {
             return { ...mod, [key]: value };
           }
@@ -113,7 +107,7 @@ const FieldModules = () => {
     setSelectedHotel(selected);
     setSelectedModule(null);
     setSelectedSubmodules([]);
-    setSelectedKeys('');
+    setSelectedKeys("");
 
     // Initialize data for the selected hotel
     if (selected) {
@@ -129,7 +123,7 @@ const FieldModules = () => {
     const moduleName = e.target.value;
     setSelectedModule({ name: moduleName });
     setSelectedSubmodules([]);
-    setSelectedKeys('');
+    setSelectedKeys("");
   }, []);
 
   const handleSubmoduleSelect = (e) => {
@@ -172,18 +166,18 @@ const FieldModules = () => {
 
     setSelectedModule(null);
     setSelectedSubmodules([]);
-    setSelectedKeys('');
+    setSelectedKeys("");
   };
 
   return (
     <div className="field-modules-container">
       <div className="field-modules">
-        <h3>Select Hotel, Module, Submodule, and Keys</h3>
+        <h3>Select Configuration</h3>
 
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
-            value={selectedHotel?.hotelId || ''}
+            value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
             <option value="" disabled>
@@ -202,7 +196,7 @@ const FieldModules = () => {
             <div className="dropdown-container">
               <label>Module:</label>
               <select
-                value={selectedModule?.name || ''}
+                value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
                 <option value="" disabled>
@@ -222,8 +216,8 @@ const FieldModules = () => {
                 <select onChange={handleSubmoduleSelect} value="">
                   <option value="" disabled>
                     {selectedSubmodules.length > 0
-                      ? `${selectedSubmodules.join(', ')}`
-                      : 'Select Submodule'}
+                      ? `${selectedSubmodules.join(", ")}`
+                      : "Select Submodule"}
                   </option>
                   {configFields[0].submodules
                     .filter(
@@ -240,7 +234,7 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ''} onChange={handleKeySelect}>
+              <select value={selectedKeys || ""} onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
