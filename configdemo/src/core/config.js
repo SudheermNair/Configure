@@ -4,54 +4,98 @@ export const configFields = [
   {
     hotels: [
       {
-        name: "Pullman Orchard Stage",
-        hotelId: "989814e5-2fda-4ab8-b795-33f4d76f1866",
+        name: 'Pullman Orchard Stage',
+        hotelId: '989814e5-2fda-4ab8-b795-33f4d76f1866',
       },
       {
-        name: "Sofitel Manila",
-        hotelId: "259034ee-3f5c-43b0-9332-dffd85ccba65",
+        name: 'Sofitel Manila',
+        hotelId: '259034ee-3f5c-43b0-9332-dffd85ccba65',
       },
       {
-        name: "Londoner Leicester Square",
-        hotelId: "aa211eb9-110c-47cb-ade4-7db0e6da20b4",
+        name: 'Londoner Leicester Square',
+        hotelId: 'aa211eb9-110c-47cb-ade4-7db0e6da20b4',
       },
     ],
     modules: [
-      "Home",
-      "FaceScan",
-      "BookingID",
-      "ConfirmationID",
-      "CheckoutKey",
-      "ScanDoc",
-      "KeyCard",
+      'Home',
+      'FaceScan',
+      'BookingID',
+      'ConfirmationID',
+      'CheckoutKey',
+      'ScanDoc',
+      'KeyCard',
     ],
     submodules: [
-      "accompanyingGuest",
-      "cardPreAuthorize",
-      "cardAuthorize",
-      "checkIn",
-      "signStayInfo",
+      'accompanyingGuest',
+      'cardPreAuthorize',
+      'cardAuthorize',
+      'checkIn',
+      'signStayInfo',
     ],
     Keys: [
       {
-        code: ["stage", "uat", "sofitel-manila"],
-        pms: ["OPERA", "INFOR"],
-        fetchFromDb: ["yes", "no"],
-        saveToDb: ["yes", "no"],
+        code: [
+          'pullman-orchard-stage',
+          'home',
+          'faceScan',
+          'bookingId',
+          'stayDetails',
+          'checkoutKey',
+          'scanDoc',
+          'keyCard',
+          'review',
+          'activateOrComplete',
+          'cardConformation',
+          'rating',
+          'emailPopup',
+          'checkOut',
+          'banner',
+          'terms',
+        ],
+        pms: ['OPERA', 'INFOR'],
+        fetchFromDb: ['yes', 'no'],
+        saveToDb: ['yes', 'no'],
+        name: [
+          'Pullman Singapore Orchard Stage',
+          'Identity Verification',
+          'Card Confirmation',
+          'Card Authorization',
+          'Review & Sign',
+          'Check-in',
+          'Stay Information',
+          'Guest Information',
+          'Credit Card Information',
+          'Finish your Check-in',
+        ],
+        description: [
+          'Kindly use your card for payment',
+          'Confirm your email ID ',
+        ],
+        description1: [
+          'Key Card Activated',
+          "You've Checked-out",
+          'How was your stay?',
+        ],
+        description2: ['Check-in Completed', 'How was your stay?'],
+        label: [
+          'Booking ID',
+          'Room Number (In 4 Digits)',
+          'Accompanying Guest',
+          'First Name',
+          'Last Name',
+          'Document Number',
+          'Email',
+          'Payment Successful',
+          'Addyour e-signature',
+        ],
+        title: [
+          'Place Your Key',
+          'Jingle, Shop & Stay',
+          'Card Confirmation',
+          'Email Invoice',
+          'PREAMBLE',
+        ],
       },
     ],
-    KeysforModule:[
-        {
-           code:['Preferences','Check-In','Services'] ,
-           isActive:['true','false']
-        }
-    ],
-    KeysforSubModule:[
-        {
-           code:['Headers','','Services'] ,
-           isActive:['true','false'],
-           title:['ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW','Please Complete Your Check-In Process', 'Guest Information']
-        }
-    ]
   },
 ];
