@@ -22,6 +22,13 @@ export const configFields = [
       'CheckoutKey',
       'ScanDoc',
       'KeyCard',
+      'Preferences',
+      'Check-In',
+      'In-Room Dining',
+      'Services',
+      
+      'Checkout',
+     
     ],
     submodules: [
       'accompanyingGuest',
@@ -29,6 +36,7 @@ export const configFields = [
       'cardAuthorize',
       'checkIn',
       'signStayInfo',
+      'Headers',
     ],
     Keys: [
       {
