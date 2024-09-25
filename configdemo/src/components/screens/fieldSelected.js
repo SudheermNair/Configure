@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
+  const [copyButtonText, setCopyButtonText] = useState("Copy");
+
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
@@ -74,22 +76,21 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const handleSubmit = () => {
+  const handleCopy = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
+      alert("Please add items to copy!");
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
-    const blob = new Blob([textData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "selected_data.tsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    navigator.clipboard.writeText(textData).then(() => {
+      setCopyButtonText("Copied!");
+
+      // Change button text back to "Copy" after 2 seconds
+      setTimeout(() => {
+        setCopyButtonText("Copy");
+      }, 2000);
+    });
   };
 
   if (data.length === 0) {
@@ -229,7 +230,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Save</button>
+      <button onClick={handleCopy}>{copyButtonText}</button>
     </div>
   );
 };
