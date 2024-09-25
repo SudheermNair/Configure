@@ -204,9 +204,6 @@ const FieldModules = () => {
     }
 }, [selectedHotel, selectedModule, selectedSubmodules, data]);
 
-  
-
-
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
