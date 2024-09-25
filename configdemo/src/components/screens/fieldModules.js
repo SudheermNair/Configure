@@ -124,7 +124,7 @@ const FieldModules = () => {
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
-    setCheckboxState({ isActive: false, isDisabled: false, isRequired: false }); // Reset checkbox state
+    setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
     setIsKeyValueSelected(false); // Reset key value selected state
 
     if (selected) {
@@ -325,6 +325,7 @@ const FieldModules = () => {
               </div>
             )}
 
+            {/* Key Selection */}
             <div className="dropdown-container">
               <label>Keys:</label>
               <select onChange={handleKeySelect} value={selectedKeys}>
@@ -379,6 +380,7 @@ const FieldModules = () => {
                           e.target.value
                         )
                       }
+                      defaultValue=""
                     >
                       <option value="" disabled>
                         Select True/False
@@ -410,6 +412,7 @@ const FieldModules = () => {
                           e.target.value
                         )
                       }
+                      defaultValue=""
                     >
                       <option value="" disabled>
                         Select True/False
@@ -441,6 +444,7 @@ const FieldModules = () => {
                           e.target.value
                         )
                       }
+                      defaultValue=""
                     >
                       <option value="" disabled>
                         Select True/False
