@@ -129,7 +129,6 @@ const FieldModules = () => {
 
       const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
       if (existingHotel) {
-        // Reset states for checkboxes
         setCheckboxState({
           isActive: existingHotel.isActive === "True",
           isDisabled: existingHotel.isDisabled === "True",
@@ -149,7 +148,6 @@ const FieldModules = () => {
       const moduleName = e.target.value;
       const module = { name: moduleName };
       setSelectedModule(module);
-      // No need to reset submodules and keys here
       if (selectedHotel) {
         updateData(selectedHotel, module, [], null, null);
       }
@@ -161,13 +159,21 @@ const FieldModules = () => {
     (e) => {
       const submoduleName = e.target.value;
 
-      setSelectedSubmodules((prevSubmodules) => {
-        const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-        if (selectedHotel && selectedModule) {
-          updateData(selectedHotel, selectedModule, newSubmodules, null, null);
-        }
-        return newSubmodules;
-      });
+      if (submoduleName) {
+        setSelectedSubmodules((prevSubmodules) => {
+          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
+          if (selectedHotel && selectedModule) {
+            updateData(
+              selectedHotel,
+              selectedModule,
+              newSubmodules,
+              null,
+              null
+            );
+          }
+          return newSubmodules;
+        });
+      }
     },
     [selectedHotel, selectedModule]
   );
@@ -199,7 +205,6 @@ const FieldModules = () => {
       [name]: checked,
     }));
 
-    // Update data immediately based on checkbox changes
     if (selectedHotel && selectedModule && selectedKeys) {
       updateData(
         selectedHotel,
@@ -209,6 +214,24 @@ const FieldModules = () => {
         checked ? "True" : "False"
       );
     }
+  };
+
+  const removeSubmodule = (submoduleName) => {
+    setSelectedSubmodules((prevSubmodules) => {
+      const updatedSubmodules = prevSubmodules.filter(
+        (sub) => sub.name !== submoduleName
+      );
+      if (selectedHotel && selectedModule) {
+        updateData(
+          selectedHotel,
+          selectedModule,
+          updatedSubmodules,
+          null,
+          null
+        );
+      }
+      return updatedSubmodules;
+    });
   };
 
   return (
@@ -254,28 +277,40 @@ const FieldModules = () => {
 
             {selectedModule && (
               <div className="dropdown-container">
-                <label>Submodule:</label>
-                <select onChange={handleSubmoduleSelect} value="">
-                  <option value="" disabled>
-                    {selectedSubmodules.length > 0
-                      ? `${selectedSubmodules
-                          .map((sub) => sub.name)
-                          .join(", ")}`
-                      : "Select Submodule"}
-                  </option>
-                  {configFields[0].submodules
-                    .filter(
-                      (submodule) =>
-                        !selectedSubmodules.some(
-                          (selectedSub) => selectedSub.name === submodule
-                        )
-                    )
-                    .map((submodule) => (
-                      <option key={submodule} value={submodule}>
-                        {submodule}
-                      </option>
-                    ))}
-                </select>
+                <label>Submodules:</label>
+                <div className="selected-submodules">
+                  {selectedSubmodules.map((submodule) => (
+                    <span key={submodule.name} className="selected-submodule">
+                      {submodule.name}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeSubmodule(submodule.name);
+                        }}
+                        className="close-button"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                  <select onChange={handleSubmoduleSelect} value="">
+                    <option value="" disabled>
+                      Select Submodule
+                    </option>
+                    {configFields[0].submodules
+                      .filter(
+                        (submodule) =>
+                          !selectedSubmodules.some(
+                            (selectedSub) => selectedSub.name === submodule
+                          )
+                      )
+                      .map((submodule) => (
+                        <option key={submodule} value={submodule}>
+                          {submodule}
+                        </option>
+                      ))}
+                  </select>
+                </div>
               </div>
             )}
 
