@@ -15,9 +15,9 @@ function Sidebar({ setIsConfigActive }) {
   const handleTileClick = (index) => {
     setActiveIndex(index);
     if (index === 3) {
-      setIsConfigActive(true);
+      setIsConfigActive(true); 
     } else {
-      setIsConfigActive(false);
+      setIsConfigActive(false); 
     }
   };
 

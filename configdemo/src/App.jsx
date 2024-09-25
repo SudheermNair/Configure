@@ -28,11 +28,14 @@ function App() {
           <Navbar />
           {currentView === 'fieldModules' && (
             <>
+              {/* <h1>Configuration</h1> */}
+
               <div className="field-modules-container">
                 {isConfigActive && (
                   <>
+                   
                     <div>
-                      <h1>Configuration</h1>
+                    <h1>Configuration</h1>
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
                     <div>

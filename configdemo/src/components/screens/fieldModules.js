@@ -1,14 +1,14 @@
-import React, { useState, useCallback } from 'react';
-import FieldSelected from './fieldSelected';
-import { configFields } from '../../core/config';
-import './styles.scss';
+import React, { useState, useCallback } from "react";
+import FieldSelected from "./fieldSelected";
+import { configFields } from "../../core/config";
+import "./styles.scss";
 
 const FieldModules = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState('');
+  const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
   const updateData = (hotel, module, submodules, keys, value) => {
@@ -51,7 +51,6 @@ const FieldModules = () => {
       const newHotel = {
         hotelId: hotel.hotelId,
         name: hotel.name,
-        keys: [keys],
       };
 
       if (module) {
@@ -122,7 +121,7 @@ const FieldModules = () => {
     setSelectedHotel(selected);
     setSelectedModule(null);
     setSelectedSubmodules([]);
-    setSelectedKeys('');
+    setSelectedKeys("");
 
     if (selected) {
       const newHotelData = {
@@ -138,27 +137,75 @@ const FieldModules = () => {
     const moduleName = e.target.value;
     setSelectedModule({ name: moduleName });
     setSelectedSubmodules([]);
-    setSelectedKeys('');
-  }, []);
+    setSelectedKeys("");
+  
+    if (selectedHotel) {
+      const existingHotel = data.find((h) => h.hotelId === selectedHotel.hotelId);
 
-  const handleSubmoduleSelect = (e) => {
-    const submoduleName = e.target.value;
+      if (existingHotel) {
+        const updatedModules = existingHotel.modules || [];
+        const moduleExists = updatedModules.some((mod) => mod.name === moduleName);
+  
+        if (!moduleExists) {
+          updatedModules.push({
+            name: moduleName,
+          });
 
-    if (!selectedSubmodules.includes(submoduleName)) {
-      const newSubmodules = [...selectedSubmodules, submoduleName];
-      setSelectedSubmodules(newSubmodules);
-
-      if (selectedHotel && selectedModule && selectedKeys) {
-        updateData(
-          selectedHotel,
-          { name: selectedModule.name },
-          newSubmodules,
-          selectedKeys,
-          null
-        );
+          setData((prevData) =>
+            prevData.map((h) =>
+              h.hotelId === selectedHotel.hotelId
+                ? { ...h, modules: updatedModules }
+                : h
+            )
+          );
+        }
       }
     }
-  };
+  }, [selectedHotel, data]);
+  
+  
+
+  const handleSubmoduleSelect = useCallback((e) => {
+    const submoduleName = e.target.value;
+
+    // Always add the submodule to the list, allowing duplicates
+    const newSubmodules = [...selectedSubmodules, submoduleName];
+    setSelectedSubmodules(newSubmodules);
+
+    if (selectedHotel && selectedModule) {
+        const existingHotel = data.find((h) => h.hotelId === selectedHotel.hotelId);
+
+        if (existingHotel) {
+            const updatedModules = existingHotel.modules || [];
+            const moduleExists = updatedModules.some((mod) => mod.name === selectedModule.name);
+
+            if (moduleExists) {
+                const updatedSubmodules = updatedModules.map((mod) => {
+                    if (mod.name === selectedModule.name) {
+                        const currentSubmodules = mod.submodules || [];
+                        // Allow duplicates in the submodule list
+                        return {
+                            ...mod,
+                            submodules: [...currentSubmodules, submoduleName],
+                        };
+                    }
+                    return mod;
+                });
+
+                setData((prevData) =>
+                    prevData.map((h) =>
+                        h.hotelId === selectedHotel.hotelId
+                            ? { ...h, modules: updatedSubmodules }
+                            : h
+                    )
+                );
+            }
+        }
+    }
+}, [selectedHotel, selectedModule, selectedSubmodules, data]);
+
+  
+
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -249,7 +296,7 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ''} onChange={handleKeySelect}>
+              <select value={selectedKeys || ""} onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
