@@ -113,24 +113,36 @@ const FieldModules = () => {
     }
   };
 
-  const handleHotelSelect = useCallback((e) => {
-    const selected = configFields[0].hotels.find(
-      (hotel) => hotel.hotelId === e.target.value
-    );
-    setSelectedHotel(selected);
-    setSelectedModule(null);
-    setSelectedSubmodules([]);
-    setSelectedKeys("");
-    setCheckboxState({ isActive: false, isDisabled: false, isRequired: false }); // Reset checkbox state
+  const handleHotelSelect = useCallback(
+    (e) => {
+      const selected = configFields[0].hotels.find(
+        (hotel) => hotel.hotelId === e.target.value
+      );
 
-    if (selected) {
-      const newHotelData = {
-        hotelId: selected.hotelId,
-        name: selected.name,
-      };
-      setData((prevData) => [...prevData, newHotelData]);
-    }
-  }, []);
+      // Check if the hotel is already selected
+      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
+      if (existingHotel) {
+        // Reset states for modules, submodules, keys, and checkboxes
+        setSelectedModule(null);
+        setSelectedSubmodules([]);
+        setSelectedKeys("");
+        setCheckboxState({
+          isActive: false,
+          isDisabled: false,
+          isRequired: false,
+        });
+      } else {
+        // If new hotel selected, add to data
+        setData((prevData) => [
+          ...prevData,
+          { hotelId: selected.hotelId, name: selected.name },
+        ]);
+      }
+
+      setSelectedHotel(selected);
+    },
+    [data]
+  );
 
   const handleModuleSelect = useCallback(
     (e) => {
