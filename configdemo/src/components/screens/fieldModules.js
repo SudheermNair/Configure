@@ -129,14 +129,11 @@ const FieldModules = () => {
 
       const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
       if (existingHotel) {
-        // Reset states for modules, submodules, keys, and checkboxes
-        setSelectedModule(null);
-        setSelectedSubmodules([]);
-        setSelectedKeys("");
+        // Reset states for checkboxes
         setCheckboxState({
-          isActive: false,
-          isDisabled: false,
-          isRequired: false,
+          isActive: existingHotel.isActive === "True",
+          isDisabled: existingHotel.isDisabled === "True",
+          isRequired: existingHotel.isRequired === "True",
         });
       } else {
         updateData(selected, null, [], null, null);
@@ -152,8 +149,7 @@ const FieldModules = () => {
       const moduleName = e.target.value;
       const module = { name: moduleName };
       setSelectedModule(module);
-      setSelectedSubmodules([]);
-      setSelectedKeys("");
+      // No need to reset submodules and keys here
       if (selectedHotel) {
         updateData(selectedHotel, module, [], null, null);
       }
@@ -194,10 +190,6 @@ const FieldModules = () => {
         selectedValue
       );
     }
-
-    setSelectedModule(null);
-    setSelectedSubmodules([]);
-    setSelectedKeys("");
   };
 
   const handleCheckboxChange = (e) => {
