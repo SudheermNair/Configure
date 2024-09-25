@@ -279,24 +279,11 @@ const FieldModules = () => {
               <div className="dropdown-container">
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                  {selectedSubmodules.map((submodule) => (
-                    <span key={submodule.name} className="selected-submodule">
-                      {submodule.name}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeSubmodule(submodule.name);
-                        }}
-                        className="close-button"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
                   <select onChange={handleSubmoduleSelect} value="">
                     <option value="" disabled>
                       Select Submodule
                     </option>
+
                     {configFields[0].submodules
                       .filter(
                         (submodule) =>
@@ -310,6 +297,22 @@ const FieldModules = () => {
                         </option>
                       ))}
                   </select>
+                  <div>
+                    {selectedSubmodules.map((submodule) => (
+                      <span key={submodule.name} className="selected-submodule">
+                        {submodule.name}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeSubmodule(submodule.name);
+                          }}
+                          className="close-button"
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}

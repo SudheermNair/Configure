@@ -202,8 +202,8 @@ select {
   }
   
   .selected-submodule {
-    background-color: #f0f0f0; /* Adjust background color */
-    padding: 5px 10px;
+    background-color: #f0f0f0; 
+    padding: 0px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -215,5 +215,6 @@ select {
     cursor: pointer;
     margin-left: 5px;
     color: red; /* Change color as needed */
+    padding: 0px;
   }
   
