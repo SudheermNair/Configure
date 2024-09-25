@@ -384,9 +384,7 @@ const FieldModules = () => {
                     )
                   }
                 >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
+                  <option value="">Select True/False</option>
                   <option value="True">True</option>
                   <option value="False">False</option>
                 </select>
@@ -415,9 +413,7 @@ const FieldModules = () => {
                     )
                   }
                 >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
+                  <option value="">Select True/False</option>
                   <option value="True">True</option>
                   <option value="False">False</option>
                 </select>
@@ -446,9 +442,7 @@ const FieldModules = () => {
                     )
                   }
                 >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
+                  <option value="">Select True/False</option>
                   <option value="True">True</option>
                   <option value="False">False</option>
                 </select>
