@@ -18,6 +18,9 @@ const FieldModules = () => {
     isRequired: false,
   });
 
+  // New state to track if key and value have been selected
+  const [keyValueSelected, setKeyValueSelected] = useState(false);
+
   const updateData = (hotel, module, submodules, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     const updatedSubmodules = submodules.map((sub) => ({
@@ -122,6 +125,7 @@ const FieldModules = () => {
     setSelectedSubmodules([]);
     setSelectedKeys("");
     setCheckboxState({ isActive: false, isDisabled: false, isRequired: false }); // Reset checkbox state
+    setKeyValueSelected(false); // Reset key value selected state
 
     if (selected) {
       const newHotelData = {
@@ -217,6 +221,7 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
+    setKeyValueSelected(false); // Reset key value selected state
   };
 
   const handleValueSelect = (e) => {
@@ -230,6 +235,7 @@ const FieldModules = () => {
         selectedKeys,
         selectedValue
       );
+      setKeyValueSelected(true); // Set to true when a key and value are selected
     }
 
     setSelectedModule(null);
@@ -321,12 +327,12 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect}>
+              <select onChange={handleKeySelect} value={selectedKeys}>
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
-                  <option key={index} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key) => (
+                  <option key={key} value={key}>
                     {key}
                   </option>
                 ))}
@@ -350,98 +356,102 @@ const FieldModules = () => {
             )}
 
             {/* Checkbox Section */}
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  name="isActive"
-                  checked={checkboxState.isActive}
-                  onChange={handleCheckboxChange}
-                />
-                Is Active
-              </label>
-              {checkboxState.isActive && (
-                <select
-                  onChange={(e) =>
-                    updateData(
-                      selectedHotel,
-                      selectedModule,
-                      selectedSubmodules,
-                      "isActive",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
-                  <option value="True">True</option>
-                  <option value="False">False</option>
-                </select>
-              )}
-            </div>
+            {keyValueSelected && ( // Show checkboxes only after selecting a key and value
+              <>
+                <div className="checkbox-container">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="isActive"
+                      checked={checkboxState.isActive}
+                      onChange={handleCheckboxChange}
+                    />
+                    Is Active
+                  </label>
+                  {checkboxState.isActive && (
+                    <select
+                      onChange={(e) =>
+                        updateData(
+                          selectedHotel,
+                          selectedModule,
+                          selectedSubmodules,
+                          "isActive",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="" disabled>
+                        Select True/False
+                      </option>
+                      <option value="True">True</option>
+                      <option value="False">False</option>
+                    </select>
+                  )}
+                </div>
 
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  name="isDisabled"
-                  checked={checkboxState.isDisabled}
-                  onChange={handleCheckboxChange}
-                />
-                Is Disabled
-              </label>
-              {checkboxState.isDisabled && (
-                <select
-                  onChange={(e) =>
-                    updateData(
-                      selectedHotel,
-                      selectedModule,
-                      selectedSubmodules,
-                      "isDisabled",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
-                  <option value="True">True</option>
-                  <option value="False">False</option>
-                </select>
-              )}
-            </div>
+                <div className="checkbox-container">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="isDisabled"
+                      checked={checkboxState.isDisabled}
+                      onChange={handleCheckboxChange}
+                    />
+                    Is Disabled
+                  </label>
+                  {checkboxState.isDisabled && (
+                    <select
+                      onChange={(e) =>
+                        updateData(
+                          selectedHotel,
+                          selectedModule,
+                          selectedSubmodules,
+                          "isDisabled",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="" disabled>
+                        Select True/False
+                      </option>
+                      <option value="True">True</option>
+                      <option value="False">False</option>
+                    </select>
+                  )}
+                </div>
 
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  name="isRequired"
-                  checked={checkboxState.isRequired}
-                  onChange={handleCheckboxChange}
-                />
-                Is Required
-              </label>
-              {checkboxState.isRequired && (
-                <select
-                  onChange={(e) =>
-                    updateData(
-                      selectedHotel,
-                      selectedModule,
-                      selectedSubmodules,
-                      "isRequired",
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value="" disabled>
-                    Select True/False
-                  </option>
-                  <option value="True">True</option>
-                  <option value="False">False</option>
-                </select>
-              )}
-            </div>
+                <div className="checkbox-container">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="isRequired"
+                      checked={checkboxState.isRequired}
+                      onChange={handleCheckboxChange}
+                    />
+                    Is Required
+                  </label>
+                  {checkboxState.isRequired && (
+                    <select
+                      onChange={(e) =>
+                        updateData(
+                          selectedHotel,
+                          selectedModule,
+                          selectedSubmodules,
+                          "isRequired",
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="" disabled>
+                        Select True/False
+                      </option>
+                      <option value="True">True</option>
+                      <option value="False">False</option>
+                    </select>
+                  )}
+                </div>
+              </>
+            )}
           </>
         )}
       </div>
