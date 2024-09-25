@@ -18,7 +18,7 @@ const FieldModules = () => {
   const updateData = (hotel, module, submodules, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     const updatedSubmodules = submodules.map((sub) => ({
-      name: sub,
+      ...sub, // Keep the existing submodule structure
       ...keys.reduce((acc, key) => ({ ...acc, [key]: value }), {}),
     }));
 
@@ -170,8 +170,9 @@ const FieldModules = () => {
     (e) => {
       const submoduleName = e.target.value;
 
-      if (!selectedSubmodules.includes(submoduleName)) {
-        const newSubmodules = [...selectedSubmodules, submoduleName];
+      if (!selectedSubmodules.some((sub) => sub.name === submoduleName)) {
+        const newSubmodule = { name: submoduleName }; // Create an object for the submodule
+        const newSubmodules = [...selectedSubmodules, newSubmodule];
         setSelectedSubmodules(newSubmodules);
 
         if (selectedHotel && selectedModule) {
@@ -188,13 +189,10 @@ const FieldModules = () => {
             if (moduleExists) {
               const updatedSubmodules = updatedModules.map((mod) => {
                 if (mod.name === selectedModule.name) {
-                  const currentSubmodules = mod.submodules || [];
-                  if (!currentSubmodules.includes(submoduleName)) {
-                    return {
-                      ...mod,
-                      submodules: [...currentSubmodules, submoduleName],
-                    };
-                  }
+                  return {
+                    ...mod,
+                    submodules: [...(mod.submodules || []), newSubmodule], // Add the new object
+                  };
                 }
                 return mod;
               });
@@ -301,12 +299,15 @@ const FieldModules = () => {
                 <select onChange={handleSubmoduleSelect} value="">
                   <option value="" disabled>
                     {selectedSubmodules.length > 0
-                      ? `${selectedSubmodules.join(", ")}`
+                      ? `${selectedSubmodules
+                          .map((sub) => sub.name)
+                          .join(", ")}`
                       : "Select Submodule"}
                   </option>
                   {configFields[0].submodules
                     .filter(
-                      (submodule) => !selectedSubmodules.includes(submodule)
+                      (submodule) =>
+                        !selectedSubmodules.some((s) => s.name === submodule)
                     )
                     .map((submodule) => (
                       <option key={submodule} value={submodule}>
@@ -319,10 +320,7 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select
-                value={selectedKeys.length ? selectedKeys[0] : ""}
-                onChange={handleKeySelect}
-              >
+              <select value="" onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
@@ -338,10 +336,7 @@ const FieldModules = () => {
               <>
                 <div className="dropdown-container">
                   <label>Values:</label>
-                  <select
-                    value={keyValues.length ? keyValues[0] : ""}
-                    onChange={handleValueSelect}
-                  >
+                  <select onChange={handleValueSelect} value="">
                     <option value="" disabled>
                       Select Value
                     </option>
@@ -352,45 +347,13 @@ const FieldModules = () => {
                     ))}
                   </select>
                 </div>
-
-                {/* Conditional Checkboxes for "firstname" */}
-                {selectedKeys.includes("firstname") && (
-                  <div className="checkbox-container">
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={checkboxValues.firstCheckbox}
-                        onChange={(e) =>
-                          setCheckboxValues((prev) => ({
-                            ...prev,
-                            firstCheckbox: e.target.checked,
-                          }))
-                        }
-                      />
-                      First Checkbox
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={checkboxValues.secondCheckbox}
-                        onChange={(e) =>
-                          setCheckboxValues((prev) => ({
-                            ...prev,
-                            secondCheckbox: e.target.checked,
-                          }))
-                        }
-                      />
-                      Second Checkbox
-                    </label>
-                  </div>
-                )}
               </>
             )}
           </>
         )}
       </div>
 
-      {data.length > 0 && <FieldSelected data={data} setData={setData} />}
+      <FieldSelected data={data} setData={setData} />
     </div>
   );
 };

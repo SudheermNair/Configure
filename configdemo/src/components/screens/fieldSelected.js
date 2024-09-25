@@ -16,7 +16,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     return {
                       ...mod,
                       submodules: mod.submodules.filter(
-                        (sub) => (typeof sub === 'object' ? sub.name : sub) !== submoduleName
+                        (sub) => sub.name !== submoduleName
                       ),
                     };
                   }
@@ -39,6 +39,25 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
+  const removeKey = (hotelId, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          const { [key]: _, ...remainingKeys } = hotel;
+          return {
+            ...remainingKeys,
+            hotelId: hotel.hotelId,
+            name: hotel.name,
+            modules: hotel.modules,
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
   const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
     const updatedData = data
       .map((hotel) => {
@@ -50,12 +69,9 @@ const FieldSelected = ({ data = [], setData }) => {
                 return {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
-                    if (typeof sub === 'object' && sub.name === submoduleName) {
+                    if (sub.name === submoduleName) {
                       const { [key]: _, ...remainingKeys } = sub;
-                      return {
-                        ...remainingKeys,
-                        name: sub.name,
-                      };
+                      return remainingKeys; // No need to keep name here
                     }
                     return sub;
                   }),
@@ -72,23 +88,23 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
-  
-    try {
-      await navigator.clipboard.writeText(textData);
-      alert("Data copied to clipboard!");
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-      alert("Failed to copy data. Please try again.");
-    }
+    const blob = new Blob([textData], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "selected_data.tsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
-  
 
   if (data.length === 0) {
     return null;
@@ -117,13 +133,16 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
 
               {Object.keys(hotel)
-                .filter((key) => !["hotelId", "name", "modules"].includes(key))
+                .filter(
+                  (key) =>
+                    !["hotelId", "name", "modules", "title"].includes(key)
+                )
                 .map((key) => (
                   <div key={key} className="hotel-info">
                     {`${key}: ${hotel[key]}`}
                     <button
                       className="remove-btn"
-                      onClick={() => removeKeyFromSubmodule(hotel.hotelId, key)}
+                      onClick={() => removeKey(hotel.hotelId, key)}
                     >
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
@@ -131,78 +150,47 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
             </div>
 
-            {hotel.modules && hotel.modules.length > 0 && hotel.modules.map((module, moduleIndex) => (
-              <div key={moduleIndex} className="hotel-sub-info">
-                <div className="module-info">
-                  {`Module: ${module.name}`}
-                  <button
-                    className="remove-btn"
-                    onClick={() => removeItem(hotel.hotelId, module.name)}
-                  >
-                    <DeleteIcon style={{ fontSize: 18 }} />
-                  </button>
-                </div>
-
-                {Object.keys(module).filter(key => key !== 'name' && key !== 'submodules').map(key => (
-                  <div key={key}>
-                    {`${key}: ${module[key]}`}
+            {hotel.modules &&
+              hotel.modules.length > 0 &&
+              hotel.modules.map((module, moduleIndex) => (
+                <div key={moduleIndex} className="hotel-sub-info">
+                  <div className="module-info">
+                    {`Module: ${module.name}`}
+                    <button
+                      className="remove-btn"
+                      onClick={() => removeItem(hotel.hotelId, module.name)}
+                    >
+                      <DeleteIcon style={{ fontSize: 18 }} />
+                    </button>
                   </div>
-                ))}
 
-                {module.submodules && module.submodules.length > 0 && (
-                  <div className="submodule-info">
-                    {Array.from(new Set(module.submodules.map(sub => typeof sub === 'object' ? sub.name : sub))).map((submoduleName) => {
-                      return (
-                        <div key={submoduleName} className="submodule-info">
-                          <div>
-                            {`Submodule: ${submoduleName}`}
-                            <button
-                              className="remove-btn"
-                              onClick={() => removeItem(hotel.hotelId, module.name, submoduleName)}
-                            >
-                              <DeleteIcon style={{ fontSize: 18 }} />
-                            </button>
-                          </div>
-
-                          {module.submodules.map((sub) => {
-                            if (typeof sub === 'object' && sub.name === submoduleName) {
-                              return Object.keys(sub).map((key) => {
-                                if (key !== "name") {
-                                  return (
-                                    <div key={`${submoduleName}-${key}`}>
-                                      {`${key}: ${sub[key]}`}
-                                      <button
-                                        className="remove-btn"
-                                        onClick={() =>
-                                          removeKeyFromSubmodule(
-                                            hotel.hotelId,
-                                            module.name,
-                                            submoduleName,
-                                            key
-                                          )
-                                        }
-                                      >
-                                        <DeleteIcon style={{ fontSize: 18 }} />
-                                      </button>
-                                    </div>
-                                  );
-                                }
-                                return null;
-                              });
+                  {module.submodules && module.submodules.length > 0 && (
+                    <div className="submodule-info">
+                      {module.submodules.map((submodule, submoduleIndex) => (
+                        <div key={submoduleIndex} className="submodule-item">
+                          {`Submodule: ${submodule.name}`}
+                          <button
+                            className="remove-btn"
+                            onClick={() =>
+                              removeKey(
+                                hotel.hotelId,
+                                module.name,
+                                submodule.name
+                              )
                             }
-                            return null;
-                          })}
+                          >
+                            <DeleteIcon style={{ fontSize: 18 }} />
+                          </button>
                         </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            ))}
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}> Copy </button>
+      <button onClick={handleSubmit}>Save</button>
     </div>
   );
 };
