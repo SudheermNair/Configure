@@ -68,7 +68,13 @@ const FieldModules = () => {
     }
   };
 
-  const updateModules = (existingModules = [], module, submodules, key, value) => {
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodules,
+    key,
+    value
+  ) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -123,80 +129,90 @@ const FieldModules = () => {
     }
   }, []);
 
-  const handleModuleSelect = useCallback((e) => {
-    const moduleName = e.target.value;
-    setSelectedModule({ name: moduleName });
-    setSelectedSubmodules([]);
-    setSelectedKeys("");
-  
-    if (selectedHotel) {
-      const existingHotel = data.find((h) => h.hotelId === selectedHotel.hotelId);
+  const handleModuleSelect = useCallback(
+    (e) => {
+      const moduleName = e.target.value;
+      setSelectedModule({ name: moduleName });
+      setSelectedSubmodules([]);
+      setSelectedKeys("");
 
-      if (existingHotel) {
-        const updatedModules = existingHotel.modules || [];
-        const moduleExists = updatedModules.some((mod) => mod.name === moduleName);
-  
-        if (!moduleExists) {
-          updatedModules.push({
-            name: moduleName,
-          });
+      if (selectedHotel) {
+        const existingHotel = data.find(
+          (h) => h.hotelId === selectedHotel.hotelId
+        );
 
-          setData((prevData) =>
-            prevData.map((h) =>
-              h.hotelId === selectedHotel.hotelId
-                ? { ...h, modules: updatedModules }
-                : h
-            )
-          );
-        }
-      }
-    }
-  }, [selectedHotel, data]);
-  
-  
-
-  const handleSubmoduleSelect = useCallback((e) => {
-    const submoduleName = e.target.value;
-  
-    if (!selectedSubmodules.includes(submoduleName)) {
-      const newSubmodules = [...selectedSubmodules, submoduleName];
-      setSelectedSubmodules(newSubmodules);
-  
-      if (selectedHotel && selectedModule) {
-        const existingHotel = data.find((h) => h.hotelId === selectedHotel.hotelId);
-  
         if (existingHotel) {
           const updatedModules = existingHotel.modules || [];
-          const moduleExists = updatedModules.some((mod) => mod.name === selectedModule.name);
-  
-          if (moduleExists) {
-            const updatedSubmodules = updatedModules.map((mod) => {
-              if (mod.name === selectedModule.name) {
-                const currentSubmodules = mod.submodules || [];
-                if (!currentSubmodules.includes(submoduleName)) {
-                  return {
-                    ...mod,
-                    submodules: [...currentSubmodules, submoduleName],
-                  };
-                }
-              }
-              return mod;
+          const moduleExists = updatedModules.some(
+            (mod) => mod.name === moduleName
+          );
+
+          if (!moduleExists) {
+            updatedModules.push({
+              name: moduleName,
             });
-  
+
             setData((prevData) =>
               prevData.map((h) =>
                 h.hotelId === selectedHotel.hotelId
-                  ? { ...h, modules: updatedSubmodules }
+                  ? { ...h, modules: updatedModules }
                   : h
               )
             );
           }
         }
       }
-    }
-  }, [selectedHotel, selectedModule, selectedSubmodules, data]);
-  
+    },
+    [selectedHotel, data]
+  );
 
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
+
+      if (!selectedSubmodules.includes(submoduleName)) {
+        const newSubmodules = [...selectedSubmodules, submoduleName];
+        setSelectedSubmodules(newSubmodules);
+
+        if (selectedHotel && selectedModule) {
+          const existingHotel = data.find(
+            (h) => h.hotelId === selectedHotel.hotelId
+          );
+
+          if (existingHotel) {
+            const updatedModules = existingHotel.modules || [];
+            const moduleExists = updatedModules.some(
+              (mod) => mod.name === selectedModule.name
+            );
+
+            if (moduleExists) {
+              const updatedSubmodules = updatedModules.map((mod) => {
+                if (mod.name === selectedModule.name) {
+                  const currentSubmodules = mod.submodules || [];
+                  if (!currentSubmodules.includes(submoduleName)) {
+                    return {
+                      ...mod,
+                      submodules: [...currentSubmodules, submoduleName],
+                    };
+                  }
+                }
+                return mod;
+              });
+
+              setData((prevData) =>
+                prevData.map((h) =>
+                  h.hotelId === selectedHotel.hotelId
+                    ? { ...h, modules: updatedSubmodules }
+                    : h
+                )
+              );
+            }
+          }
+        }
+      }
+    },
+    [selectedHotel, selectedModule, selectedSubmodules, data]
+  );
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -303,7 +319,10 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value="" onChange={handleKeySelect}>
+              <select
+                value={selectedKeys.length ? selectedKeys[0] : ""}
+                onChange={handleKeySelect}
+              >
                 <option value="" disabled>
                   Select Key
                 </option>
@@ -319,7 +338,10 @@ const FieldModules = () => {
               <>
                 <div className="dropdown-container">
                   <label>Values:</label>
-                  <select onChange={handleValueSelect} value="">
+                  <select
+                    value={keyValues.length ? keyValues[0] : ""}
+                    onChange={handleValueSelect}
+                  >
                     <option value="" disabled>
                       Select Value
                     </option>
