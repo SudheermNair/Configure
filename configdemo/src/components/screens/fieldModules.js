@@ -235,10 +235,10 @@ const FieldModules = () => {
       return prev; // Prevent duplicates
     });
 
-    setCheckboxValues({
-      firstCheckbox: false,
-      secondCheckbox: false,
-    });
+    // setCheckboxValues({
+    //   firstCheckbox: false,
+    //   secondCheckbox: false,
+    // });
 
     // Load the corresponding values based on the selected key
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
