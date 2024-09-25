@@ -74,7 +74,7 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
       return;
@@ -128,7 +128,9 @@ const FieldSelected = ({ data = [], setData }) => {
                     {`${key}: ${hotel[key]}`}
                     <button
                       className="remove-btn"
-                      onClick={() => removeKeyFromSubmodule(hotel.hotelId, key)}
+                      onClick={() =>
+                        removeKeyFromSubmodule(hotel.hotelId, null, key)
+                      }
                     >
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
@@ -136,8 +138,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 ))}
             </div>
 
-            {hotel.modules &&
-              hotel.modules.length > 0 &&
+            {hotel.modules && hotel.modules.length > 0 ? (
               hotel.modules.map((module, moduleIndex) => (
                 <div key={moduleIndex} className="hotel-sub-info">
                   <div className="module-info">
@@ -157,79 +158,86 @@ const FieldSelected = ({ data = [], setData }) => {
                       <div key={key}>{`${key}: ${module[key]}`}</div>
                     ))}
 
-                  {module.submodules && module.submodules.length > 0 && (
+                  {module.submodules && module.submodules.length > 0 ? (
                     <div className="submodule-info">
-                      {/* Set to keep track of displayed submodules */}
                       {Array.from(
                         new Set(
                           module.submodules.map((sub) =>
                             typeof sub === "object" ? sub.name : sub
                           )
                         )
-                      ).map((submoduleName) => {
-                        return (
-                          <div key={submoduleName} className="submodule-info">
-                            <div>
-                              {`Submodule: ${submoduleName}`}
-                              <button
-                                className="remove-btn"
-                                onClick={() =>
-                                  removeItem(
-                                    hotel.hotelId,
-                                    module.name,
-                                    submoduleName
-                                  )
-                                }
-                              >
-                                <DeleteIcon style={{ fontSize: 18 }} />
-                              </button>
-                            </div>
-
-                            {/* Display submodule properties */}
-                            {module.submodules.map((sub) => {
-                              if (
-                                typeof sub === "object" &&
-                                sub.name === submoduleName
-                              ) {
-                                return Object.keys(sub).map((key) => {
-                                  if (key !== "name") {
-                                    return (
-                                      <div key={`${submoduleName}-${key}`}>
-                                        {`${key}: ${sub[key]}`}
-                                        <button
-                                          className="remove-btn"
-                                          onClick={() =>
-                                            removeKeyFromSubmodule(
-                                              hotel.hotelId,
-                                              module.name,
-                                              submoduleName,
-                                              key
-                                            )
-                                          }
-                                        >
-                                          <DeleteIcon
-                                            style={{ fontSize: 18 }}
-                                          />
-                                        </button>
-                                      </div>
-                                    );
-                                  }
-                                  return null;
-                                });
+                      ).map((submoduleName) => (
+                        <div key={submoduleName} className="submodule-item">
+                          <div>
+                            {`Submodule: ${submoduleName}`}
+                            <button
+                              className="remove-btn"
+                              onClick={() =>
+                                removeItem(
+                                  hotel.hotelId,
+                                  module.name,
+                                  submoduleName
+                                )
                               }
-                              return null;
-                            })}
+                            >
+                              <DeleteIcon style={{ fontSize: 18 }} />
+                            </button>
                           </div>
-                        );
-                      })}
+
+                          {/* Display submodule properties only if it's an object */}
+                          {module.submodules.map((sub) => {
+                            if (
+                              typeof sub === "object" &&
+                              sub.name === submoduleName
+                            ) {
+                              return (
+                                <div
+                                  key={submoduleName}
+                                  className="submodule-properties"
+                                >
+                                  {Object.keys(sub).map((key) => {
+                                    if (key !== "name") {
+                                      return (
+                                        <div key={`${submoduleName}-${key}`}>
+                                          {`${key}: ${sub[key]}`}
+                                          <button
+                                            className="remove-btn"
+                                            onClick={() =>
+                                              removeKeyFromSubmodule(
+                                                hotel.hotelId,
+                                                module.name,
+                                                submoduleName,
+                                                key
+                                              )
+                                            }
+                                          >
+                                            <DeleteIcon
+                                              style={{ fontSize: 18 }}
+                                            />
+                                          </button>
+                                        </div>
+                                      );
+                                    }
+                                    return null;
+                                  })}
+                                </div>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
+                      ))}
                     </div>
-                  )}
+                  ) : null}
                 </div>
-              ))}
+              ))
+            ) : (
+              <div>No modules available</div>
+            )}
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}> Copy </button>
+      <button onClick={handleSubmit}>Save</button>
     </div>
   );
 };
