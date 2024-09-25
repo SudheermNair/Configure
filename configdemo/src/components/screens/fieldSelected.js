@@ -72,23 +72,23 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (data.length === 0) {
       alert("Please add items to submit!");
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
-    const blob = new Blob([textData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "selected_data.tsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  
+    try {
+      await navigator.clipboard.writeText(textData);
+      alert("Data copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+      alert("Failed to copy data. Please try again.");
+    }
   };
+  
 
   if (data.length === 0) {
     return null;
@@ -117,7 +117,7 @@ const FieldSelected = ({ data = [], setData }) => {
               </div>
 
               {Object.keys(hotel)
-                .filter((key) => !["hotelId", "name", "modules", "title"].includes(key))
+                .filter((key) => !["hotelId", "name", "modules"].includes(key))
                 .map((key) => (
                   <div key={key} className="hotel-info">
                     {`${key}: ${hotel[key]}`}
@@ -143,7 +143,6 @@ const FieldSelected = ({ data = [], setData }) => {
                   </button>
                 </div>
 
-                {/* Display module-level properties */}
                 {Object.keys(module).filter(key => key !== 'name' && key !== 'submodules').map(key => (
                   <div key={key}>
                     {`${key}: ${module[key]}`}
@@ -152,7 +151,6 @@ const FieldSelected = ({ data = [], setData }) => {
 
                 {module.submodules && module.submodules.length > 0 && (
                   <div className="submodule-info">
-                    {/* Set to keep track of displayed submodules */}
                     {Array.from(new Set(module.submodules.map(sub => typeof sub === 'object' ? sub.name : sub))).map((submoduleName) => {
                       return (
                         <div key={submoduleName} className="submodule-info">
@@ -166,7 +164,6 @@ const FieldSelected = ({ data = [], setData }) => {
                             </button>
                           </div>
 
-                          {/* Display submodule properties */}
                           {module.submodules.map((sub) => {
                             if (typeof sub === 'object' && sub.name === submoduleName) {
                               return Object.keys(sub).map((key) => {
@@ -205,7 +202,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Save</button>
+      <button onClick={handleSubmit}> Copy </button>
     </div>
   );
 };
