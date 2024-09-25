@@ -4,131 +4,38 @@ export const configFields = [
       {
         name: "Pullman Orchard Stage",
         hotelId: "989814e5-2fda-4ab8-b795-33f4d76f1866",
-        details: [],
       },
       {
         name: "Sofitel Manila",
         hotelId: "259034ee-3f5c-43b0-9332-dffd85ccba65",
-        details: [],
       },
       {
         name: "Londoner Leicester Square",
         hotelId: "aa211eb9-110c-47cb-ade4-7db0e6da20b4",
-        details: [],
       },
     ],
     modules: [
-      {
-        name: "Home",
-        details: [],
-      },
-      {
-        name: "FaceScan",
-        details: [],
-      },
-      {
-        name: "BookingID",
-        details: [],
-      },
-      {
-        name: "ConfirmationID",
-        details: [],
-      },
-      {
-        name: "CheckoutKey",
-        details: [],
-      },
-      {
-        name: "ScanDoc",
-        details: [],
-      },
-      {
-        name: "KeyCard",
-        details: [],
-      },
+      "Home",
+      "FaceScan",
+      "BookingID",
+      "ConfirmationID",
+      "CheckoutKey",
+      "ScanDoc",
+      "KeyCard",
+      "Preferences",
+      "Check-In",
+      "In-Room Dining",
+      "Services",
+
+      "Checkout",
     ],
     submodules: [
-      {
-        name: "accompanyingGuest",
-        details: [],
-      },
-      {
-        name: "cardPreAuthorize",
-        details: [],
-      },
-      {
-        name: "cardAuthorize",
-        details: [],
-      },
-      {
-        name: "checkIn",
-        details: [
-          {
-            title: "ENHANCE YOUR STAY! SHARE YOUR DESIRES BELOW",
-          },
-          {
-            name: "firstName",
-            label: "First Name",
-            type: "Text",
-            required: true,
-            isDisabled: true,
-            isActive: true,
-          },
-          {
-            name: "lastName",
-            label: "Last Name",
-            type: "Text",
-            required: true,
-            isDisabled: true,
-            isActive: true,
-          },
-          {
-            name: "emails",
-            label: "Email",
-            type: "Text",
-            required: true,
-            isDisabled: false,
-            isActive: true,
-          },
-          {
-            name: "phone",
-            label: "Phone Number",
-            type: "tel",
-            required: true,
-            isDisabled: false,
-            isActive: true,
-          },
-          {
-            name: "docType",
-            label: "Document Type",
-            type: "AutoComplete",
-            required: true,
-            isDisabled: false,
-            isActive: true,
-          },
-          {
-            name: "docNo",
-            label: "Document Number",
-            type: "Text",
-            required: true,
-            isDisabled: false,
-            isActive: true,
-          },
-          {
-            name: "condition",
-            label:
-              "I agree to receive an invitation email to validate and sign up for a complimentary ACCOR Membership.",
-            type: "CheckBox",
-            required: true,
-            isDisabled: false,
-            isActive: false,
-          },
-        ],
-      },
-      {
-        name: "signStayInfo",
-        details: [],
-      },
+      "accompanyingGuest",
+      "cardPreAuthorize",
+      "cardAuthorize",
+      "checkIn",
+      "signStayInfo",
+      "Headers",
     ],
     Keys: [
       {
@@ -184,7 +91,7 @@ export const configFields = [
           "Document Number",
           "Email",
           "Payment Successful",
-          "Add your e-signature",
+          "Addyour e-signature",
         ],
         title: [
           "Place Your Key",
@@ -193,7 +100,6 @@ export const configFields = [
           "Email Invoice",
           "PREAMBLE",
         ],
-        details: [],
       },
     ],
   },
