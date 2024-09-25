@@ -11,6 +11,13 @@ const FieldModules = () => {
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
+  // State for checkbox values
+  const [checkboxState, setCheckboxState] = useState({
+    isActive: false,
+    isDisabled: false,
+    isRequired: false,
+  });
+
   const updateData = (hotel, module, submodules, keys, value) => {
     const existingHotel = data.find((h) => h.hotelId === hotel.hotelId);
     const updatedSubmodules = submodules.map((sub) => ({
@@ -62,7 +69,13 @@ const FieldModules = () => {
     }
   };
 
-  const updateModules = (existingModules = [], module, submodules, key, value) => {
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodules,
+    key,
+    value
+  ) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -108,8 +121,8 @@ const FieldModules = () => {
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
+    setCheckboxState({ isActive: false, isDisabled: false, isRequired: false }); // Reset checkbox state
 
-    // Initialize data for the selected hotel
     if (selected) {
       const newHotelData = {
         hotelId: selected.hotelId,
@@ -119,31 +132,86 @@ const FieldModules = () => {
     }
   }, []);
 
-  const handleModuleSelect = useCallback((e) => {
-    const moduleName = e.target.value;
-    setSelectedModule({ name: moduleName });
-    setSelectedSubmodules([]);
-    setSelectedKeys("");
-  }, []);
+  const handleModuleSelect = useCallback(
+    (e) => {
+      const moduleName = e.target.value;
+      setSelectedModule({ name: moduleName });
+      setSelectedSubmodules([]);
+      setSelectedKeys("");
 
-  const handleSubmoduleSelect = (e) => {
-    const submoduleName = e.target.value;
+      if (selectedHotel) {
+        const existingHotel = data.find(
+          (h) => h.hotelId === selectedHotel.hotelId
+        );
 
-    if (!selectedSubmodules.includes(submoduleName)) {
+        if (existingHotel) {
+          const updatedModules = existingHotel.modules || [];
+          const moduleExists = updatedModules.some(
+            (mod) => mod.name === moduleName
+          );
+
+          if (!moduleExists) {
+            updatedModules.push({
+              name: moduleName,
+            });
+
+            setData((prevData) =>
+              prevData.map((h) =>
+                h.hotelId === selectedHotel.hotelId
+                  ? { ...h, modules: updatedModules }
+                  : h
+              )
+            );
+          }
+        }
+      }
+    },
+    [selectedHotel, data]
+  );
+
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
+
       const newSubmodules = [...selectedSubmodules, submoduleName];
       setSelectedSubmodules(newSubmodules);
 
-      if (selectedHotel && selectedModule && selectedKeys) {
-        updateData(
-          selectedHotel,
-          { name: selectedModule.name },
-          newSubmodules,
-          selectedKeys,
-          null
+      if (selectedHotel && selectedModule) {
+        const existingHotel = data.find(
+          (h) => h.hotelId === selectedHotel.hotelId
         );
+
+        if (existingHotel) {
+          const updatedModules = existingHotel.modules || [];
+          const moduleExists = updatedModules.some(
+            (mod) => mod.name === selectedModule.name
+          );
+
+          if (moduleExists) {
+            const updatedSubmodules = updatedModules.map((mod) => {
+              if (mod.name === selectedModule.name) {
+                const currentSubmodules = mod.submodules || [];
+                return {
+                  ...mod,
+                  submodules: [...currentSubmodules, submoduleName],
+                };
+              }
+              return mod;
+            });
+
+            setData((prevData) =>
+              prevData.map((h) =>
+                h.hotelId === selectedHotel.hotelId
+                  ? { ...h, modules: updatedSubmodules }
+                  : h
+              )
+            );
+          }
+        }
       }
-    }
-  };
+    },
+    [selectedHotel, selectedModule, selectedSubmodules, data]
+  );
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -167,6 +235,25 @@ const FieldModules = () => {
     setSelectedModule(null);
     setSelectedSubmodules([]);
     setSelectedKeys("");
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setCheckboxState((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+
+    // Update data immediately based on checkbox changes
+    if (selectedHotel && selectedModule && selectedKeys) {
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        name,
+        checked ? "True" : "False"
+      );
+    }
   };
 
   return (
@@ -261,6 +348,100 @@ const FieldModules = () => {
                 </select>
               </div>
             )}
+
+            {/* Checkbox Section */}
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isActive"
+                  checked={checkboxState.isActive}
+                  onChange={handleCheckboxChange}
+                />
+                Is Active
+              </label>
+              {checkboxState.isActive && (
+                <select
+                  onChange={(e) =>
+                    updateData(
+                      selectedHotel,
+                      selectedModule,
+                      selectedSubmodules,
+                      "isActive",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="" disabled>
+                    Select True/False
+                  </option>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              )}
+            </div>
+
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isDisabled"
+                  checked={checkboxState.isDisabled}
+                  onChange={handleCheckboxChange}
+                />
+                Is Disabled
+              </label>
+              {checkboxState.isDisabled && (
+                <select
+                  onChange={(e) =>
+                    updateData(
+                      selectedHotel,
+                      selectedModule,
+                      selectedSubmodules,
+                      "isDisabled",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="" disabled>
+                    Select True/False
+                  </option>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              )}
+            </div>
+
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isRequired"
+                  checked={checkboxState.isRequired}
+                  onChange={handleCheckboxChange}
+                />
+                Is Required
+              </label>
+              {checkboxState.isRequired && (
+                <select
+                  onChange={(e) =>
+                    updateData(
+                      selectedHotel,
+                      selectedModule,
+                      selectedSubmodules,
+                      "isRequired",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="" disabled>
+                    Select True/False
+                  </option>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              )}
+            </div>
           </>
         )}
       </div>
@@ -271,5 +452,3 @@ const FieldModules = () => {
 };
 
 export default FieldModules;
-
-
