@@ -180,7 +180,6 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-    setKeyValueSelected(false); // Reset key value selected state
   };
 
   const handleValueSelect = (e) => {
@@ -194,7 +193,6 @@ const FieldModules = () => {
         selectedKeys,
         selectedValue
       );
-      setKeyValueSelected(true); // Set to true when a key and value are selected
     }
 
     setSelectedModule(null);
@@ -291,12 +289,12 @@ const FieldModules = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select onChange={handleKeySelect} value={selectedKeys}>
+              <select value={selectedKeys || ""} onChange={handleKeySelect}>
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key) => (
-                  <option key={key} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
+                  <option key={index} value={key}>
                     {key}
                   </option>
                 ))}
