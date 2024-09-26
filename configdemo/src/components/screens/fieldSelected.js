@@ -86,7 +86,7 @@ const FieldSelected = ({ data = [], setData }) => {
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
 
-      // Change button text back to "Copy" after 2 seconds
+     
       setTimeout(() => {
         setCopyButtonText("Copy");
       }, 2000);
@@ -151,7 +151,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     </button>
                   </div>
 
-                  {/* Display module-level properties */}
+             
                   {Object.keys(module)
                     .filter((key) => key !== "name" && key !== "submodules")
                     .map((key) => (
@@ -160,7 +160,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
                   {module.submodules && module.submodules.length > 0 && (
                     <div className="submodule-info">
-                      {/* Set to keep track of displayed submodules */}
+                     
                       {Array.from(
                         new Set(
                           module.submodules.map((sub) =>
@@ -186,7 +186,7 @@ const FieldSelected = ({ data = [], setData }) => {
                               </button>
                             </div>
 
-                            {/* Display submodule properties */}
+                           
                             {module.submodules.map((sub) => {
                               if (
                                 typeof sub === "object" &&
