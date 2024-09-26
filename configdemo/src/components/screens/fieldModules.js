@@ -71,7 +71,8 @@ const FieldModules = () => {
 
         return updatedData;
       });
-    }
+    },
+    []
   );
 
   const updateModules = (
@@ -210,7 +211,6 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-    setIsKeyValueSelected(false); // Reset key value selected state
   };
 
   const handleValueSelect = (e) => {
@@ -245,6 +245,10 @@ const FieldModules = () => {
     }
   };
 
+  const handleDetailsKeySelect = (e) => {
+    const selectedKey = e.target.value;
+    setDetailsKey(selectedKey);
+  };
 
   const handleDetailsValueSelect = (e) => {
     const selectedValue = e.target.value;
@@ -260,7 +264,8 @@ const FieldModules = () => {
         { key: detailsKey, value: selectedValue }
       );
     }
-  
+  };
+
   const removeSubmodule = (submoduleName) => {
     setSelectedSubmodules((prevSubmodules) => {
       const updatedSubmodules = prevSubmodules.filter(
@@ -286,7 +291,8 @@ const FieldModules = () => {
 
         <div className="dropdown-container">
           <label>Hotel:</label>
-          <select className="submodule-dropdown"
+          <select
+            className="submodule-dropdown"
             value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
@@ -305,7 +311,8 @@ const FieldModules = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select className="submodule-dropdown"
+              <select
+                className="submodule-dropdown"
                 value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
@@ -322,10 +329,13 @@ const FieldModules = () => {
 
             {selectedModule && (
               <div className="dropdown-container submodules">
-                
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                <select onChange={handleSubmoduleSelect} value="" className="submodule-dropdown">
+                  <select
+                    onChange={handleSubmoduleSelect}
+                    value=""
+                    className="submodule-dropdown"
+                  >
                     <option value="" disabled>
                       Select Submodule
                     </option>
@@ -343,8 +353,8 @@ const FieldModules = () => {
                       ))}
                   </select>
 
-                   {selectedSubmodules.map((submodule) => (
-                    <span key={submodule.name} className="selected-submodule" >
+                  {selectedSubmodules.map((submodule) => (
+                    <span key={submodule.name} className="selected-submodule">
                       {submodule.name}
                       <button
                         onClick={(e) => {
@@ -357,30 +367,36 @@ const FieldModules = () => {
                       </button>
                     </span>
                   ))}
-                 </div>
+                </div>
               </div>
             )}
 
-            {/* Key Selection */}
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect}  className="submodule-dropdown">
+              <select
+                value={selectedKeys || ""}
+                onChange={handleKeySelect}
+                className="submodule-dropdown"
+              >
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key) => (
-                  <option key={key} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
+                  <option key={index} value={key}>
                     {key}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Value Selection */}
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
-                <select onChange={handleValueSelect} value="" className="submodule-dropdown">
+                <select
+                  onChange={handleValueSelect}
+                  value=""
+                  className="submodule-dropdown"
+                >
                   <option value="" disabled>
                     Select Value
                   </option>
@@ -538,5 +554,4 @@ const FieldModules = () => {
     </div>
   );
 };
-
 export default FieldModules;
