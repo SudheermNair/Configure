@@ -97,7 +97,7 @@ const FieldModules = () => {
               sub.details = sub.details || [];
               // Add the selected key-value pair to the details array
               if (fieldDetailsChecked) {
-                sub.details.push({ description2: 'Check-in Completed' }); // Fixed key-value
+                sub.details.push({ selectedKeys: keyValues });
               }
             });
           }
@@ -130,14 +130,14 @@ const FieldModules = () => {
       if (key === 'details') {
         newModule.submodules = submodules.map((sub) => ({
           ...sub,
-          details: [{ description2: 'Check-in Completed' }], // Fixed key-value for new module
+          details: [{selectedKeys: keyValues}], // Fixed key-value for new module
         }));
       }
 
       if (submodules.length > 0) {
         newModule.submodules = submodules.map((sub) => ({
           ...sub,
-          details: [{ description2: 'Check-in Completed' }], // Fixed key-value for each submodule
+          details: [{ selectedKeys: keyValues}], // Fixed key-value for each submodule
         }));
       }
 
@@ -253,7 +253,7 @@ const FieldModules = () => {
           selectedModule,
           [submodule],
           'details',
-          checked ? [{ selectedKeys: setKeyValues }] : undefined // Add the selected key-value pair if
+          checked ? [{ selectedKeys: keyValues }] : undefined // Add the selected key-value pair if
         );
       });
     }
