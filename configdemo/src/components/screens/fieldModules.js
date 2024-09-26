@@ -176,30 +176,7 @@ const FieldModules = () => {
       const module = { name: moduleName };
       setSelectedModule(module);
       if (selectedHotel) {
-        const existingHotel = data.find(
-          (h) => h.hotelId === selectedHotel.hotelId
-        );
-
-        if (existingHotel) {
-          const updatedModules = existingHotel.modules || [];
-          const moduleExists = updatedModules.some(
-            (mod) => mod.name === moduleName
-          );
-
-          if (!moduleExists) {
-            updatedModules.push({
-              name: moduleName,
-            });
-
-            setData((prevData) =>
-              prevData.map((h) =>
-                h.hotelId === selectedHotel.hotelId
-                  ? { ...h, modules: updatedModules }
-                  : h
-              )
-            );
-          }
-        }
+        updateData(selectedHotel, module, [], null, null);
       }
     },
     [selectedHotel, updateData]
@@ -233,7 +210,6 @@ const FieldModules = () => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
-    setIsKeyValueSelected(false); // Reset key value selected state
   };
 
   const handleValueSelect = (e) => {
@@ -247,7 +223,6 @@ const FieldModules = () => {
         selectedKeys,
         selectedValue
       );
-      setIsKeyValueSelected(true); // Set to true when a key and value are selected
     }
   };
 
@@ -269,6 +244,10 @@ const FieldModules = () => {
     }
   };
 
+  const handleDetailsKeySelect = (e) => {
+    const selectedKey = e.target.value;
+    setDetailsKey(selectedKey);
+  };
 
   const handleDetailsValueSelect = (e) => {
     const selectedValue = e.target.value;
@@ -284,7 +263,8 @@ const FieldModules = () => {
         { key: detailsKey, value: selectedValue }
       );
     }
-  
+  };
+
   const removeSubmodule = (submoduleName) => {
     setSelectedSubmodules((prevSubmodules) => {
       const updatedSubmodules = prevSubmodules.filter(
@@ -310,7 +290,8 @@ const FieldModules = () => {
 
         <div className="dropdown-container">
           <label>Hotel:</label>
-          <select className="submodule-dropdown"
+          <select
+            className="submodule-dropdown"
             value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
@@ -329,7 +310,8 @@ const FieldModules = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select className="submodule-dropdown"
+              <select
+                className="submodule-dropdown"
                 value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
@@ -346,10 +328,13 @@ const FieldModules = () => {
 
             {selectedModule && (
               <div className="dropdown-container submodules">
-                
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                <select onChange={handleSubmoduleSelect} value="" className="submodule-dropdown">
+                  <select
+                    onChange={handleSubmoduleSelect}
+                    value=""
+                    className="submodule-dropdown"
+                  >
                     <option value="" disabled>
                       Select Submodule
                     </option>
@@ -367,8 +352,8 @@ const FieldModules = () => {
                       ))}
                   </select>
 
-                   {selectedSubmodules.map((submodule) => (
-                    <span key={submodule.name} className="selected-submodule" >
+                  {selectedSubmodules.map((submodule) => (
+                    <span key={submodule.name} className="selected-submodule">
                       {submodule.name}
                       <button
                         onClick={(e) => {
@@ -381,19 +366,22 @@ const FieldModules = () => {
                       </button>
                     </span>
                   ))}
-                 </div>
+                </div>
               </div>
             )}
 
-            {/* Key Selection */}
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect}  className="submodule-dropdown">
+              <select
+                value={selectedKeys || ""}
+                onChange={handleKeySelect}
+                className="submodule-dropdown"
+              >
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key) => (
-                  <option key={key} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
+                  <option key={index} value={key}>
                     {key}
                   </option>
                 ))}
@@ -403,7 +391,11 @@ const FieldModules = () => {
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
-                <select onChange={handleValueSelect} value="" className="submodule-dropdown">
+                <select
+                  onChange={handleValueSelect}
+                  value=""
+                  className="submodule-dropdown"
+                >
                   <option value="" disabled>
                     Select Value
                   </option>
@@ -417,71 +409,63 @@ const FieldModules = () => {
             )}
 
             {/* Checkbox Section */}
-            {isKeyValueSelected && ( // Show checkboxes only after selecting a key and value
-              <>
-                <div className="checkbox-container">
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="isActive"
-                      checked={checkboxState.isActive}
-                      onChange={handleCheckboxChange}
-                    />
-                    Is Active
-                  </label>
-                  {checkboxState.isActive && (
-                    <select
-                      onChange={(e) =>
-                        updateData(
-                          selectedHotel,
-                          selectedModule,
-                          selectedSubmodules,
-                          "isActive",
-                          e.target.value
-                        )
-                      }
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Select True/False
-                      </option>
-                      <option value="True">True</option>
-                      <option value="False">False</option>
-                    </select>
-                  )}
-                </div>
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isActive"
+                  checked={checkboxState.isActive}
+                  onChange={handleCheckboxChange}
+                />
+                Is Active
+              </label>
+              {checkboxState.isActive && (
+                <select
+                  onChange={(e) =>
+                    updateData(
+                      selectedHotel,
+                      selectedModule,
+                      selectedSubmodules,
+                      "isActive",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">Select value</option>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              )}
+            </div>
 
-                <div className="checkbox-container">
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="isDisabled"
-                      checked={checkboxState.isDisabled}
-                      onChange={handleCheckboxChange}
-                    />
-                    Is Disabled
-                  </label>
-                  {checkboxState.isDisabled && (
-                    <select
-                      onChange={(e) =>
-                        updateData(
-                          selectedHotel,
-                          selectedModule,
-                          selectedSubmodules,
-                          "isDisabled",
-                          e.target.value
-                        )
-                      }
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        Select True/False
-                      </option>
-                      <option value="True">True</option>
-                      <option value="False">False</option>
-                    </select>
-                  )}
-                </div>
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  name="isDisabled"
+                  checked={checkboxState.isDisabled}
+                  onChange={handleCheckboxChange}
+                />
+                Is Disabled
+              </label>
+              {checkboxState.isDisabled && (
+                <select
+                  onChange={(e) =>
+                    updateData(
+                      selectedHotel,
+                      selectedModule,
+                      selectedSubmodules,
+                      "isDisabled",
+                      e.target.value
+                    )
+                  }
+                >
+                  <option value="">Select value</option>
+                  <option value="True">True</option>
+                  <option value="False">False</option>
+                </select>
+              )}
+            </div>
 
             <div className="checkbox-container">
               <label>
@@ -564,9 +548,9 @@ const FieldModules = () => {
         </div>
       </div>
 
+      {/* Displaying JSON data dynamically */}
       {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
 };
-
 export default FieldModules;
