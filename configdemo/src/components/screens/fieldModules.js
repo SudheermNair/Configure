@@ -499,53 +499,55 @@ const FieldModules = () => {
         )}
 
         {/* Details checkbox */}
-        <div className="checkbox-container">
-          <label>
-            <input
-              type="checkbox"
-              name="hasDetails"
-              checked={checkboxState.hasDetails}
-              onChange={handleCheckboxChange}
-            />
-            Has Details
-          </label>
-          {checkboxState.hasDetails && (
-            <>
-              <div className="dropdown-container">
-                <label>Details Key:</label>
-                <select onChange={handleDetailsKeySelect} value={detailsKey}>
-                  <option value="" disabled>
-                    Select Details Key
-                  </option>
-                  {Object.keys(configFields[0].Keys[0]).map((key, index) => (
-                    <option key={index} value={key}>
-                      {key}
+        {selectedModule && (
+          <div className="checkbox-container">
+            <label>
+              <input
+                type="checkbox"
+                name="hasDetails"
+                checked={checkboxState.hasDetails}
+                onChange={handleCheckboxChange}
+              />
+              Has Details
+            </label>
+            {checkboxState.hasDetails && (
+              <>
+                <div className="dropdown-container">
+                  <label>Details Key:</label>
+                  <select onChange={handleDetailsKeySelect} value={detailsKey}>
+                    <option value="" disabled>
+                      Select Details Key
                     </option>
-                  ))}
-                </select>
-              </div>
+                    {Object.keys(configFields[0].Keys[0]).map((key, index) => (
+                      <option key={index} value={key}>
+                        {key}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-              <div className="dropdown-container">
-                <label>Details Value:</label>
-                <select
-                  onChange={handleDetailsValueSelect}
-                  value={detailsValue}
-                >
-                  <option value="" disabled>
-                    Select Details Value
-                  </option>
-                  {keyValues.map((value, index) => (
-                    <option key={index} value={value}>
-                      {value}
+                <div className="dropdown-container">
+                  <label>Details Value:</label>
+                  <select
+                    onChange={handleDetailsValueSelect}
+                    value={detailsValue}
+                  >
+                    <option value="" disabled>
+                      Select Details Value
                     </option>
-                  ))}
-                  {/* <option value="True">True</option>
+                    {keyValues.map((value, index) => (
+                      <option key={index} value={value}>
+                        {value}
+                      </option>
+                    ))}
+                    {/* <option value="True">True</option>
                   <option value="False">False</option> */}
-                </select>
-              </div>
-            </>
-          )}
-        </div>
+                  </select>
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Displaying JSON data dynamically */}
