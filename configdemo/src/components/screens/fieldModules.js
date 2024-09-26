@@ -534,13 +534,13 @@ const FieldModules = () => {
                   <option value="" disabled>
                     Select Details Value
                   </option>
-                  {/* {keyValues.map((value, index) => (
+                  {keyValues.map((value, index) => (
                     <option key={index} value={value}>
                       {value}
                     </option>
-                  ))} */}
-                  <option value="True">True</option>
-                  <option value="False">False</option>
+                  ))}
+                  {/* <option value="True">True</option>
+                  <option value="False">False</option> */}
                 </select>
               </div>
             </>
