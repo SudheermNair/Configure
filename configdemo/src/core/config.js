@@ -2,16 +2,118 @@ export const configFields = [
   {
     hotels: [
       {
-        name: "Pullman Orchard Stage",
+        name: "Pullman Orchard ",
         hotelId: "989814e5-2fda-4ab8-b795-33f4d76f1866",
+        details: [
+          {
+            name: "cardNumber",
+            label: "Card Number",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardHolderName",
+            label: "Card Holder Name",
+            type: "Text",
+            required: false,
+            isDisabled: true,
+            isActive: false,
+          },
+          {
+            name: "cardType",
+            label: "Card Type",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardExpiryDate",
+            label: "Expiry Date",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+        ],
       },
       {
         name: "Sofitel Manila",
         hotelId: "259034ee-3f5c-43b0-9332-dffd85ccba65",
+        details: [
+          {
+            name: "cardNumber",
+            label: "Card Number",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardHolderName",
+            label: "Card Holder Name",
+            type: "Text",
+            required: false,
+            isDisabled: true,
+            isActive: false,
+          },
+          {
+            name: "cardType",
+            label: "Card Type",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardExpiryDate",
+            label: "Expiry Date",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+        ],
       },
       {
         name: "Londoner Leicester Square",
         hotelId: "aa211eb9-110c-47cb-ade4-7db0e6da20b4",
+        details: [
+          {
+            name: "cardNumber",
+            label: "Card Number",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardHolderName",
+            label: "Card Holder Name",
+            type: "Text",
+            required: false,
+            isDisabled: true,
+            isActive: false,
+          },
+          {
+            name: "cardType",
+            label: "Card Type",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+          {
+            name: "cardExpiryDate",
+            label: "Expiry Date",
+            type: "Text",
+            required: true,
+            isDisabled: true,
+            isActive: true,
+          },
+        ],
       },
     ],
     modules: [
@@ -26,7 +128,6 @@ export const configFields = [
       "Check-In",
       "In-Room Dining",
       "Services",
-
       "Checkout",
     ],
     submodules: [
@@ -91,7 +192,7 @@ export const configFields = [
           "Document Number",
           "Email",
           "Payment Successful",
-          "Addyour e-signature",
+          "Add your e-signature",
         ],
         title: [
           "Place Your Key",
