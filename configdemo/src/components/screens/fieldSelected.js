@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const FieldSelected = ({ data = [], setData }) => {
+  const [copyButtonText, setCopyButtonText] = useState("Copy");
+
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
@@ -74,22 +76,20 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const handleSubmit = () => {
+  const handleCopy = () => {
     if (data.length === 0) {
-      alert("Please add items to submit!");
+      alert("Please add items to copy!");
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
-    const blob = new Blob([textData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "selected_data.tsx";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    navigator.clipboard.writeText(textData).then(() => {
+      setCopyButtonText("Copied!");
+
+      setTimeout(() => {
+        setCopyButtonText("Copy");
+      }, 2000);
+    });
   };
 
   if (data.length === 0) {
@@ -151,7 +151,6 @@ const FieldSelected = ({ data = [], setData }) => {
                     </button>
                   </div>
 
-                  {/* Display module-level properties */}
                   {Object.keys(module)
                     .filter((key) => key !== "name" && key !== "submodules")
                     .map((key) => (
@@ -184,49 +183,42 @@ const FieldSelected = ({ data = [], setData }) => {
                             </button>
                           </div>
 
-                          {/* Display submodule properties only if it's an object */}
-                          {module.submodules.map((sub) => {
-                            if (
-                              typeof sub === "object" &&
-                              sub.name === submoduleName
-                            ) {
-                              return (
-                                <div
-                                  key={submoduleName}
-                                  className="submodule-properties"
-                                >
-                                  {Object.keys(sub).map((key) => {
-                                    if (key !== "name") {
-                                      return (
-                                        <div key={`${submoduleName}-${key}`}>
-                                          {`${key}: ${sub[key]}`}
-                                          <button
-                                            className="remove-btn"
-                                            onClick={() =>
-                                              removeKeyFromSubmodule(
-                                                hotel.hotelId,
-                                                module.name,
-                                                submoduleName,
-                                                key
-                                              )
-                                            }
-                                          >
-                                            <DeleteIcon
-                                              style={{ fontSize: 18 }}
-                                            />
-                                          </button>
-                                        </div>
-                                      );
-                                    }
-                                    return null;
-                                  })}
-                                </div>
-                              );
-                            }
-                            return null;
-                          })}
-                        </div>
-                      ))}
+                            {module.submodules.map((sub) => {
+                              if (
+                                typeof sub === "object" &&
+                                sub.name === submoduleName
+                              ) {
+                                return Object.keys(sub).map((key) => {
+                                  if (key !== "name") {
+                                    return (
+                                      <div key={`${submoduleName}-${key}`}>
+                                        {`${key}: ${sub[key]}`}
+                                        <button
+                                          className="remove-btn"
+                                          onClick={() =>
+                                            removeKeyFromSubmodule(
+                                              hotel.hotelId,
+                                              module.name,
+                                              submoduleName,
+                                              key
+                                            )
+                                          }
+                                        >
+                                          <DeleteIcon
+                                            style={{ fontSize: 18 }}
+                                          />
+                                        </button>
+                                      </div>
+                                    );
+                                  }
+                                  return null;
+                                });
+                              }
+                              return null;
+                            })}
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : null}
                 </div>
@@ -237,7 +229,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleSubmit}>Save</button>
+      <button onClick={handleCopy}>{copyButtonText}</button>
     </div>
   );
 };

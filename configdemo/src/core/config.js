@@ -2,7 +2,7 @@ export const configFields = [
   {
     hotels: [
       {
-        name: "Pullman Orchard Stage",
+        name: "Pullman Orchard ",
         hotelId: "989814e5-2fda-4ab8-b795-33f4d76f1866",
         details: [
           {
