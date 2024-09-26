@@ -282,10 +282,11 @@ const FieldModules = () => {
                 
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                <select onChange={handleSubmoduleSelect} value="" className="submodule-dropdown">
+                  <select onChange={handleSubmoduleSelect} value="">
                     <option value="" disabled>
                       Select Submodule
                     </option>
+
                     {configFields[0].submodules
                       .filter(
                         (submodule) =>
@@ -299,23 +300,23 @@ const FieldModules = () => {
                         </option>
                       ))}
                   </select>
-                  
-                   {selectedSubmodules.map((submodule) => (
-                    <span key={submodule.name} className="selected-submodule" >
-                      {submodule.name}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeSubmodule(submodule.name);
-                        }}
-                        className="close-button"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                 </div>
-                
+                  <div>
+                    {selectedSubmodules.map((submodule) => (
+                      <span key={submodule.name} className="selected-submodule">
+                        {submodule.name}
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeSubmodule(submodule.name);
+                          }}
+                          className="close-button"
+                        >
+                          &times;
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
 

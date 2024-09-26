@@ -207,9 +207,8 @@ select {
   }
   
   .selected-submodule {
-    background-color: #eee8e8; /* Adjust background color */
-    padding:1px ;
-    height: 20px;
+    background-color: #f0f0f0; 
+    padding: 0px;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -224,20 +223,6 @@ select {
     cursor: pointer;
     margin: 0px;
     color: red; /* Change color as needed */
+    padding: 0px;
   }
   
-
-  
-  .submodule-dropdown{
-    min-width: 250px;
-  }
-  .submodules{
-   display: flex;
-  
-    max-width: 380px;
-  }
-  .checkbox-container{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2px;
-  }
