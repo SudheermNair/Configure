@@ -36,7 +36,7 @@ h1 {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 80%;
+  width: 75%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -46,7 +46,7 @@ h1 {
   padding: 20px;
   border: 1px solid #ccc;
   margin: 10px;
-  width: 95%;
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -188,3 +188,33 @@ select {
 .selected-json {
     word-wrap: break-word;
 }
+.checkbox-container {
+  display: grid;
+  align-items: center;
+}
+.dropdown-container2{
+  display: grid;
+}
+.selected-submodules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Adjust spacing as needed */
+  }
+  
+  .selected-submodule {
+    background-color: #f0f0f0; 
+    padding: 0px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    color: red; /* Change color as needed */
+    padding: 0px;
+  }
+  
