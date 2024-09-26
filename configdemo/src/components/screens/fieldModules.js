@@ -71,8 +71,7 @@ const FieldModules = () => {
 
         return updatedData;
       });
-    },
-    []
+    }
   );
 
   const updateModules = (
