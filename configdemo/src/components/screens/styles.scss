@@ -208,3 +208,26 @@ select {
 .dropdown-container2{
   display: grid;
 }
+.selected-submodules {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Adjust spacing as needed */
+  }
+  
+  .selected-submodule {
+    background-color: #f0f0f0; 
+    padding: 0px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .close-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px;
+    color: red; /* Change color as needed */
+    padding: 0px;
+  }
+  
