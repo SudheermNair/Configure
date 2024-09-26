@@ -11,6 +11,8 @@ const FieldModules = () => {
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
+
+  
   // State for checkbox values
   const [checkboxState, setCheckboxState] = useState({
     isActive: false,
@@ -241,7 +243,7 @@ const FieldModules = () => {
 
         <div className="dropdown-container">
           <label>Hotel:</label>
-          <select
+          <select className="submodule-dropdown"
             value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
@@ -260,7 +262,7 @@ const FieldModules = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select
+              <select className="submodule-dropdown"
                 value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
@@ -276,24 +278,11 @@ const FieldModules = () => {
             </div>
 
             {selectedModule && (
-              <div className="dropdown-container">
+              <div className="dropdown-container submodules">
+                
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                  {selectedSubmodules.map((submodule) => (
-                    <span key={submodule.name} className="selected-submodule">
-                      {submodule.name}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeSubmodule(submodule.name);
-                        }}
-                        className="close-button"
-                      >
-                        &times;
-                      </button>
-                    </span>
-                  ))}
-                  <select onChange={handleSubmoduleSelect} value="">
+                <select onChange={handleSubmoduleSelect} value="" className="submodule-dropdown">
                     <option value="" disabled>
                       Select Submodule
                     </option>
@@ -310,13 +299,29 @@ const FieldModules = () => {
                         </option>
                       ))}
                   </select>
-                </div>
+                  
+                   {selectedSubmodules.map((submodule) => (
+                    <span key={submodule.name} className="selected-submodule" >
+                      {submodule.name}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeSubmodule(submodule.name);
+                        }}
+                        className="close-button"
+                      >
+                        &times;
+                      </button>
+                    </span>
+                  ))}
+                 </div>
+                
               </div>
             )}
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect}>
+              <select value={selectedKeys || ""} onChange={handleKeySelect}  className="submodule-dropdown">
                 <option value="" disabled>
                   Select Key
                 </option>
@@ -331,7 +336,7 @@ const FieldModules = () => {
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
-                <select onChange={handleValueSelect} value="">
+                <select onChange={handleValueSelect} value="" className="submodule-dropdown">
                   <option value="" disabled>
                     Select Value
                   </option>
