@@ -380,7 +380,7 @@ const FieldModules = () => {
               </div>
             )}
 
-            <div className="dropdown-container">
+            {/* <div className="dropdown-container">
               <label>Details:</label>
               <select
                 onChange={handleDetailSelect}
@@ -397,7 +397,7 @@ const FieldModules = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
 
             <div className="checkbox-container">
               <label>
