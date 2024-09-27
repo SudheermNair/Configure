@@ -138,6 +138,14 @@ export const configFields = [
       "signStayInfo",
       "Headers",
     ],
+    submodules2: [
+      "aaa",
+      "bbb",
+      "ccc",
+      "ddd",
+      "ee",
+     
+    ],
     Keys: [
       {
         code: [
