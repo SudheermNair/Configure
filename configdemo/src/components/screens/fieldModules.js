@@ -96,7 +96,7 @@ const FieldModules = () => {
                 [key]:
                   value !== null && value !== undefined ? value : undefined,
                 details: checkboxState.hasDetails
-                  ? { key: detailsKey, value: detailsValue }
+                  ? {[detailsKey]:detailsValue }
                   : sub.details,
               };
             }
@@ -118,7 +118,7 @@ const FieldModules = () => {
                 : undefined,
             submodules: [...updatedSubmodules, ...newSubmodules],
             details: checkboxState.hasDetails
-              ? { key: detailsKey, value: detailsValue }
+              ? {[detailsKey]:detailsValue }
               : mod.details,
           };
         }
@@ -137,11 +137,11 @@ const FieldModules = () => {
             ...sub,
             [key]: value !== null && value !== undefined ? value : undefined,
             details: checkboxState.hasDetails
-              ? { key: detailsKey, value: detailsValue }
+              ? {[detailsKey]:detailsValue }
               : undefined,
           })),
           details: checkboxState.hasDetails
-            ? { key: detailsKey, value: detailsValue }
+            ? {[detailsKey]: detailsValue }
             : undefined,
         },
       ];
