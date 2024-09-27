@@ -18,7 +18,7 @@ const FieldModules = () => {
     isRequired: false,
   });
 
-  const updateData = (hotel, module, submodules, key, value) => {
+  const updateData = useCallback((hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
         if (h.hotelId === hotel.hotelId) {
@@ -58,7 +58,7 @@ const FieldModules = () => {
 
       return updatedData;
     });
-  };
+  });
 
   const updateModules = (
     existingModules = [],
@@ -76,11 +76,12 @@ const FieldModules = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
+              console.log(sub, submodules);
               return {
                 ...sub,
                 [key]:
                   value !== null && value !== undefined ? value : undefined,
-                details: sub.details || [ ],
+                details: sub.details || [],
               };
             }
             return sub.details;
@@ -116,7 +117,7 @@ const FieldModules = () => {
           submodules: submodules.map((sub) => ({
             ...sub,
             [key]: value !== null && value !== undefined ? value : undefined,
-            details: [],
+            details: [sub.details],
           })),
         },
       ];
@@ -143,7 +144,7 @@ const FieldModules = () => {
       setSelectedHotel(selected);
       setSelectedDetail("");
     },
-    [data]
+    [data, updateData]
   );
 
   const handleModuleSelect = useCallback(
@@ -155,7 +156,7 @@ const FieldModules = () => {
         updateData(selectedHotel, module, [], null, null);
       }
     },
-    [selectedHotel]
+    [selectedHotel, updateData]
   );
 
   const handleSubmoduleSelect = useCallback(
@@ -178,7 +179,7 @@ const FieldModules = () => {
         });
       }
     },
-    [selectedHotel, selectedModule]
+    [selectedHotel, selectedModule, updateData]
   );
 
   const handleKeySelect = (e) => {
