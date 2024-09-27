@@ -540,8 +540,8 @@ const FieldModules = () => {
                         {value}
                       </option>
                     ))}
-                    {/* <option value="True">True</option>
-                  <option value="False">False</option> */}
+                    <option value="True">True</option>
+                  <option value="False">False</option>
                   </select>
                 </div>
               </>
