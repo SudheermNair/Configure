@@ -9,6 +9,17 @@ body {
   overflow: hidden;
 }
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+html,
+body {
+  overflow: hidden;
+}
+
 .field-container {
   display: flex;
   flex-direction: column;
@@ -22,35 +33,39 @@ h1 {
   margin-left: 3%;
   // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-family: 'Questrial';
+  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Questrial';
 }
 
 .field-modules-container {
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  height: 70vh;
+  height: 90vh;
+  // background-color: #ca6f63;
 //   margin-left: 25px;
 }
 
 .field-modules {
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #ccc;
-  margin: 10px;
-  width: 75%;
+  // margin: 10px;
+  max-width: 75%;
+  min-width: 400px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  height: auto;
+  height: 83%;
 }
 
 .field-selected {
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #ccc;
-  margin: 10px;
+  margin-left: 10px;
   width: 100%;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  height: auto;
-  max-height: 400px;
+  height: 83%;
+  // max-height: 400px;
   overflow-y: scroll;
 }
 
@@ -198,24 +213,44 @@ select {
 .selected-submodules {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px; /* Adjust spacing as needed */
+    width: 280px;
+    
+    gap: 0px; 
+
   }
   
   .selected-submodule {
-    background-color: #f0f0f0; /* Adjust background color */
-    padding: 5px 10px;
+    background-color: #eee8e8; /* Adjust background color */
+    padding:1px ;
+    height: 20px;
     border-radius: 5px;
     display: flex;
     align-items: center;
+    justify-content: end;
+    font-size: 12px;
+    margin: 3px;
   }
   
   .close-button {
     background: transparent;
     border: none;
     cursor: pointer;
-    margin-left: 5px;
+    margin: 0px;
     color: red; /* Change color as needed */
   }
+  
 
   
+  .submodule-dropdown{
+    min-width: 250px;
+  }
+  .submodules{
+   display: flex;
   
+    max-width: 380px;
+  }
+  .checkbox-container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+  }
