@@ -150,6 +150,7 @@ const HotelConfig = () => {
       } else {
         setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
         updateData(selected, null, [], null, null);
+     
       }
 
       setSelectedHotel(selected);

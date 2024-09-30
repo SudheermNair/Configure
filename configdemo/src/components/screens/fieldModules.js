@@ -23,8 +23,9 @@ const openStyleConfig=()=>{
     <div className='configurations'>
       
       <div  className='buttons'>
-      <button onClick={openHotelConfig}>Hotel Configution</button>
-      <button onClick={openStyleConfig}>Style Configution</button>
+      
+      <button onClick={openStyleConfig}>Style Configuration</button>
+      <button onClick={openHotelConfig}>Hotel Configuration</button>
       </div>
       <div className='field-modules-container'>
 

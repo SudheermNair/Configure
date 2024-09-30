@@ -254,3 +254,38 @@ select {
     justify-content: space-between;
     margin-bottom: 2px;
   }
+ .StyleConfig-container{
+   display: flex;
+   justify-content: center;
+.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 8px;
+  
+}
+
+   .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+   
+    width: 300px;
+    
+}
+.clrPalatte{
+  height: 27px;
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  margin-left: 1px;
+  width: 350px;
+}
+label{
+  margin-bottom: 120px;
+}
+ 
+ }
+ .StyleConfig-form,.jsonData{
+   border: solid 1px #a8a8a8;
+   padding: 3%;
+   width: 400px;
+   border-radius: 3%;
+   box-shadow:0px 0px 10px #a8a8a8;
+   margin: 0px 4%;
+   
+ }
