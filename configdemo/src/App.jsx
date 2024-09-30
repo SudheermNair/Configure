@@ -8,10 +8,10 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
-  const [currentView, setCurrentView] = useState('fieldModules');
+  const [currentView, setCurrentView] = useState("fieldModules");
 
   const handleSubmit = () => {
-    setCurrentView('addConfig');
+    setCurrentView("addConfig");
   };
 
   const handleDropdownChange = (value) => {
@@ -28,14 +28,11 @@ function App() {
           <Navbar />
           {currentView === "fieldModules" && (
             <>
-              {/* <h1>Configuration</h1> */}
-
               <div className="field-modules-container">
                 {isConfigActive && (
                   <>
-                   
                     <div>
-                    <h1>Configuration</h1>
+                      <h1>Configuration</h1>
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
                     <div>

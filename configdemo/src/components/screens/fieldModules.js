@@ -11,7 +11,6 @@ const FieldModules = () => {
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
 
-  // State for checkbox values
   const [checkboxState, setCheckboxState] = useState({
     isActive: false,
     isDisabled: false,
@@ -22,12 +21,11 @@ const FieldModules = () => {
   const [detailsKey, setDetailsKey] = useState("");
   const [detailsValue, setDetailsValue] = useState("");
 
-  const updateData = useCallback(
-    (hotel, module, submodules, key, value, details = {}) => {
-      setData((prevData) => {
-        const updatedData = prevData.map((h) => {
-          if (h.hotelId === hotel.hotelId) {
-            const updatedHotel = { ...h };
+  const updateData = useCallback((hotel, module, submodules, key, value) => {
+    setData((prevData) => {
+      const updatedData = prevData.map((h) => {
+        if (h.hotelId === hotel.hotelId) {
+          const updatedHotel = { ...h };
 
             if (module) {
               updatedHotel.modules = updateModules(
@@ -69,10 +67,9 @@ const FieldModules = () => {
           updatedData.push(newHotel);
         }
 
-        return updatedData;
-      });
-    }
-  );
+      return updatedData;
+    });
+  });
 
   const updateModules = (
     existingModules = [],
@@ -91,13 +88,12 @@ const FieldModules = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
+              console.log(sub, submodules);
               return {
                 ...sub,
                 [key]:
                   value !== null && value !== undefined ? value : undefined,
-                details: checkboxState.hasDetails
-                  ? {[detailsKey]:detailsValue }
-                  : sub.details,
+                details: sub.details || [],
               };
             }
             return sub;
@@ -154,9 +150,7 @@ const FieldModules = () => {
           submodules: submodules.map((sub) => ({
             ...sub,
             [key]: value !== null && value !== undefined ? value : undefined,
-            details: checkboxState.hasDetails
-              ? {[detailsKey]:detailsValue }
-              : undefined,
+            details: [sub.details],
           })),
           details: checkboxState.hasDetails
             ? {[detailsKey]: detailsValue }
@@ -172,18 +166,26 @@ const FieldModules = () => {
         (hotel) => hotel.hotelId === e.target.value
       );
 
-      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
-      if (existingHotel) {
-        setCheckboxState({
-          isActive: existingHotel.isActive === "True",
-          isDisabled: existingHotel.isDisabled === "True",
-          isRequired: existingHotel.isRequired === "True",
-        });
-      } else {
-        updateData(selected, null, [], null, null);
-      }
+      if (selected) {
+        const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
 
-      setSelectedHotel(selected);
+        if (existingHotel) {
+          setCheckboxState({
+            isActive: existingHotel.isActive === "True",
+            isDisabled: existingHotel.isDisabled === "True",
+            isRequired: existingHotel.isRequired === "True",
+          });
+        } else {
+          setCheckboxState({
+            isActive: false,
+            isDisabled: false,
+            isRequired: false,
+          });
+          updateData(selected, null, [], null, null);
+        }
+
+        setSelectedHotel(selected);
+      }
     },
     [data, updateData]
   );
@@ -193,6 +195,7 @@ const FieldModules = () => {
       const moduleName = e.target.value;
       const module = { name: moduleName };
       setSelectedModule(module);
+
       if (selectedHotel) {
         updateData(selectedHotel, module, [], null, null);
       }
@@ -207,7 +210,7 @@ const FieldModules = () => {
       if (submoduleName) {
         setSelectedSubmodules((prevSubmodules) => {
           const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-          setCheckboxFieldVisible(true); // Show the checkbox field
+
           if (selectedHotel && selectedModule) {
             updateData(
               selectedHotel,
@@ -217,11 +220,11 @@ const FieldModules = () => {
               null
             );
           }
+
           return newSubmodules;
         });
       }
     },
-
     [selectedHotel, selectedModule, updateData]
   );
 
@@ -289,6 +292,7 @@ const FieldModules = () => {
       const updatedSubmodules = prevSubmodules.filter(
         (sub) => sub.name !== submoduleName
       );
+
       if (selectedHotel && selectedModule) {
         updateData(
           selectedHotel,
@@ -403,11 +407,13 @@ const FieldModules = () => {
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0]).map((key, index) => (
-                  <option key={index} value={key}>
-                    {key}
-                  </option>
-                ))}
+                {Object.keys(configFields[0].Keys[0] || {}).map(
+                  (key, index) => (
+                    <option key={index} value={key}>
+                      {key}
+                    </option>
+                  )
+                )}
               </select>
             </div>
 
