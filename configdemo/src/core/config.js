@@ -1,5 +1,8 @@
 export const configFields = [
   {
+ 
+
+    
     hotels: [
       {
         name: "Pullman Orchard ",
@@ -211,5 +214,90 @@ export const configFields = [
         ],
       },
     ],
+    styles : [
+      "--primary-theme-color",
+      "--primary-background-color",
+      "--primary-icon-color",
+      "--primary-border-color",
+      "--primary-box-shadow-color",
+      "--primary-error-text-color",
+      "--primary-disabled-color",
+    
+      // overlays
+      "--primary-overlay-color",
+      "--secondary-overlay-color",
+    
+      // text colors
+      "--primary-text-color",
+      "--secondary-text-color",
+      "--tertiary-text-color",
+    
+      // drawer colors
+      "--primary-drawer-color",
+      "--primary-drawer-notch-color",
+      "--primary-drawer-top-left-border-radius",
+      "--primary-drawer-top-right-border-radius",
+      "--primary-drawer-height",
+      "--primary-drawer-background-Opacity",
+      "--primary-drawer-background-color",
+    
+      // Iframe drawer colors
+      "--primary-iframe-drawer-color",
+      "--primary-iframe-drawer-height",
+    
+      // image transition background color
+      "--primary-image-transition-background-color",
+    
+      // hamburger menu colors
+      "--hamburgermenu-drawer-color",
+      "--hamburgermenu-text-color",
+      "--hamburgermenu-icon-color",
+    
+      // font-families
+      "--primary-font-regular",
+      "--primary-font-medium",
+      "--primary-font-semibold",
+      "--primary-font-bold",
+    
+      // Optional font-family properties commented out
+      // "--primary-font-heading: 'ClanOT News'",
+      // "--primary-font-extd-regular: 'ClanOT Extended Book'",
+      // "--heading-font-regular: 'Garamond'",
+    
+      // Optional title and card font properties
+      // "--primary-title-font-family: 'ClanOT Extended Book'",
+      // "--secondary-title-font-family: 'ClanOT News'",
+      // "--primary-indicator-color: #ffffff",
+    
+      // "--primary-card-title-font-family: 'ClanOT News'",
+      // "--primary-card-desc-font-family: 'ClanOT Book'",
+      // "--primary-card-cta-font-family: 'ClanOT Extended Medium'",
+      // "--primary-card-background-color: #f8f8f8",
+      // "--primary-card-border-radius: 0px",
+      // "--primary-card-shadow-color: #00000010",
+      // "--primary-card-border: none",
+    
+      // Optional button properties
+      // "--primary-button-color: #ffffff",
+      // "--primary-button-background-color: #997300",
+      // "--primary-button-border-radius: 0px",
+      // "--primary-button-font-family: 'ClanOT Extended Book'",
+    
+      // "--secondary-button-color: #997300",
+      // "--secondary-button-background-color: #ffffff",
+      // "--secondary-button-border-radius: 0px",
+      // "--secondary-button-font-family: 'ClanOT Extended Book'",
+    
+      // Readmore options
+      // "--readmore-text: flex",
+      // "--readmore-arrowwithtext: block",
+      // "--readmore-arrow: none",
+      // "--readmore-arrowhead: none",
+      // "--readmore-underline: none",
+    
+      "--bottom-menu-arrow-color",
+      "--primary-order-button-font-family"
+    ]
+       
   },
 ];
