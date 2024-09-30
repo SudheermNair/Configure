@@ -1,4 +1,4 @@
-import { Select, MenuItem, TextField, Slider, Button, Box } from "@mui/material";
+import { Select, MenuItem, TextField, Slider, Button } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/config";
 
@@ -11,17 +11,30 @@ function StyleConfig() {
   const [sizeValue, setSizeValue] = useState(16); // Default size (font size, border size, etc.)
 
   const saveStyle = () => {
-    if (styleProperty && (styleValue || colorValue || sizeValue)) {
+    if (styleProperty) {
+      const valueToSave =
+        isColorProperty(styleProperty) ? colorValue :
+        isFontSizeProperty(styleProperty) ? `${sizeValue}px` : styleValue;
+
       setStylesObject((prevStyles) => ({
         ...prevStyles,
-        [styleProperty]: styleValue || colorValue || `${sizeValue}px`, 
+        [styleProperty]: valueToSave,
       }));
 
+      // Reset values after saving
       setStyleProperty("");
       setStyleValue("");
-      setColorValue("#000000"); // Reset to default color
-      setSizeValue(16); // Reset to default size
+      setColorValue("#000000");
+      setSizeValue(16);
     }
+  };
+
+  const isColorProperty = (property) => {
+    return property.includes("color");
+  };
+
+  const isFontSizeProperty = (property) => {
+    return property.includes("font") || property.includes("border");
   };
 
   return (
@@ -41,6 +54,35 @@ function StyleConfig() {
       </Select>
       <br />
 
+      {isColorProperty(styleProperty) && (
+        <>
+          <label>Color Picker</label>
+          <input
+            type="color"
+            value={colorValue}
+            onChange={(e) => setColorValue(e.target.value)}
+          />
+          <div>Selected Color: {colorValue}</div>
+          <br />
+        </>
+      )}
+
+      {isFontSizeProperty(styleProperty) && (
+        <>
+          <label>Size (px)</label>
+          <Slider
+            value={sizeValue}
+            onChange={(e, newValue) => setSizeValue(newValue)}
+            aria-labelledby="size-slider"
+            min={1}
+            max={100}
+            valueLabelDisplay="auto"
+          />
+          <div>Selected Size: {sizeValue}px</div>
+          <br />
+        </>
+      )}
+
       <label>Style value</label>
       <TextField
         id="standard-basic"
@@ -48,25 +90,6 @@ function StyleConfig() {
         variant="standard"
         value={styleValue}
         onChange={(e) => setStyleValue(e.target.value)}
-      />
-      <br />
-
-      <label>Color Picker</label>
-      <input
-        type="color"
-        value={colorValue}
-        onChange={(e) => setColorValue(e.target.value)}
-      />
-      <br />
-
-      <label>Size (px)</label>
-      <Slider
-        value={sizeValue}
-        onChange={(e, newValue) => setSizeValue(newValue)}
-        aria-labelledby="size-slider"
-        min={1}
-        max={100}
-        valueLabelDisplay="auto"
       />
       <br />
 

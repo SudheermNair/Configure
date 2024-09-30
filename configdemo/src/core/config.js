@@ -261,41 +261,41 @@ export const configFields = [
       "--primary-font-semibold",
       "--primary-font-bold",
     
-      // Optional font-family properties commented out
-      // "--primary-font-heading: 'ClanOT News'",
-      // "--primary-font-extd-regular: 'ClanOT Extended Book'",
-      // "--heading-font-regular: 'Garamond'",
+      //Optional font-family properties commented out
+      "--primary-font-heading: 'ClanOT News'",
+      "--primary-font-extd-regular: 'ClanOT Extended Book'",
+      "--heading-font-regular: 'Garamond'",
     
-      // Optional title and card font properties
-      // "--primary-title-font-family: 'ClanOT Extended Book'",
-      // "--secondary-title-font-family: 'ClanOT News'",
-      // "--primary-indicator-color: #ffffff",
+      //Optional title and card font properties
+      "--primary-title-font-family: 'ClanOT Extended Book'",
+      "--secondary-title-font-family: 'ClanOT News'",
+      "--primary-indicator-color: #ffffff",
     
-      // "--primary-card-title-font-family: 'ClanOT News'",
-      // "--primary-card-desc-font-family: 'ClanOT Book'",
-      // "--primary-card-cta-font-family: 'ClanOT Extended Medium'",
-      // "--primary-card-background-color: #f8f8f8",
-      // "--primary-card-border-radius: 0px",
-      // "--primary-card-shadow-color: #00000010",
-      // "--primary-card-border: none",
+      "--primary-card-title-font-family: 'ClanOT News'",
+      "--primary-card-desc-font-family: 'ClanOT Book'",
+      "--primary-card-cta-font-family: 'ClanOT Extended Medium'",
+      "--primary-card-background-color: #f8f8f8",
+      "--primary-card-border-radius: 0px",
+      "--primary-card-shadow-color: #00000010",
+      "--primary-card-border: none",
     
-      // Optional button properties
-      // "--primary-button-color: #ffffff",
-      // "--primary-button-background-color: #997300",
-      // "--primary-button-border-radius: 0px",
-      // "--primary-button-font-family: 'ClanOT Extended Book'",
+      //Optional button properties
+      "--primary-button-color: #ffffff",
+      "--primary-button-background-color: #997300",
+      "--primary-button-border-radius: 0px",
+      "--primary-button-font-family: 'ClanOT Extended Book'",
     
-      // "--secondary-button-color: #997300",
-      // "--secondary-button-background-color: #ffffff",
-      // "--secondary-button-border-radius: 0px",
-      // "--secondary-button-font-family: 'ClanOT Extended Book'",
+      "--secondary-button-color: #997300",
+      "--secondary-button-background-color: #ffffff",
+      "--secondary-button-border-radius: 0px",
+      "--secondary-button-font-family: 'ClanOT Extended Book'",
     
-      // Readmore options
-      // "--readmore-text: flex",
-      // "--readmore-arrowwithtext: block",
-      // "--readmore-arrow: none",
-      // "--readmore-arrowhead: none",
-      // "--readmore-underline: none",
+      //Readmore options
+      "--readmore-text: flex",
+      "--readmore-arrowwithtext: block",
+      "--readmore-arrow: none",
+      "--readmore-arrowhead: none",
+      "--readmore-underline: none",
     
       "--bottom-menu-arrow-color",
       "--primary-order-button-font-family"
