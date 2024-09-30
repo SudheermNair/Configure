@@ -10,14 +10,14 @@ const HotelConfig = () => {
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState("");
   const [keyValues, setKeyValues] = useState([]);
-  
+  const [keyValuePairs, setKeyValuePairs] = useState({});
+  const [detailsEnabled, setDetailsEnabled] = useState(false);
   const [checkboxState, setCheckboxState] = useState({
     isActive: false,
     isDisabled: false,
     isRequired: false,
   });
 
-  
   const updateData = (hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
@@ -70,9 +70,14 @@ const HotelConfig = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
+              const updatedDetails = detailsEnabled
+                ? [...(sub.details || []), { key: selectedKeys, value }]
+                : sub.details;
+
               return {
                 ...sub,
-                [key]: value !== null && value !== undefined ? value : undefined,
+                details: updatedDetails,
+                keyValuePairs: { ...sub.keyValuePairs, ...keyValuePairs },
               };
             }
             return sub;
@@ -86,7 +91,6 @@ const HotelConfig = () => {
 
           return {
             ...mod,
-            [key]: submodules.length === 0 && value !== null && value !== undefined ? value : undefined,
             submodules: [...updatedSubmodules, ...newSubmodules],
           };
         }
@@ -97,10 +101,10 @@ const HotelConfig = () => {
         ...existingModules,
         {
           name: module ? module.name : null,
-          [key]: submodules.length === 0 && value !== null && value !== undefined ? value : undefined,
           submodules: submodules.map((sub) => ({
             ...sub,
-            [key]: value !== null && value !== undefined ? value : undefined,
+            details: detailsEnabled ? [{ key: selectedKeys, value }] : [],
+            keyValuePairs: { ...keyValuePairs },
           })),
         },
       ];
@@ -168,6 +172,10 @@ const HotelConfig = () => {
     if (selectedHotel) {
       updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
     }
+  };
+
+  const handleKeyValueChange = (key, value) => {
+    setKeyValuePairs((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleCheckboxChange = (e) => {
@@ -269,9 +277,8 @@ const HotelConfig = () => {
                           e.preventDefault();
                           removeSubmodule(submodule.name);
                         }}
-                        className="close-button"
                       >
-                        &times;
+                        X
                       </button>
                     </span>
                   ))}
@@ -285,8 +292,8 @@ const HotelConfig = () => {
                 <option value="" disabled>
                   Select Key
                 </option>
-                {Object.keys(configFields[0].Keys[0] || {}).map((key, index) => (
-                  <option key={index} value={key}>
+                {Object.keys(configFields[0].Keys[0]).map((key) => (
+                  <option key={key} value={key}>
                     {key}
                   </option>
                 ))}
@@ -308,6 +315,22 @@ const HotelConfig = () => {
                 </select>
               </div>
             )}
+
+
+            {/* Details Checkbox */}
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={detailsEnabled}
+                  onChange={(e) => {
+                    setDetailsEnabled(e.target.checked);
+                    if (!e.target.checked) setKeyValuePairs({});
+                  }}
+                />
+                Has Details
+              </label>
+            </div>
 
             {/* Checkbox Section */}
             <div className="checkbox-container">
@@ -407,3 +430,4 @@ const HotelConfig = () => {
 };
 
 export default HotelConfig;
+
