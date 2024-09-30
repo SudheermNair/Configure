@@ -1,5 +1,10 @@
+
+
 export const configFields = [
   {
+ 
+
+    
     hotels: [
       {
         name: "Pullman Orchard ",
@@ -144,6 +149,14 @@ export const configFields = [
       "signStayInfo",
       "Headers",
     ],
+    submodules2: [
+      "aaa",
+      "bbb",
+      "ccc",
+      "ddd",
+      "ee",
+     
+    ],
     Keys: [
       {
         code: [
@@ -248,5 +261,66 @@ export const configFields = [
         ],
       },
     ],
+    styles: [
+      "Primary Theme Color",
+      "Primary Background Color",
+      "Primary Icon Color",
+      "Primary Border Color",
+      "Primary Box Shadow Color",
+      "Primary Error Text Color",
+      "Primary Disabled Color",
+      "Primary Overlay Color",
+      "Secondary Overlay Color",
+      "Primary Text Color",
+      "Secondary Text Color",
+      "Tertiary Text Color",
+      "Primary Drawer Color",
+      "Primary Drawer Notch Color",
+      "Primary Drawer Top Left Border Radius",
+      "Primary Drawer Top Right Border Radius",
+      "Primary Drawer Height",
+      "Primary Drawer Background Opacity",
+      "Primary Drawer Background Color",
+      "Primary Iframe Drawer Color",
+      "Primary Iframe Drawer Height",
+      "Primary Image Transition Background Color",
+      "Hamburger Menu Drawer Color",
+      "Hamburger Menu Text Color",
+      "Hamburger Menu Icon Color",
+      "Primary Font Regular",
+      "Primary Font Medium",
+      "Primary Font Semibold",
+      "Primary Font Bold",
+      "Primary Font Heading",
+      "Primary Font Extended Regular",
+      "Heading Font Regular",
+      "Primary Title Font Family",
+      "Secondary Title Font Family",
+      "Primary Indicator Color",
+      "Primary Card Title Font Family",
+      "Primary Card Desc Font Family",
+      "Primary Card CTA Font Family",
+      "Primary Card Background Color",
+      "Primary Card Border Radius",
+      "Primary Card Shadow Color",
+      "Primary Card Border",
+      "Primary Button Color",
+      "Primary Button Background Color",
+      "Primary Button Border Radius",
+      "Primary Button Font Family",
+      "Secondary Button Color",
+      "Secondary Button Background Color",
+      "Secondary Button Border Radius",
+      "Secondary Button Font Family",
+      "Read More Text",
+      "Read More Arrow With Text",
+      "Read More Arrow",
+      "Read More Arrow Head",
+      "Read More Underline",
+      "Bottom Menu Arrow Color",
+      "Primary Order Button Font Family"
+  ]
+  
+       
   },
 ];
