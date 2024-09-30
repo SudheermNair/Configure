@@ -167,22 +167,23 @@ function StyleConfig() {
         <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
 
         <div className="removeOptions">
-          {Object.keys(stylesObject).map((key, index) => (
-            <div key={index}>
-              <p>{key}</p>
-              <button
-                onClick={() =>
+          
+
+          {Object.entries(stylesObject).map(([key, value]) => {
+
+            return(
+              <>
+              <p>{key}: {value}</p>
+              <button onClick={() =>
                   setStylesObject((prevStyles) => {
                     const newStyles = { ...prevStyles };
                     delete newStyles[key];
                     return newStyles;
                   })
-                }
-              >
-                Remove
-              </button>
-            </div>
-          ))}
+                }> X</button>
+              </>
+            )
+          })}
         </div>
       </div>
     </div>
