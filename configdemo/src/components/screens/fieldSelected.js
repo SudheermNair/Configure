@@ -231,6 +231,8 @@ const FieldSelected = ({ data = [], setData }) => {
         ))}
       </ul>
       <button onClick={handleCopy}>{copyButtonText}</button>
+
+      
     </div>
   );
 };

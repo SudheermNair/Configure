@@ -17,7 +17,7 @@ const HotelConfig = () => {
     isRequired: false,
   });
 
-  
+
   const updateData = (hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
@@ -124,6 +124,7 @@ const HotelConfig = () => {
       } else {
         setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
         updateData(selected, null, [], null, null);
+     
       }
 
       setSelectedHotel(selected);
