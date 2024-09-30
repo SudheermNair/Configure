@@ -1,10 +1,5 @@
-
-
 export const configFields = [
   {
- 
-
-    
     hotels: [
       {
         name: "Pullman Orchard ",
@@ -149,14 +144,7 @@ export const configFields = [
       "signStayInfo",
       "Headers",
     ],
-    submodules2: [
-      "aaa",
-      "bbb",
-      "ccc",
-      "ddd",
-      "ee",
-     
-    ],
+    submodules2: ["aaa", "bbb", "ccc", "ddd", "ee"],
     Keys: [
       {
         code: [
@@ -261,90 +249,89 @@ export const configFields = [
         ],
       },
     ],
-    styles : [
-      "--primary-theme-color",
-      "--primary-background-color",
-      "--primary-icon-color",
-      "--primary-border-color",
-      "--primary-box-shadow-color",
-      "--primary-error-text-color",
-      "--primary-disabled-color",
-    
+    styles: [
+      "primary theme color",
+      "primary background color",
+      "primary icon color",
+      "primary border color",
+      "primary box shadow color",
+      "primary error text color",
+      "primary disabled color",
+
       // overlays
-      "--primary-overlay-color",
-      "--secondary-overlay-color",
-    
+      "primary overlay color",
+      "secondary overlay color",
+
       // text colors
-      "--primary-text-color",
-      "--secondary-text-color",
-      "--tertiary-text-color",
-    
+      "primary text color",
+      "secondary text color",
+      "tertiary text color",
+
       // drawer colors
-      "--primary-drawer-color",
-      "--primary-drawer-notch-color",
-      "--primary-drawer-top-left-border-radius",
-      "--primary-drawer-top-right-border-radius",
-      "--primary-drawer-height",
-      "--primary-drawer-background-Opacity",
-      "--primary-drawer-background-color",
-    
+      "primary drawer color",
+      "primary drawer notch color",
+      "primary drawer top left border radius",
+      "primary drawer top right border radius",
+      "primary drawer height",
+      "primary drawer background Opacity",
+      "primary drawer background color",
+
       // Iframe drawer colors
-      "--primary-iframe-drawer-color",
-      "--primary-iframe-drawer-height",
-    
+      "primary iframe drawer color",
+      "primary iframe drawer height",
+
       // image transition background color
-      "--primary-image-transition-background-color",
-    
+      "primary image transition background color",
+
       // hamburger menu colors
-      "--hamburgermenu-drawer-color",
-      "--hamburgermenu-text-color",
-      "--hamburgermenu-icon-color",
-    
+      "hamburgermenu drawer color",
+      "hamburgermenu text color",
+      "hamburgermenu icon color",
+
       // font-families
-      "--primary-font-regular",
-      "--primary-font-medium",
-      "--primary-font-semibold",
-      "--primary-font-bold",
-    
+      "primary font regular",
+      "primary font medium",
+      "primary font semibold",
+      "primary font bold",
+
       //Optional font-family properties commented out
-      "--primary-font-heading: 'ClanOT News'",
-      "--primary-font-extd-regular: 'ClanOT Extended Book'",
-      "--heading-font-regular: 'Garamond'",
-    
+      "primary font heading",
+      "primary font extd regular",
+      "heading font regular",
+
       //Optional title and card font properties
-      "--primary-title-font-family: 'ClanOT Extended Book'",
-      "--secondary-title-font-family: 'ClanOT News'",
-      "--primary-indicator-color: #ffffff",
-    
-      "--primary-card-title-font-family: 'ClanOT News'",
-      "--primary-card-desc-font-family: 'ClanOT Book'",
-      "--primary-card-cta-font-family: 'ClanOT Extended Medium'",
-      "--primary-card-background-color: #f8f8f8",
-      "--primary-card-border-radius: 0px",
-      "--primary-card-shadow-color: #00000010",
-      "--primary-card-border: none",
-    
+      "primary title font family",
+      "secondary title font family",
+      "primary indicator color",
+
+      "primary card title font family",
+      "primary card desc font family",
+      "primary card cta font family",
+      "primary card background color",
+      "primary card border radius",
+      "primary card shadow color",
+      "primary card border",
+
       //Optional button properties
-      "--primary-button-color: #ffffff",
-      "--primary-button-background-color: #997300",
-      "--primary-button-border-radius: 0px",
-      "--primary-button-font-family: 'ClanOT Extended Book'",
-    
-      "--secondary-button-color: #997300",
-      "--secondary-button-background-color: #ffffff",
-      "--secondary-button-border-radius: 0px",
-      "--secondary-button-font-family: 'ClanOT Extended Book'",
-    
+      "primary button color",
+      "primary button background color",
+      "primary button border radius",
+      "primary button font family",
+
+      "secondary button color",
+      "secondary button background color",
+      "secondary button border radius",
+      "secondary button font family",
+
       //Readmore options
-      "--readmore-text: flex",
-      "--readmore-arrowwithtext: block",
-      "--readmore-arrow: none",
-      "--readmore-arrowhead: none",
-      "--readmore-underline: none",
-    
-      "--bottom-menu-arrow-color",
-      "--primary-order-button-font-family"
-    ]
-       
+      "readmore text",
+      "readmore arrowwithtext",
+      "readmore arrow",
+      "readmore arrowhead",
+      "readmore underline",
+
+      "bottom menu arrow color",
+      "primary order button font family",
+    ],
   },
 ];

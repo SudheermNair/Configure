@@ -97,6 +97,42 @@ h1 {
 //   margin-bottom: 5px;
 // }
 
+///////////////////////////
+.style-config-container {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  height: 70%;
+  // background-color: #ca6f63;
+//   margin-left: 25px;
+}
+
+.style-config {
+  padding: 10px;
+  border: 1px solid #ccc;
+  // margin: 10px;
+  max-width: 75%;
+  min-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  // height: 83%;
+}
+
+.style-selected {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  // height: 83%;
+  // max-height: 400px;
+  overflow-y: scroll;
+  min-width: 400px;
+}
+
+////////////////////////
+
 button {
   margin-top: 8px;
   padding: 10px 20px;
@@ -108,6 +144,9 @@ button {
   cursor: pointer;
   text-transform: uppercase;
 }
+
+
+
 .remove-btn {
   display:grid;
   background-color: #f3f2f2;
