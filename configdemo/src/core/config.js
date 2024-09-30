@@ -250,88 +250,65 @@ export const configFields = [
       },
     ],
     styles: [
-      "primary theme color",
-      "primary background color",
-      "primary icon color",
-      "primary border color",
-      "primary box shadow color",
-      "primary error text color",
-      "primary disabled color",
-
-      // overlays
-      "primary overlay color",
-      "secondary overlay color",
-
-      // text colors
-      "primary text color",
-      "secondary text color",
-      "tertiary text color",
-
-      // drawer colors
-      "primary drawer color",
-      "primary drawer notch color",
-      "primary drawer top left border radius",
-      "primary drawer top right border radius",
-      "primary drawer height",
-      "primary drawer background Opacity",
-      "primary drawer background color",
-
-      // Iframe drawer colors
-      "primary iframe drawer color",
-      "primary iframe drawer height",
-
-      // image transition background color
-      "primary image transition background color",
-
-      // hamburger menu colors
-      "hamburgermenu drawer color",
-      "hamburgermenu text color",
-      "hamburgermenu icon color",
-
-      // font-families
-      "primary font regular",
-      "primary font medium",
-      "primary font semibold",
-      "primary font bold",
-
-      //Optional font-family properties commented out
-      "primary font heading",
-      "primary font extd regular",
-      "heading font regular",
-
-      //Optional title and card font properties
-      "primary title font family",
-      "secondary title font family",
-      "primary indicator color",
-
-      "primary card title font family",
-      "primary card desc font family",
-      "primary card cta font family",
-      "primary card background color",
-      "primary card border radius",
-      "primary card shadow color",
-      "primary card border",
-
-      //Optional button properties
-      "primary button color",
-      "primary button background color",
-      "primary button border radius",
-      "primary button font family",
-
-      "secondary button color",
-      "secondary button background color",
-      "secondary button border radius",
-      "secondary button font family",
-
-      //Readmore options
-      "readmore text",
-      "readmore arrowwithtext",
-      "readmore arrow",
-      "readmore arrowhead",
-      "readmore underline",
-
-      "bottom menu arrow color",
-      "primary order button font family",
-    ],
+      "Primary Theme Color",
+      "Primary Background Color",
+      "Primary Icon Color",
+      "Primary Border Color",
+      "Primary Box Shadow Color",
+      "Primary Error Text Color",
+      "Primary Disabled Color",
+      "Primary Overlay Color",
+      "Secondary Overlay Color",
+      "Primary Text Color",
+      "Secondary Text Color",
+      "Tertiary Text Color",
+      "Primary Drawer Color",
+      "Primary Drawer Notch Color",
+      "Primary Drawer Top Left Border Radius",
+      "Primary Drawer Top Right Border Radius",
+      "Primary Drawer Height",
+      "Primary Drawer Background Opacity",
+      "Primary Drawer Background Color",
+      "Primary Iframe Drawer Color",
+      "Primary Iframe Drawer Height",
+      "Primary Image Transition Background Color",
+      "Hamburger Menu Drawer Color",
+      "Hamburger Menu Text Color",
+      "Hamburger Menu Icon Color",
+      "Primary Font Regular",
+      "Primary Font Medium",
+      "Primary Font Semibold",
+      "Primary Font Bold",
+      "Primary Font Heading",
+      "Primary Font Extended Regular",
+      "Heading Font Regular",
+      "Primary Title Font Family",
+      "Secondary Title Font Family",
+      "Primary Indicator Color",
+      "Primary Card Title Font Family",
+      "Primary Card Desc Font Family",
+      "Primary Card CTA Font Family",
+      "Primary Card Background Color",
+      "Primary Card Border Radius",
+      "Primary Card Shadow Color",
+      "Primary Card Border",
+      "Primary Button Color",
+      "Primary Button Background Color",
+      "Primary Button Border Radius",
+      "Primary Button Font Family",
+      "Secondary Button Color",
+      "Secondary Button Background Color",
+      "Secondary Button Border Radius",
+      "Secondary Button Font Family",
+      "Read More Text",
+      "Read More Arrow With Text",
+      "Read More Arrow",
+      "Read More Arrow Head",
+      "Read More Underline",
+      "Bottom Menu Arrow Color",
+      "Primary Order Button Font Family"
+  ]
+  
+       
   },
 ];

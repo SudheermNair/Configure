@@ -1,79 +1,146 @@
 import { Select, MenuItem } from "@mui/material";
 import React, { useState } from "react";
-import { configFields } from "../../core/config";
-import "./styles.scss";
+import { configFields } from "../../core/propValue";
 
 function StyleConfig() {
   const [styleData] = useState(configFields[0].styles);
+  const [fontFamilyList] = useState(configFields[0].fontFamilies);
+  const [readMoreConfig] = useState(configFields[0].readMoreCTA);
   const [stylesObject, setStylesObject] = useState({});
   const [styleProperty, setStyleProperty] = useState("");
-  const [colorValue, setColorValue] = useState("#050505");
-  const [sizeValue, setSizeValue] = useState("");
-  const [unit, setUnit] = useState("px"); // Default unit is px
+  const [styleValue, setStyleValue] = useState("");
+  const [selectedProperty, setSelectedProperty] = useState("");
+  const [copyButtonText, setCopyButtonText] = useState("Copy");
 
-  const updateStyles = (property, sizeValue) => {
-    if (property) {
-      const formattedProperty = formatProperty(property);
-      const valueToSave = isColorProperty(property)
-        ? colorValue
-        : isFontSizeProperty(property)
-        ? `${sizeValue}`
-        : "";
-
+  const saveStyle = () => {
+    if (styleProperty && styleValue) {
       setStylesObject((prevStyles) => ({
         ...prevStyles,
-        [formattedProperty]: valueToSave,
+        [styleProperty]: styleValue,
       }));
+
+      setStyleProperty("");
+      setSelectedProperty("");
+      setStyleValue("");
     }
   };
 
-  const handleStylePropertyChange = (property) => {
-    setStyleProperty(property);
-    updateStyles(property, sizeValue);
-  };
+  const copyObject = () => {
+    const textData = JSON.stringify(stylesObject, null, 2);
+    navigator.clipboard.writeText(textData).then(() => {
+      setCopyButtonText("Copied!");
+      console.log(stylesObject);
 
-  const handleColorChange = (value) => {
-    setColorValue((prevColorValue) => {
-      // Update styles with the new color, current size, and unit
-      updateStyles(styleProperty, sizeValue, prevColorValue, value); // Pass previous and new color
-      return value; // Return the new color value
-    });
-  };
-  
-  const handleSizeChange = (e) => {
-    const value = e.target.value;
-
-    setSizeValue((prevSizeValue) => {
-      const newSizeValue = value;
-      updateStyles(styleProperty, newSizeValue);
-      return newSizeValue;
+      setTimeout(() => {
+        setCopyButtonText("Copy");
+      }, 2000);
     });
   };
 
-  const handleUnitChange = (e) => {
-    const selectedUnit = e.target.value;
-    setUnit(selectedUnit);
-    updateStyles(styleProperty, `${sizeValue}${selectedUnit}`);
+  const setStylePropertyValue = (e) => {
+    const selectedPropertyValue = e.target.value;
+    const propertyValue =
+      "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
+    setStyleProperty(propertyValue);
+    setSelectedProperty(selectedPropertyValue);
   };
 
-  const formatProperty = (property) => {
-    return `--${property.replace(/\s+/g, "-")}`;
+  const saveValue = (e) => {
+    let newValue = e.target.value;
+
+    if (styleProperty.includes("opacity")) {
+      if (newValue < 0 || newValue > 10) return;
+    }
+
+    if (styleProperty.includes("height")) {
+      if (!isNaN(newValue) && newValue !== "") {
+        newValue += "dvh";
+      } else {
+        return;
+      }
+    } else if (styleProperty.includes("radius")) {
+      if (!isNaN(newValue) && newValue !== "") {
+        newValue += "px";
+      } else {
+        return;
+      }
+    }
+
+    setStyleValue(newValue);
   };
 
-  const isColorProperty = (property) => property.includes("color");
-  const isFontSizeProperty = (property) =>
-    property.includes("font") ||
-    property.includes("border") ||
-    property.includes("height") ||
-    (property.includes("Opacity") && !property.includes("border color"));
+  const renderInputFields = () => {
+    if (styleProperty.includes("color")) {
+      return (
+        <>
+          <label>Color: </label>
+          <input
+            type="color"
+            value={styleValue}
+            onChange={saveValue}
+            className="clrPalatte"
+          />
+        </>
+      );
+    }
+
+    if (
+      styleProperty.includes("height") ||
+      styleProperty.includes("radius") ||
+      styleProperty.includes("opacity")
+    ) {
+      return (
+        <>
+          <label>Style value</label>
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            type="number"
+            value={styleValue.replace(/px|dvh/, "")}
+            onChange={saveValue}
+          />
+        </>
+      );
+    }
+
+    if (styleProperty.includes("font")) {
+      return (
+        <>
+          <label>Font Family</label>
+          <Select value={styleValue} onChange={saveValue} displayEmpty>
+            {fontFamilyList.map((fontFamily, index) => (
+              <MenuItem key={index} value={fontFamily}>
+                {fontFamily}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      );
+    }
+
+    if (styleProperty.includes("read")) {
+      return (
+        <>
+          <label>Style value</label>
+          <Select value={styleValue} onChange={saveValue} displayEmpty>
+            {readMoreConfig.map((displayValue, index) => (
+              <MenuItem key={index} value={displayValue}>
+                {displayValue}
+              </MenuItem>
+            ))}
+          </Select>
+        </>
+      );
+    }
+  };
 
   return (
-    <div className="style-config-container">
-      <div className="style-config">
+    <div className="StyleConfig-container">
+      <div className="StyleConfig-form">
         <label>Style property</label>
         <Select
-          value={styleProperty}
-          onChange={(e) => handleStylePropertyChange(e.target.value)}
+          value={selectedProperty}
+          onChange={setStylePropertyValue}
           displayEmpty
         >
           <MenuItem value="" disabled>
@@ -86,45 +153,37 @@ function StyleConfig() {
           ))}
         </Select>
         <br />
-
-        {isColorProperty(styleProperty) && (
-          <>
-            <label>Color Picker: </label>
-            <input
-              type="color"
-              value={colorValue}
-              onChange={(e) => handleColorChange(e.target.value)}
-            />
-            <div>Selected Color: {colorValue}</div>
-            <br />
-          </>
-        )}
-
-        {isFontSizeProperty(styleProperty) && (
-          <>
-            <label>Size</label>
-            <input
-              type="number"
-              value={sizeValue}
-              onChange={handleSizeChange}
-              placeholder="Enter size"
-            />
-            <select value={unit} onChange={handleUnitChange}>
-              <option value="px">px</option>
-              <option value="vh">vh</option>
-            </select>
-            <div>
-              Selected Size: {sizeValue}
-              {unit}
-            </div>
-            <br />
-          </>
-        )}
+        {renderInputFields()}
+        <br />
+        <button onClick={saveStyle}>Save</button>
       </div>
-
-      <div className="style-selected">
-        <h3>Current Styles:</h3>
+      <div className="jsonData">
+        <h3>
+          Saved Styles
+          <button onClick={copyObject} className="copyBtn">
+            {copyButtonText}
+          </button>
+        </h3>
         <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+
+        <div className="removeOptions">
+          {Object.keys(stylesObject).map((key, index) => (
+            <div key={index}>
+              <p>{key}</p>
+              <button
+                onClick={() =>
+                  setStylesObject((prevStyles) => {
+                    const newStyles = { ...prevStyles };
+                    delete newStyles[key];
+                    return newStyles;
+                  })
+                }
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
