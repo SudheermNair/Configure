@@ -71,7 +71,7 @@ const HotelConfig = () => {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
               const updatedDetails = detailsEnabled
-                ? [...(sub.details || []), { key: selectedKeys, value }]
+                ? [...(sub.details || []), { [selectedKeys]:value }]
                 : sub.details;
 
               return {
@@ -103,7 +103,7 @@ const HotelConfig = () => {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            details: detailsEnabled ? [{ key: selectedKeys, value }] : [],
+            details: detailsEnabled ? [{ [selectedKeys]:value }] : [],
             keyValuePairs: { ...keyValuePairs },
           })),
         },
