@@ -17,6 +17,7 @@ const HotelConfig = () => {
     isRequired: false,
   });
 
+  
   const updateData = (hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
