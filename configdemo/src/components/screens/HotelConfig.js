@@ -70,9 +70,11 @@ const HotelConfig = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
-              const updatedDetails = detailsEnabled
-                ? [...(sub.details || []), { [selectedKeys]:value }]
-                : sub.details;
+            let updatedDetails = sub.details || [{}]; // Start with an empty object if details are not present
+
+              if (detailsEnabled) {
+                updatedDetails[0] = { ...updatedDetails[0], [key]: value };
+              }
 
               return {
                 ...sub,
