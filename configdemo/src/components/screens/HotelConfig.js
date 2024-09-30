@@ -76,7 +76,7 @@ const HotelConfig = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
-              // If "Has Details" is enabled, update the details array
+              // If a submodule is selected and "Has Details" is enabled
               if (detailsEnabled) {
                 let updatedDetails = sub.details || [{}];
                 updatedDetails[0] = { ...updatedDetails[0], [key]: value };
@@ -84,20 +84,13 @@ const HotelConfig = () => {
                 return {
                   ...sub,
                   details: updatedDetails, // Update details array
-                  keyValuePairs: { ...sub.keyValuePairs }, // keyValuePairs remains the same
                 };
               }
 
-              // If "Has Details" is NOT enabled, update keyValuePairs
-              const updatedKeyValuePairs = {
-                ...sub.keyValuePairs,
-                [key]: value,
-              };
-
+              // If a submodule is selected and "Has Details" is NOT enabled
               return {
                 ...sub,
-                keyValuePairs: updatedKeyValuePairs, // Update keyValuePairs
-                details: sub.details || [], // details remain unchanged
+                [key]: value, // Add key-value pairs directly to the submodule
               };
             }
             return sub;
@@ -110,9 +103,11 @@ const HotelConfig = () => {
               )
           );
 
+          // If no submodule is selected, add key-value pair to the module
           return {
             ...mod,
             submodules: [...updatedSubmodules, ...newSubmodules],
+            ...(!submodules.length && key ? { [key]: value } : {}),
           };
         }
         return mod;
@@ -126,13 +121,16 @@ const HotelConfig = () => {
             ...sub,
             // If "Has Details" is enabled, add key-value pair to details
             details: detailsEnabled ? [{ [key]: value }] : [],
-            // Otherwise, add key-value pair to keyValuePairs
-            keyValuePairs: detailsEnabled ? {} : { [key]: value },
+            // If "Has Details" is NOT enabled, add key-value pair directly to submodule
+            ...(detailsEnabled ? {} : { [key]: value }),
           })),
+          // If no submodule is selected, add key-value pair directly to module
+          ...(!submodules.length && key ? { [key]: value } : {}),
         },
       ];
     }
   };
+
 
 
   const handleHotelSelect = useCallback((e) => {
