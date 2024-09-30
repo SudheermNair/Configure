@@ -216,7 +216,8 @@ const HotelConfig = () => {
 
         <div className="dropdown-container">
           <label>Hotel:</label>
-          <select className="submodule-dropdown"
+          <select
+            className="submodule-dropdown"
             value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
@@ -235,7 +236,8 @@ const HotelConfig = () => {
           <>
             <div className="dropdown-container">
               <label>Module:</label>
-              <select className="submodule-dropdown"
+              <select
+                className="submodule-dropdown"
                 value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
@@ -254,13 +256,20 @@ const HotelConfig = () => {
               <div className="dropdown-container submodules">
                 <label>Submodules:</label>
                 <div className="selected-submodules">
-                  <select onChange={handleSubmoduleSelect} value="" className="submodule-dropdown">
+                  <select
+                    onChange={handleSubmoduleSelect}
+                    value=""
+                    className="submodule-dropdown"
+                  >
                     <option value="" disabled>
                       Select Submodule
                     </option>
                     {configFields[0].submodules
-                      .filter((submodule) => 
-                        !selectedSubmodules.some((selectedSub) => selectedSub.name === submodule)
+                      .filter(
+                        (submodule) =>
+                          !selectedSubmodules.some(
+                            (selectedSub) => selectedSub.name === submodule
+                          )
                       )
                       .map((submodule) => (
                         <option key={submodule} value={submodule}>
@@ -268,7 +277,7 @@ const HotelConfig = () => {
                         </option>
                       ))}
                   </select>
-                  
+
                   {selectedSubmodules.map((submodule) => (
                     <span key={submodule.name} className="selected-submodule">
                       {submodule.name}
@@ -288,7 +297,11 @@ const HotelConfig = () => {
 
             <div className="dropdown-container">
               <label>Keys:</label>
-              <select value={selectedKeys || ""} onChange={handleKeySelect} className="submodule-dropdown">
+              <select
+                value={selectedKeys || ""}
+                onChange={handleKeySelect}
+                className="submodule-dropdown"
+              >
                 <option value="" disabled>
                   Select Key
                 </option>
@@ -303,7 +316,11 @@ const HotelConfig = () => {
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
-                <select onChange={handleValueSelect} value="" className="submodule-dropdown">
+                <select
+                  onChange={handleValueSelect}
+                  value=""
+                  className="submodule-dropdown"
+                >
                   <option value="" disabled>
                     Select Value
                   </option>
@@ -316,21 +333,22 @@ const HotelConfig = () => {
               </div>
             )}
 
-
             {/* Details Checkbox */}
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={detailsEnabled}
-                  onChange={(e) => {
-                    setDetailsEnabled(e.target.checked);
-                    if (!e.target.checked) setKeyValuePairs({});
-                  }}
-                />
-                Has Details
-              </label>
-            </div>
+            {selectedSubmodules.length > 0 && (
+              <div className="checkbox-container">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={detailsEnabled}
+                    onChange={(e) => {
+                      setDetailsEnabled(e.target.checked);
+                      if (!e.target.checked) setKeyValuePairs({});
+                    }}
+                  />
+                  Has Details
+                </label>
+              </div>
+            )}
 
             {/* Checkbox Section */}
             <div className="checkbox-container">
