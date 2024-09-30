@@ -60,7 +60,13 @@ const HotelConfig = () => {
     });
   };
 
-  const updateModules = (existingModules = [], module, submodules, key, value) => {
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodules,
+    key,
+    value
+  ) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -70,25 +76,38 @@ const HotelConfig = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
-            let updatedDetails = sub.details || [{}]; // Start with an empty object if details are not present
-
+              // If "Has Details" is enabled, update the details array
               if (detailsEnabled) {
+                let updatedDetails = sub.details || [{}];
                 updatedDetails[0] = { ...updatedDetails[0], [key]: value };
+
+                return {
+                  ...sub,
+                  details: updatedDetails, // Update details array
+                  keyValuePairs: { ...sub.keyValuePairs }, // keyValuePairs remains the same
+                };
               }
+
+              // If "Has Details" is NOT enabled, update keyValuePairs
+              const updatedKeyValuePairs = {
+                ...sub.keyValuePairs,
+                [key]: value,
+              };
 
               return {
                 ...sub,
-                details: updatedDetails,
-                keyValuePairs: { ...sub.keyValuePairs, ...keyValuePairs },
+                keyValuePairs: updatedKeyValuePairs, // Update keyValuePairs
+                details: sub.details || [], // details remain unchanged
               };
             }
             return sub;
           });
 
           const newSubmodules = submodules.filter(
-            (newSub) => !mod.submodules.some(
-              (existingSub) => existingSub.name === newSub.name
-            )
+            (newSub) =>
+              !mod.submodules.some(
+                (existingSub) => existingSub.name === newSub.name
+              )
           );
 
           return {
@@ -105,13 +124,16 @@ const HotelConfig = () => {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            details: detailsEnabled ? [{ [selectedKeys]:value }] : [],
-            keyValuePairs: { ...keyValuePairs },
+            // If "Has Details" is enabled, add key-value pair to details
+            details: detailsEnabled ? [{ [key]: value }] : [],
+            // Otherwise, add key-value pair to keyValuePairs
+            keyValuePairs: detailsEnabled ? {} : { [key]: value },
           })),
         },
       ];
     }
   };
+
 
   const handleHotelSelect = useCallback((e) => {
     const selected = configFields[0].hotels.find(
