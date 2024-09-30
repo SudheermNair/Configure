@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./styles.scss";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+ 
 const FieldSelected = ({ data = [], setData }) => {
   const [copyButtonText, setCopyButtonText] = useState("Copy");
 
@@ -39,10 +39,10 @@ const FieldSelected = ({ data = [], setData }) => {
         return hotel;
       })
       .filter(Boolean);
-
+ 
     setData(updatedData);
   };
-
+ 
   const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
     const updatedData = data
       .map((hotel) => {
@@ -72,7 +72,7 @@ const FieldSelected = ({ data = [], setData }) => {
         return hotel;
       })
       .filter(Boolean);
-
+ 
     setData(updatedData);
   };
 
@@ -81,7 +81,7 @@ const FieldSelected = ({ data = [], setData }) => {
       alert("Please add items to copy!");
       return;
     }
-
+ 
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
@@ -91,11 +91,11 @@ const FieldSelected = ({ data = [], setData }) => {
       }, 2000);
     });
   };
-
+ 
   if (data.length === 0) {
     return null;
   }
-
+ 
   return (
     <div className="field-selected">
       <h1>Selected Configuration</h1>
@@ -220,5 +220,5 @@ const FieldSelected = ({ data = [], setData }) => {
     </div>
   );
 };
-
+ 
 export default FieldSelected;
