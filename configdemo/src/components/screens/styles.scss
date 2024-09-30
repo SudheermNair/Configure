@@ -9,6 +9,17 @@ body {
   overflow: hidden;
 }
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+
+html,
+body {
+  overflow: hidden;
+}
+
 .field-container {
   display: flex;
   flex-direction: column;
@@ -20,6 +31,8 @@ body {
 h1 {
   font-size: 28px;
   margin-left: 3%;
+  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: 'Questrial';
   // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-family: 'Questrial';
 }
