@@ -4,7 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
  
 const FieldSelected = ({ data = [], setData }) => {
   const [copyButtonText, setCopyButtonText] = useState("Copy");
- 
+
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
       .map((hotel) => {
@@ -75,7 +75,7 @@ const FieldSelected = ({ data = [], setData }) => {
  
     setData(updatedData);
   };
- 
+
   const handleCopy = () => {
     if (data.length === 0) {
       alert("Please add items to copy!");
@@ -85,7 +85,7 @@ const FieldSelected = ({ data = [], setData }) => {
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
- 
+
      
       setTimeout(() => {
         setCopyButtonText("Copy");
@@ -118,7 +118,7 @@ const FieldSelected = ({ data = [], setData }) => {
                   <DeleteIcon style={{ fontSize: 18 }} />
                 </button>
               </div>
- 
+
               {Object.keys(hotel)
                 .filter(
                   (key) =>
@@ -136,7 +136,7 @@ const FieldSelected = ({ data = [], setData }) => {
                   </div>
                 ))}
             </div>
- 
+
             {hotel.modules &&
               hotel.modules.length > 0 &&
               hotel.modules.map((module, moduleIndex) => (
@@ -150,14 +150,14 @@ const FieldSelected = ({ data = [], setData }) => {
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
                   </div>
- 
+
              
                   {Object.keys(module)
                     .filter((key) => key !== "name" && key !== "submodules")
                     .map((key) => (
                       <div key={key}>{`${key}: ${module[key]}`}</div>
                     ))}
- 
+
                   {module.submodules && module.submodules.length > 0 && (
                     <div className="submodule-info">
                      
@@ -185,7 +185,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                 <DeleteIcon style={{ fontSize: 18 }} />
                               </button>
                             </div>
- 
+
                            
                             {module.submodules.map((sub) => {
                               if (
