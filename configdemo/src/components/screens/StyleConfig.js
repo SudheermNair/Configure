@@ -54,7 +54,7 @@ function StyleConfig() {
 
     if (styleProperty.includes("height")) {
       if (!isNaN(newValue) && newValue !== "") {
-        newValue += "vdh";
+        newValue += "dvh";
       } else {
         return;
       }
@@ -96,7 +96,7 @@ function StyleConfig() {
             id="standard-basic"
             variant="standard"
             type="number"
-            value={styleValue.replace(/px|vdh/, "")}
+            value={styleValue.replace(/px|dvh/, "")}
             onChange={saveValue}
           />
         </>
