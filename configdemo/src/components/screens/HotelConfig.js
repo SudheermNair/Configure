@@ -141,11 +141,6 @@ const HotelConfig = () => {
       const selected = configFields[0].hotels.find(
         (hotel) => hotel.hotelId === e.target.value
       );
-  const handleHotelSelect = useCallback(
-    (e) => {
-      const selected = configFields[0].hotels.find(
-        (hotel) => hotel.hotelId === e.target.value
-      );
 
       if (selected) {
         const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
@@ -183,27 +178,10 @@ const HotelConfig = () => {
     },
     [selectedHotel]
   );
-
+;
   const handleSubmoduleSelect = useCallback(
     (e) => {
       const submoduleName = e.target.value;
-  const handleSubmoduleSelect = useCallback(
-    (e) => {
-      const submoduleName = e.target.value;
-
-      if (submoduleName) {
-        setSelectedSubmodules((prevSubmodules) => {
-          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-
-          if (selectedHotel && selectedModule) {
-            updateData(
-              selectedHotel,
-              selectedModule,
-              newSubmodules,
-              null,
-              null
-            );
-          }
       if (submoduleName) {
         setSelectedSubmodules((prevSubmodules) => {
           const newSubmodules = [...prevSubmodules, { name: submoduleName }];
