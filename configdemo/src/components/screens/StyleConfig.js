@@ -1,9 +1,16 @@
-import { Select, MenuItem, TextField } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import {
+  Select,
+  MenuItem,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DoneIcon from "@mui/icons-material/Done";
+import ClearIcon from "@mui/icons-material/Clear"; // Importing the Clear icon
 import "./styles.scss";
 
 function StyleConfig() {
@@ -15,7 +22,6 @@ function StyleConfig() {
   const [styleValue, setStyleValue] = useState("");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
-  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const copyObject = () => {
     const textData = JSON.stringify(stylesObject, null, 2);
@@ -32,15 +38,11 @@ function StyleConfig() {
     const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
     setSelectedProperty(selectedPropertyValue);
+    setStyleValue("");
   };
 
   const saveValue = (e) => {
     let newValue = e.target.value;
-
-
-    if (styleProperty.includes("opacity")) {
-      if (newValue < 0 || newValue > 10) return;
-    }
 
     if (styleProperty.includes("height")) {
       if (!isNaN(newValue) && newValue !== "") {
@@ -57,26 +59,76 @@ function StyleConfig() {
     }
 
     setStyleValue(newValue);
+    updateStylesObject(styleProperty, newValue);
+  };
 
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout);
+  const handleColorChange = (e) => {
+    const colorValue = e.target.value;
+    setStyleValue(colorValue);
+    updateStylesObject(styleProperty, colorValue);
+  };
+
+  const handleClickColorBand = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    const hue = Math.floor((x / width) * 360);
+    const hexColor = hslToHex(hue, 100, 50);
+    setStyleValue(hexColor);
+    updateStylesObject(styleProperty, hexColor);
+  };
+
+  const hslToHex = (h, s, l) => {
+    s /= 100;
+    l /= 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r, g, b;
+
+    if (h < 60) {
+      r = c;
+      g = x;
+      b = 0;
+    } else if (h < 120) {
+      r = x;
+      g = c;
+      b = 0;
+    } else if (h < 180) {
+      r = 0;
+      g = c;
+      b = x;
+    } else if (h < 240) {
+      r = 0;
+      g = x;
+      b = c;
+    } else if (h < 300) {
+      r = x;
+      g = 0;
+      b = c;
+    } else {
+      r = c;
+      g = 0;
+      b = x;
     }
 
-   
-    const timeoutId = setTimeout(() => {
-      if (styleProperty && newValue) {
-        setStylesObject((prevStyles) => ({
-          ...prevStyles,
-          [styleProperty]: newValue,
-        }));
-        
-        setStyleProperty("");
-        setSelectedProperty("");
-        setStyleValue("");
-      }
-    }, 600); 
+    const hex =
+      (((r + m) * 255) << 16) | (((g + m) * 255) << 8) | ((b + m) * 255);
+    return `#${((1 << 24) + hex).toString(16).slice(1).toUpperCase()}`;
+  };
 
-    setDebounceTimeout(timeoutId);
+  const updateStylesObject = (property, value) => {
+    if (property) {
+      setStylesObject((prevStyles) => ({
+        ...prevStyles,
+        [property]: value,
+      }));
+    }
+  };
+
+  const clearTextField = () => {
+    setStyleValue("");
+    updateStylesObject(styleProperty, "");
   };
 
   const renderInputFields = () => {
@@ -87,10 +139,31 @@ function StyleConfig() {
           <input
             type="color"
             value={styleValue}
-            onChange={saveValue}
+            onChange={handleColorChange}
             className="clrPalatte"
           />
-        </div>
+          <div className="color-slider-container">
+            <div
+              className="color-band"
+              style={{
+                background: `linear-gradient(to right, 
+                  hsl(0, 100%, 50%),
+                  hsl(60, 100%, 50%),
+                  hsl(120, 100%, 50%),
+                  hsl(180, 100%, 50%),
+                  hsl(240, 100%, 50%),
+                  hsl(300, 100%, 50%),
+                  hsl(360, 100%, 50%))`,
+                position: "relative",
+                height: "30px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+              onClick={handleClickColorBand}
+            />
+          </div>
+          <p>Selected Color Code: {styleValue}</p>
+        </>
       );
     }
 
@@ -100,18 +173,25 @@ function StyleConfig() {
       styleProperty.includes("opacity")
     ) {
       return (
-        <div className="style-value">
-          <label className="sss">Style value </label>
-          <div className="style-value-textfield">
-            <TextField
-              id="standard-basic"
-              variant="standard"
-              type="number"
-              value={styleValue.replace(/px|dvh/, "")}
-              onChange={saveValue}
-            />
-          </div>
-        </div>
+        <>
+          <label>Style value</label>
+          <TextField
+            variant="standard"
+            type="number"
+            // value={styleValue }
+            value={styleValue.replace(/px|dvh/, "")}
+            onChange={saveValue}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={clearTextField}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </>
       );
     }
 
@@ -177,13 +257,9 @@ function StyleConfig() {
           <br />
         </div>
 
-       
-          {renderInputFields()}
-          <br />
-          <button  className="save" onClick={saveStyle}>Save</button>
-        
+        {renderInputFields()}
+        <br />
       </div>
-
 
       {Object.keys(stylesObject).length > 0 ? (
         <>
@@ -202,32 +278,30 @@ function StyleConfig() {
               </h3>
             </div>
             <div className="saved-styles">
-              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>{" "}
+              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
             </div>
 
             <div className="removeOptions deleteIcon">
-              {Object.entries(stylesObject).map(([key, value]) => {
-                return (
-                  <>
-                    <div className="removeOption">
-                      <p>
-                        {key}: {value}
-                      </p>
+              {Object.entries(stylesObject).map(([key, value]) => (
+                <div className="removeOptions" key={key}>
+                  <div className="removeOption">
+                    <p>
+                      {key}: {value}
+                    </p>
 
-                      <DeleteIcon
-                        className="delete-btn"
-                        onClick={() =>
-                          setStylesObject((prevStyles) => {
-                            const newStyles = { ...prevStyles };
-                            delete newStyles[key];
-                            return newStyles;
-                          })
-                        }
-                      />
-                    </div>
-                  </>
-                );
-              })}
+                    <DeleteIcon
+                      className="delete-btn"
+                      onClick={() =>
+                        setStylesObject((prevStyles) => {
+                          const newStyles = { ...prevStyles };
+                          delete newStyles[key];
+                          return newStyles;
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
