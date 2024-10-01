@@ -1,5 +1,5 @@
 import { Select, MenuItem, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -15,26 +15,12 @@ function StyleConfig() {
   const [styleValue, setStyleValue] = useState("");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
-
-  const saveStyle = () => {
-    if (styleProperty && styleValue) {
-      setStylesObject((prevStyles) => ({
-        ...prevStyles,
-        [styleProperty]: styleValue,
-      }));
-
-      setStyleProperty("");
-      setSelectedProperty("");
-      setStyleValue("");
-    }
-  };
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const copyObject = () => {
     const textData = JSON.stringify(stylesObject, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
-      console.log(stylesObject);
-
       setTimeout(() => {
         setCopyButtonText("Copy");
       }, 2000);
@@ -43,14 +29,14 @@ function StyleConfig() {
 
   const setStylePropertyValue = (e) => {
     const selectedPropertyValue = e.target.value;
-    const propertyValue =
-      "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
+    const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
     setSelectedProperty(selectedPropertyValue);
   };
 
   const saveValue = (e) => {
     let newValue = e.target.value;
+
 
     if (styleProperty.includes("opacity")) {
       if (newValue < 0 || newValue > 10) return;
@@ -71,6 +57,26 @@ function StyleConfig() {
     }
 
     setStyleValue(newValue);
+
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+   
+    const timeoutId = setTimeout(() => {
+      if (styleProperty && newValue) {
+        setStylesObject((prevStyles) => ({
+          ...prevStyles,
+          [styleProperty]: newValue,
+        }));
+        
+        setStyleProperty("");
+        setSelectedProperty("");
+        setStyleValue("");
+      }
+    }, 600); 
+
+    setDebounceTimeout(timeoutId);
   };
 
   const renderInputFields = () => {
@@ -178,6 +184,7 @@ function StyleConfig() {
         
       </div>
 
+
       {Object.keys(stylesObject).length > 0 ? (
         <>
           <div className="jsonData">
@@ -225,9 +232,7 @@ function StyleConfig() {
           </div>
         </>
       ) : (
-        <>
-          <div className="StyleConfig-empty"></div>
-        </>
+        <div className="StyleConfig-empty"></div>
       )}
     </div>
   );
