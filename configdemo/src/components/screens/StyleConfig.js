@@ -163,7 +163,7 @@ function StyleConfig() {
             />
           </div>
           <p>Selected Color Code: {styleValue}</p>
-        </>
+        </div>
       );
     }
 
