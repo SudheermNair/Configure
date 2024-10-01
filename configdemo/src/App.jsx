@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
+import HotelConfig from "./components/screens/HotelConfig";
 import FieldModules from "./components/screens/fieldModules";
 import FieldSelected from "./components/screens/fieldSelected";
 import { useState } from "react";
@@ -33,9 +34,7 @@ function App() {
               <div className="field-modules-container">
                 {isConfigActive && (
                   <div >
-                    
                     <div>
-                  
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
                     <div>
@@ -45,7 +44,7 @@ function App() {
                         handleSubmit={handleSubmit}
                       />
                     </div>
-                  </div>
+                    </div>
                 )}
               </div>
             </>

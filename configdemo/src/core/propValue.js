@@ -68,10 +68,10 @@ export const configFields = [
             "Roboto",
             "Raleway",
             "Montserrat",
-            'ITC Franklin Gothic Std Medium',
+            // 'ITC Franklin Gothic Std Medium',
             'ClanOT Extended Book',
-            'ClanOT Extended Medium',
-            'ClanOT Extended Semibold',
+            // 'ClanOT Extended Medium',
+            // 'ClanOT Extended Semibold',
             'ClanOT Book',
             'ClanOT News',
             'ClanOT Medium'
