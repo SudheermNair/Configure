@@ -224,10 +224,6 @@ select {
   border-radius: 12px;
   padding: 4px;
 }
-// .hotel-info {
-//   display: flex;
-//   flex-direction: row;
-// }
 
 .hotel-id-info {
   display: grid;
@@ -317,14 +313,42 @@ select {
 label{
   margin-bottom: 120px;
 }
- 
  }
- .StyleConfig-form,.jsonData{
+
+ .jsonData{
    border: solid 1px #a8a8a8;
    padding: 3%;
-   width: 400px;
+  //  width: 400px;
    border-radius: 3%;
    box-shadow:0px 0px 10px #a8a8a8;
    margin: 0px 4%;
-   
+   max-width: 75%;
+   min-width: 400px;
+   overflow-y: scroll;
+ }
+
+ .copyBtn{
+  display: flex;
+  margin: -2%;
+ }
+
+ .StyleConfig-form
+ {
+  border: solid 1px #a8a8a8;
+  box-shadow:0px 0px 10px #a8a8a8;
+  box-sizing: border-box;
+  // height: 70%;
+  padding: 3%;
+  max-width: 75%;
+  min-width: 400px;
+  border-radius: 10px;
+ }
+
+ .removeOptions{
+  // display:grid;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 2%;
+  margin: 0px;
  }

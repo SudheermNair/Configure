@@ -1,6 +1,7 @@
 import { Select, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function StyleConfig() {
   const [styleData] = useState(configFields[0].styles);
@@ -135,7 +136,7 @@ function StyleConfig() {
   };
 
   return (
-    <div className="StyleConfig-container">
+    <div className="style-config-container">
       <div className="StyleConfig-form">
         <label>Style property</label>
         <Select
@@ -153,36 +154,49 @@ function StyleConfig() {
           ))}
         </Select>
         <br />
+
         {renderInputFields()}
         <br />
         <button onClick={saveStyle}>Save</button>
       </div>
+
       <div className="jsonData">
-        <h3>
-          Saved Styles
-          <button onClick={copyObject} className="copyBtn">
-            {copyButtonText}
-          </button>
-        </h3>
-        <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+        <div>
+          <h3>
+            Saved Styles
+            <button onClick={copyObject} className="copyBtn">
+              {copyButtonText}
+            </button>
+          </h3>
+          <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+        </div>
 
-        <div className="removeOptions">
-          
-
+        <div>
           {Object.entries(stylesObject).map(([key, value]) => {
-
-            return(
+            return (
               <>
-              <p>{key}: {value}</p>
-              <button onClick={() =>
+                <p>
+                  {key}: {value}
+                  {/* <button className="removeOptions" onClick={() =>
                   setStylesObject((prevStyles) => {
                     const newStyles = { ...prevStyles };
                     delete newStyles[key];
                     return newStyles;
                   })
-                }> X</button>
+                }> X</button> */}
+                  <DeleteIcon
+                    className="removeOptions"
+                    onClick={() =>
+                      setStylesObject((prevStyles) => {
+                        const newStyles = { ...prevStyles };
+                        delete newStyles[key];
+                        return newStyles;
+                      })
+                    }
+                  />
+                </p>
               </>
-            )
+            );
           })}
         </div>
       </div>
