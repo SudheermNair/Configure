@@ -1,17 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 html,
 body {
   overflow: hidden;
 }
 
-
-
-@import url('https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Questrial&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 
 html,
 body {
@@ -30,9 +24,9 @@ h1 {
   font-size: 28px;
   margin-left: 3%;
   // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-family: 'Questrial';
+  font-family: "Questrial";
   // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-family: 'Questrial';
+  font-family: "Questrial";
 }
 
 .field-modules-container {
@@ -41,7 +35,7 @@ h1 {
   box-sizing: border-box;
   height: 90vh;
   // background-color: #ca6f63;
-//   margin-left: 25px;
+  //   margin-left: 25px;
 }
 
 .field-modules {
@@ -74,7 +68,8 @@ h1 {
   border-radius: 12px;
   padding: 2%;
   text-align: center;
-  font-family: 'Questrial';
+  // font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: "Questrial";
 }
 
 .field-selected ul {
@@ -89,17 +84,17 @@ h1 {
 
 button {
   margin-top: 8px;
-  padding: 10px 20px;
+  padding: 2px 2px;
   float: right;
-  background-color: #63ca8e;
-  color: #fff;
+  // background-color: #63ca8e;
+  color: #63ca8e;
   border: none;
-  border-radius: 5px;
+  // border-radius: 3px;
   cursor: pointer;
   text-transform: uppercase;
 }
 .remove-btn {
-  display:grid;
+  display: grid;
   background-color: #f3f2f2;
   color: #ca6f63;
   border: none;
@@ -179,64 +174,152 @@ select {
 .hotel-id-info {
   display: grid;
 }
-.submodule-info{
+.submodule-info {
   display: grid;
 }
-.module-info{
+.module-info {
   display: flex;
   justify-content: space-between;
 }
 .selected-json {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 .checkbox-container {
   display: grid;
   align-items: center;
 }
-.dropdown-container2{
+.dropdown-container2 {
   display: grid;
 }
 .selected-submodules {
-    display: flex;
-    flex-wrap: wrap;
-    width: 280px;
-    
-    gap: 0px; 
+  display: flex;
+  flex-wrap: wrap;
+  width: 280px;
 
+  gap: 0px;
+}
+
+.selected-submodule {
+  background-color: #eee8e8; /* Adjust background color */
+  padding: 1px;
+  height: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 12px;
+  margin: 3px;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  color: red; /* Change color as needed */
+}
+
+.submodule-dropdown {
+  min-width: 250px;
+}
+.submodules {
+  display: flex;
+
+  max-width: 380px;
+}
+.checkbox-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.StyleConfig-container {
+  display: flex;
+  justify-content: center;
+  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 8px;
   }
-  
-  .selected-submodule {
-    background-color: #eee8e8; 
-    padding:1px ;
-    height: 20px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    font-size: 12px;
-    margin: 3px;
+
+  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    width: 300px;
   }
-  
-  .close-button {
-    background: transparent;
+  .clrPalatte {
+    height: 27px;
     border: none;
-    cursor: pointer;
-    margin: 0px;
-    color: red; 
+    outline: none;
+    border-radius: 3px;
+    margin-left: 1px;
+    width: 350px;
   }
-  
+  label {
+    margin-bottom: 120px;
+  }
+}
+.StyleConfig-form,
+.jsonData {
+  border: solid 1px #a8a8a8;
+  padding: 3%;
+  width: 400px;
+  border-radius: 3%;
+  box-shadow: 0px 0px 10px #a8a8a8;
+  margin: 0px 4%;
+}
 
-  
-  .submodule-dropdown{
-    min-width: 250px;
-  }
-  .submodules{
-   display: flex;
-  
-    max-width: 380px;
-  }
-  .checkbox-container{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2px;
-  }
+.configTile {
+  display: flex;
+  border: solid 2px #03e67c;
+  flex-direction: row;
+  align-items: center;
+  text-transform: capitalize;
+  border-radius: 24px;
+  margin-right: 3%;
+  padding: 9px 57px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: bold;
+  background-color: white;
+
+  color: #6b6b6b;
+}
+
+.configTile:hover,
+.configTile:active {
+  color: rgb(255, 255, 255);
+}
+.configTile .MuiSvgIcon-root:active,
+.configTile .MuiSvgIcon-root:hover {
+  color: #03e67c;
+}
+.configurations-container {
+  width: 900px;
+}
+.buttons {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+}
+.deleteIcon {
+  color: rgb(153, 37, 37);
+}
+.removeOption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+}
+.css-20bmp1-MuiSvgIcon-root {
+  font-size: 10px;
+}
+.copyBtn {
+  background-color: transparent;
+  font-size: 12px;
+  color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  margin: 0px;
+}

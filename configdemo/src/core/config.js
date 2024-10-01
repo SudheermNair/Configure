@@ -144,7 +144,6 @@ export const configFields = [
       'signStayInfo',
       'Headers',
     ],
-    submodules2: ['aaa', 'bbb', 'ccc', 'ddd', 'ee'],
     Keys: [
       {
         code: [
@@ -181,12 +180,9 @@ export const configFields = [
           'banner',
           'terms',
         ],
-        pms: ['OPERA', 'INFOR'],
-        fetchFromDb: ['yes', 'no'],
-        saveToDb: ['yes', 'no'],
-        pms: ['OPERA', 'INFOR'],
-        fetchFromDb: ['yes', 'no'],
-        saveToDb: ['yes', 'no'],
+        pms: ["OPERA", "INFOR"],
+        fetchFromDb: ["yes", "no"],
+        saveToDb: ["yes", "no"],
         name: [
           'Pullman Singapore Orchard Stage',
           'Identity Verification',
@@ -222,8 +218,7 @@ export const configFields = [
           'How was your stay?',
           'How was your stay?',
         ],
-        description2: ['Check-in Completed', 'How was your stay?'],
-        description2: ['Check-in Completed', 'How was your stay?'],
+        description2: ["Check-in Completed", "How was your stay?"],
         label: [
           'Booking ID',
           'Room Number (In 4 Digits)',
@@ -250,88 +245,63 @@ export const configFields = [
       },
     ],
     styles: [
-      '--primary-theme-color',
-      '--primary-background-color',
-      '--primary-icon-color',
-      '--primary-border-color',
-      '--primary-box-shadow-color',
-      '--primary-error-text-color',
-      '--primary-disabled-color',
-
-      // overlays
-      '--primary-overlay-color',
-      '--secondary-overlay-color',
-
-      // text colors
-      '--primary-text-color',
-      '--secondary-text-color',
-      '--tertiary-text-color',
-
-      // drawer colors
-      '--primary-drawer-color',
-      '--primary-drawer-notch-color',
-      '--primary-drawer-top-left-border-radius',
-      '--primary-drawer-top-right-border-radius',
-      '--primary-drawer-height',
-      '--primary-drawer-background-Opacity',
-      '--primary-drawer-background-color',
-
-      // Iframe drawer colors
-      '--primary-iframe-drawer-color',
-      '--primary-iframe-drawer-height',
-
-      // image transition background color
-      '--primary-image-transition-background-color',
-
-      // hamburger menu colors
-      '--hamburgermenu-drawer-color',
-      '--hamburgermenu-text-color',
-      '--hamburgermenu-icon-color',
-
-      // font-families
-      '--primary-font-regular',
-      '--primary-font-medium',
-      '--primary-font-semibold',
-      '--primary-font-bold',
-
-      // Optional font-family properties commented out
-      // "--primary-font-heading: 'ClanOT News'",
-      // "--primary-font-extd-regular: 'ClanOT Extended Book'",
-      // "--heading-font-regular: 'Garamond'",
-
-      // Optional title and card font properties
-      // "--primary-title-font-family: 'ClanOT Extended Book'",
-      // "--secondary-title-font-family: 'ClanOT News'",
-      // "--primary-indicator-color: #ffffff",
-
-      // "--primary-card-title-font-family: 'ClanOT News'",
-      // "--primary-card-desc-font-family: 'ClanOT Book'",
-      // "--primary-card-cta-font-family: 'ClanOT Extended Medium'",
-      // "--primary-card-background-color: #f8f8f8",
-      // "--primary-card-border-radius: 0px",
-      // "--primary-card-shadow-color: #00000010",
-      // "--primary-card-border: none",
-
-      // Optional button properties
-      // "--primary-button-color: #ffffff",
-      // "--primary-button-background-color: #997300",
-      // "--primary-button-border-radius: 0px",
-      // "--primary-button-font-family: 'ClanOT Extended Book'",
-
-      // "--secondary-button-color: #997300",
-      // "--secondary-button-background-color: #ffffff",
-      // "--secondary-button-border-radius: 0px",
-      // "--secondary-button-font-family: 'ClanOT Extended Book'",
-
-      // Readmore options
-      // "--readmore-text: flex",
-      // "--readmore-arrowwithtext: block",
-      // "--readmore-arrow: none",
-      // "--readmore-arrowhead: none",
-      // "--readmore-underline: none",
-
-      '--bottom-menu-arrow-color',
-      '--primary-order-button-font-family',
+      "Primary Theme Color",
+      "Primary Background Color",
+      "Primary Icon Color",
+      "Primary Border Color",
+      "Primary Box Shadow Color",
+      "Primary Error Text Color",
+      "Primary Disabled Color",
+      "Primary Overlay Color",
+      "Secondary Overlay Color",
+      "Primary Text Color",
+      "Secondary Text Color",
+      "Tertiary Text Color",
+      "Primary Drawer Color",
+      "Primary Drawer Notch Color",
+      "Primary Drawer Top Left Border Radius",
+      "Primary Drawer Top Right Border Radius",
+      "Primary Drawer Height",
+      "Primary Drawer Background Opacity",
+      "Primary Drawer Background Color",
+      "Primary Iframe Drawer Color",
+      "Primary Iframe Drawer Height",
+      "Primary Image Transition Background Color",
+      "Hamburger Menu Drawer Color",
+      "Hamburger Menu Text Color",
+      "Hamburger Menu Icon Color",
+      "Primary Font Regular",
+      "Primary Font Medium",
+      "Primary Font Semibold",
+      "Primary Font Bold",
+      "Primary Font Heading",
+      "Primary Font Extended Regular",
+      "Heading Font Regular",
+      "Primary Title Font Family",
+      "Secondary Title Font Family",
+      "Primary Indicator Color",
+      "Primary Card Title Font Family",
+      "Primary Card Desc Font Family",
+      "Primary Card CTA Font Family",
+      "Primary Card Background Color",
+      "Primary Card Border Radius",
+      "Primary Card Shadow Color",
+      "Primary Card Border",
+      "Primary Button Color",
+      "Primary Button Background Color",
+      "Primary Button Border Radius",
+      "Primary Button Font Family",
+      "Secondary Button Color",
+      "Secondary Button Background Color",
+      "Secondary Button Border Radius",
+      "Secondary Button Font Family",
+      "Read More Text",
+      "Read More Arrow With Text",
+      "Read More Arrow",
+      "Read More Arrow Head",
+      "Read More Underline",
+      "Bottom Menu Arrow Color",
+      "Primary Order Button Font Family",
     ],
   },
 ];

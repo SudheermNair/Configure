@@ -19,7 +19,7 @@ const HotelConfig = () => {
     isRequired: false,
   });
 
-  const updateData = (hotel, module, submodules, key, value) => {
+  const updateData = useCallback((hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
         if (h.hotelId === hotel.hotelId) {
@@ -69,7 +69,7 @@ const HotelConfig = () => {
 
       return updatedData;
     });
-  };
+  });
 
   const updateModules = (
     existingModules = [],
@@ -141,6 +141,11 @@ const HotelConfig = () => {
       const selected = configFields[0].hotels.find(
         (hotel) => hotel.hotelId === e.target.value
       );
+  const handleHotelSelect = useCallback(
+    (e) => {
+      const selected = configFields[0].hotels.find(
+        (hotel) => hotel.hotelId === e.target.value
+      );
 
       if (selected) {
         const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
@@ -182,7 +187,23 @@ const HotelConfig = () => {
   const handleSubmoduleSelect = useCallback(
     (e) => {
       const submoduleName = e.target.value;
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
 
+      if (submoduleName) {
+        setSelectedSubmodules((prevSubmodules) => {
+          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
+
+          if (selectedHotel && selectedModule) {
+            updateData(
+              selectedHotel,
+              selectedModule,
+              newSubmodules,
+              null,
+              null
+            );
+          }
       if (submoduleName) {
         setSelectedSubmodules((prevSubmodules) => {
           const newSubmodules = [...prevSubmodules, { name: submoduleName }];
@@ -222,6 +243,13 @@ const HotelConfig = () => {
         selectedKeys,
         selectedValue
       );
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 
@@ -254,6 +282,13 @@ const HotelConfig = () => {
       );
 
       if (selectedHotel && selectedModule) {
+        updateData(
+          selectedHotel,
+          selectedModule,
+          updatedSubmodules,
+          null,
+          null
+        );
         updateData(
           selectedHotel,
           selectedModule,
