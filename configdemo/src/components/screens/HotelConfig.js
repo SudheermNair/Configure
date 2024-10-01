@@ -12,6 +12,7 @@ const HotelConfig = () => {
   const [keyValues, setKeyValues] = useState([]);
   const [keyValuePairs, setKeyValuePairs] = useState({});
   const [detailsEnabled, setDetailsEnabled] = useState(false);
+  const [hasDetailsToggled, setHasDetailsToggled] = useState(false); 
   const [checkboxState, setCheckboxState] = useState({
     isActive: false,
     isDisabled: false,
@@ -60,76 +61,94 @@ const HotelConfig = () => {
     });
   };
 
-  const updateModules = (
-    existingModules = [],
-    module,
-    submodules,
-    key,
-    value
-  ) => {
-    const moduleExists = existingModules.find(
-      (mod) => mod.name === (module ? module.name : "")
-    );
+const updateModules = (
+  existingModules = [],
+  module,
+  submodules,
+  key,
+  value
+) => {
+  const moduleExists = existingModules.find(
+    (mod) => mod.name === (module ? module.name : "")
+  );
 
-    if (moduleExists) {
-      return existingModules.map((mod) => {
-        if (mod.name === (module ? module.name : "")) {
-          const updatedSubmodules = mod.submodules.map((sub) => {
-            if (submodules.some((newSub) => newSub.name === sub.name)) {
-              // If a submodule is selected and "Has Details" is enabled
-              if (detailsEnabled) {
-                let updatedDetails = sub.details || [{}];
-                updatedDetails[0] = { ...updatedDetails[0], [key]: value };
+  if (moduleExists) {
+    return existingModules.map((mod) => {
+      if (mod.name === (module ? module.name : "")) {
+        const updatedSubmodules = mod.submodules.map((sub) => {
+          if (submodules.some((newSub) => newSub.name === sub.name)) {
+            if (detailsEnabled) {
+              let updatedDetails = sub.details || [];
 
-                return {
-                  ...sub,
-                  details: updatedDetails, // Update details array
+              // If 'Has Details' has been toggled (i.e., rechecked), create a new object
+              if (hasDetailsToggled || updatedDetails.length === 0) {
+                updatedDetails.push({ [key]: value }); // Add a new object with the key-value pair
+                setHasDetailsToggled(false); // Reset after object creation
+              } else {
+                // Add the key-value pair to the last object if "Has Details" remains checked
+                updatedDetails[updatedDetails.length - 1] = {
+                  ...updatedDetails[updatedDetails.length - 1],
+                  [key]: value,
                 };
               }
 
-              // If a submodule is selected and "Has Details" is NOT enabled
               return {
                 ...sub,
-                [key]: value, // Add key-value pairs directly to the submodule
+                details: updatedDetails, // Update details array with new or updated object
               };
             }
-            return sub;
-          });
 
-          const newSubmodules = submodules.filter(
-            (newSub) =>
-              !mod.submodules.some(
-                (existingSub) => existingSub.name === newSub.name
-              )
-          );
+            return {
+              ...sub,
+              [key]: value, // Add key-value pairs directly to the submodule if "Has Details" is unchecked
+            };
+          }
+          return sub;
+        });
 
-          // If no submodule is selected, add key-value pair to the module
-          return {
-            ...mod,
-            submodules: [...updatedSubmodules, ...newSubmodules],
-            ...(!submodules.length && key ? { [key]: value } : {}),
-          };
-        }
-        return mod;
-      });
-    } else {
-      return [
-        ...existingModules,
-        {
-          name: module ? module.name : null,
-          submodules: submodules.map((sub) => ({
-            ...sub,
-            // If "Has Details" is enabled, add key-value pair to details
-            details: detailsEnabled ? [{ [key]: value }] : [],
-            // If "Has Details" is NOT enabled, add key-value pair directly to submodule
-            ...(detailsEnabled ? {} : { [key]: value }),
-          })),
-          // If no submodule is selected, add key-value pair directly to module
+        const newSubmodules = submodules.filter(
+          (newSub) =>
+            !mod.submodules.some(
+              (existingSub) => existingSub.name === newSub.name
+            )
+        );
+
+        // If no submodule is selected, add key-value pair to the module
+        return {
+          ...mod,
+          submodules: [...updatedSubmodules, ...newSubmodules],
           ...(!submodules.length && key ? { [key]: value } : {}),
-        },
-      ];
+        };
+      }
+      return mod;
+    });
+  } else {
+    return [
+      ...existingModules,
+      {
+        name: module ? module.name : null,
+        submodules: submodules.map((sub) => ({
+          ...sub,
+          details: detailsEnabled ? [{ [key]: value }] : [],
+          ...(detailsEnabled ? {} : { [key]: value }),
+        })),
+        ...(!submodules.length && key ? { [key]: value } : {}),
+      },
+    ];
+  }
+};
+
+  const handleHasDetailsChange = (e) => {
+    const isChecked = e.target.checked;
+    setDetailsEnabled(isChecked);
+
+    if (isChecked) {
+      // If "Has Details" is rechecked after being unchecked, we mark it as toggled
+      setHasDetailsToggled(true);
     }
   };
+
+
 
 
 
@@ -363,10 +382,11 @@ const HotelConfig = () => {
                   <input
                     type="checkbox"
                     checked={detailsEnabled}
-                    onChange={(e) => {
-                      setDetailsEnabled(e.target.checked);
-                      if (!e.target.checked) setKeyValuePairs({});
-                    }}
+                    // onChange={(e) => {
+                    //   setDetailsEnabled(e.target.checked);
+                    //   if (!e.target.checked) setKeyValuePairs({});
+                    // }}
+                    onChange={handleHasDetailsChange}
                   />
                   Has Details
                 </label>
