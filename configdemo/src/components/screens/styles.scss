@@ -205,6 +205,7 @@ button {
 }
 
 .field-modules-container {
+  
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -352,3 +353,42 @@ label{
   padding: 2%;
   margin: 0px;
  }
+
+ .configTile{
+  display: flex;
+  // border: solid 1px #a8a8a8;
+  box-shadow: 0px 0px 10px #a8a8a8;
+  flex-direction: column;
+  align-items: center;
+  text-transform: capitalize;
+  border-radius: 12px;
+  margin-right: 3%;
+  padding: 23px 47px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  font-size: 14px;
+  background-color: white;
+  // color: rgb(255, 255, 255);
+  color: #6b6b6b;
+ }
+
+ .configTile:hover , .configTile:active {
+  background-color: #0b353f;
+  color: rgb(255, 255, 255);
+}
+ .configTile    .MuiSvgIcon-root:active, .configTile .MuiSvgIcon-root:hover {
+  color: #03e67c;
+
+}
+.configurations-container{
+  
+  width: 900px;
+}
+.buttons{
+  display: flex;
+  justify-content: start;
+  width: 100%;
+}
+.deleteIcon{
+  color:rgb(153, 37, 37);
+}
