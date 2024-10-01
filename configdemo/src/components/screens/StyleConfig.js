@@ -1,7 +1,9 @@
 import { Select, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneIcon from "@mui/icons-material/Done";
 
 function StyleConfig() {
   const [styleData] = useState(configFields[0].styles);
@@ -109,6 +111,9 @@ function StyleConfig() {
         <>
           <label>Font Family</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
+            <MenuItem value="" disabled>
+              Select a value
+            </MenuItem>
             {fontFamilyList.map((fontFamily, index) => (
               <MenuItem key={index} value={fontFamily}>
                 {fontFamily}
@@ -124,6 +129,9 @@ function StyleConfig() {
         <>
           <label>Style value</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
+            <MenuItem value="" disabled>
+              Select a value
+            </MenuItem>
             {readMoreConfig.map((displayValue, index) => (
               <MenuItem key={index} value={displayValue}>
                 {displayValue}
@@ -138,7 +146,7 @@ function StyleConfig() {
   return (
     <div className="StyleConfig-container">
       <div className="StyleConfig-form">
-      <h3>Select Configuration</h3>
+        <h3>Select Configuration</h3>
         <label>Style property</label>
         <Select
           value={selectedProperty}
@@ -159,42 +167,52 @@ function StyleConfig() {
         <br />
         <button onClick={saveStyle}>Save</button>
       </div>
-      <div className="jsonData">
-        <h3>
-          Saved Styles
-          <button onClick={copyObject} className="copyBtn">
-            {copyButtonText}
-          </button>
-        </h3>
-        <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+      {Object.keys(stylesObject).length > 0 ? (
+        <>
+          <div className="jsonData">
+            <div className="headingAndBtn">
+            <h3>
+              Saved Styles
+              <button onClick={copyObject} className="copyBtn">
+                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                {copyButtonText}
+              </button>
+            </h3></div>
+            <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
 
-        <div className="removeOptions">
-          
+            <div className="removeOptions">
+              {Object.entries(stylesObject).map(([key, value]) => {
+                return (
+                  <>
+                    <div className="removeOptions">
+                      <div className="removeOption">
+                        <p>
+                          {key}: {value}
+                        </p>
 
-          {Object.entries(stylesObject).map(([key, value]) => {
-
-            return(
-              <>
-              <p>{key}: {value}</p>
-              {/* <button onClick={() =>
-                  setStylesObject((prevStyles) => {
-                    const newStyles = { ...prevStyles };
-                    delete newStyles[key];
-                    return newStyles;
-                  })
-                }> X</button> */}
-                <DeleteIcon className="deleteIcon"  onClick={() =>
-                  setStylesObject((prevStyles) => {
-                    const newStyles = { ...prevStyles };
-                    delete newStyles[key];
-                    return newStyles;
-                  })
-                }/>
-              </>
-            )
-          })}
-        </div>
-      </div>
+                        <DeleteIcon
+                          className="deleteIcon"
+                          onClick={() =>
+                            setStylesObject((prevStyles) => {
+                              const newStyles = { ...prevStyles };
+                              delete newStyles[key];
+                              return newStyles;
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="StyleConfig-empty"></div>
+        </>
+      )}
     </div>
   );
 }
