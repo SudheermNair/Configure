@@ -141,6 +141,11 @@ const HotelConfig = () => {
       const selected = configFields[0].hotels.find(
         (hotel) => hotel.hotelId === e.target.value
       );
+  const handleHotelSelect = useCallback(
+    (e) => {
+      const selected = configFields[0].hotels.find(
+        (hotel) => hotel.hotelId === e.target.value
+      );
 
       if (selected) {
         const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
@@ -160,6 +165,11 @@ const HotelConfig = () => {
           updateData(selected, null, [], null, null);
         }
 
+        setSelectedHotel(selected);
+      }
+    },
+    [data]
+  );
         setSelectedHotel(selected);
       }
     },
@@ -221,13 +231,6 @@ const HotelConfig = () => {
         selectedKeys,
         selectedValue
       );
-      updateData(
-        selectedHotel,
-        selectedModule,
-        selectedSubmodules,
-        selectedKeys,
-        selectedValue
-      );
     }
   };
 
@@ -260,13 +263,6 @@ const HotelConfig = () => {
       );
 
       if (selectedHotel && selectedModule) {
-        updateData(
-          selectedHotel,
-          selectedModule,
-          updatedSubmodules,
-          null,
-          null
-        );
         updateData(
           selectedHotel,
           selectedModule,
@@ -356,6 +352,7 @@ const HotelConfig = () => {
                           e.preventDefault();
                           removeSubmodule(submodule.name);
                         }}
+                        className="remove-submodule"
                       >
                         X
                       </button>

@@ -1,9 +1,17 @@
-import { Select, MenuItem, TextField } from "@mui/material";
+import {
+  Select,
+  MenuItem,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DoneIcon from "@mui/icons-material/Done";
+import ClearIcon from "@mui/icons-material/Clear"; // Importing the Clear icon
+import "./styles.scss";
 
 function StyleConfig() {
   const [styleData] = useState(configFields[0].styles);
@@ -15,25 +23,10 @@ function StyleConfig() {
   const [selectedProperty, setSelectedProperty] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
 
-  const saveStyle = () => {
-    if (styleProperty && styleValue) {
-      setStylesObject((prevStyles) => ({
-        ...prevStyles,
-        [styleProperty]: styleValue,
-      }));
-
-      setStyleProperty("");
-      setSelectedProperty("");
-      setStyleValue("");
-    }
-  };
-
   const copyObject = () => {
     const textData = JSON.stringify(stylesObject, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
-      console.log(stylesObject);
-
       setTimeout(() => {
         setCopyButtonText("Copy");
       }, 2000);
@@ -46,14 +39,11 @@ function StyleConfig() {
       "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
     setSelectedProperty(selectedPropertyValue);
+    setStyleValue("");
   };
 
   const saveValue = (e) => {
     let newValue = e.target.value;
-
-    if (styleProperty.includes("opacity")) {
-      if (newValue < 0 || newValue > 10) return;
-    }
 
     if (styleProperty.includes("height")) {
       if (!isNaN(newValue) && newValue !== "") {
@@ -70,6 +60,76 @@ function StyleConfig() {
     }
 
     setStyleValue(newValue);
+    updateStylesObject(styleProperty, newValue);
+  };
+
+  const handleColorChange = (e) => {
+    const colorValue = e.target.value;
+    setStyleValue(colorValue);
+    updateStylesObject(styleProperty, colorValue);
+  };
+
+  const handleClickColorBand = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const width = rect.width;
+    const hue = Math.floor((x / width) * 360);
+    const hexColor = hslToHex(hue, 100, 50);
+    setStyleValue(hexColor);
+    updateStylesObject(styleProperty, hexColor);
+  };
+
+  const hslToHex = (h, s, l) => {
+    s /= 100;
+    l /= 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = l - c / 2;
+    let r, g, b;
+
+    if (h < 60) {
+      r = c;
+      g = x;
+      b = 0;
+    } else if (h < 120) {
+      r = x;
+      g = c;
+      b = 0;
+    } else if (h < 180) {
+      r = 0;
+      g = c;
+      b = x;
+    } else if (h < 240) {
+      r = 0;
+      g = x;
+      b = c;
+    } else if (h < 300) {
+      r = x;
+      g = 0;
+      b = c;
+    } else {
+      r = c;
+      g = 0;
+      b = x;
+    }
+
+    const hex =
+      (((r + m) * 255) << 16) | (((g + m) * 255) << 8) | ((b + m) * 255);
+    return `#${((1 << 24) + hex).toString(16).slice(1).toUpperCase()}`;
+  };
+
+  const updateStylesObject = (property, value) => {
+    if (property) {
+      setStylesObject((prevStyles) => ({
+        ...prevStyles,
+        [property]: value,
+      }));
+    }
+  };
+
+  const clearTextField = () => {
+    setStyleValue("");
+    updateStylesObject(styleProperty, "");
   };
 
   const renderInputFields = () => {
@@ -80,9 +140,30 @@ function StyleConfig() {
           <input
             type="color"
             value={styleValue}
-            onChange={saveValue}
+            onChange={handleColorChange}
             className="clrPalatte"
           />
+          <div className="color-slider-container">
+            <div
+              className="color-band"
+              style={{
+                background: `linear-gradient(to right, 
+                  hsl(0, 100%, 50%),
+                  hsl(60, 100%, 50%),
+                  hsl(120, 100%, 50%),
+                  hsl(180, 100%, 50%),
+                  hsl(240, 100%, 50%),
+                  hsl(300, 100%, 50%),
+                  hsl(360, 100%, 50%))`,
+                position: "relative",
+                height: "30px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+              onClick={handleClickColorBand}
+            />
+          </div>
+          <p>Selected Color Code: {styleValue}</p>
         </>
       );
     }
@@ -96,11 +177,20 @@ function StyleConfig() {
         <>
           <label>Style value</label>
           <TextField
-            id="standard-basic"
             variant="standard"
             type="number"
+            // value={styleValue }
             value={styleValue.replace(/px|dvh/, "")}
             onChange={saveValue}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={clearTextField}>
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
         </>
       );
@@ -144,74 +234,80 @@ function StyleConfig() {
   };
 
   return (
-    <div className="StyleConfig-container">
+    <div className="style-config-container">
       <div className="StyleConfig-form">
         <h3>Select Configuration</h3>
-        <label>Style property</label>
-        <Select
-          value={selectedProperty}
-          onChange={setStylePropertyValue}
-          displayEmpty
-        >
-          <MenuItem value="" disabled>
-            Select a property
-          </MenuItem>
-          {styleData.map((property, index) => (
-            <MenuItem key={index} value={property}>
-              {property}
-            </MenuItem>
-          ))}
-        </Select>
-        <br />
+
+        <div className="dropdown-container">
+          <label>Style property </label>
+          <Select
+            className="submodule-dropdowns"
+            value={selectedProperty}
+            onChange={setStylePropertyValue}
+            displayEmpty
+          >
+            <option value="" disabled>
+              Select a property
+            </option>
+            {styleData.map((property, index) => (
+              <MenuItem key={index} value={property}>
+                {property}
+              </MenuItem>
+            ))}
+          </Select>
+          <br />
+        </div>
+
         {renderInputFields()}
         <br />
-        <button onClick={saveStyle}>Save</button>
       </div>
+
       {Object.keys(stylesObject).length > 0 ? (
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-            <h3>
-              Saved Styles
-              <button onClick={copyObject} className="copyBtn">
-                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
-                {copyButtonText}
-              </button>
-            </h3></div>
-            <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+              <h3>
+                Saved Styles
+                <button onClick={copyObject} className="copyBtn">
+                  {copyButtonText === "Copy" ? (
+                    <ContentCopyIcon />
+                  ) : (
+                    <DoneIcon />
+                  )}
+                  {copyButtonText}
+                </button>
+              </h3>
+            </div>
+            <div className="saved-styles">
+              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+            </div>
 
-            <div className="removeOptions">
-              {Object.entries(stylesObject).map(([key, value]) => {
-                return (
-                  <>
-                    <div className="removeOptions">
-                      <div className="removeOption">
-                        <p>
-                          {key}: {value}
-                        </p>
+            <div className="removeOptions deleteIcon">
+              {Object.entries(stylesObject).map(([key, value]) => (
+                <div className="removeOptions" key={key}>
+                  <div className="removeOption">
+                    <p>
+                      {key}: {value}
+                    </p>
 
-                        <DeleteIcon
-                          className="deleteIcon"
-                          onClick={() =>
-                            setStylesObject((prevStyles) => {
-                              const newStyles = { ...prevStyles };
-                              delete newStyles[key];
-                              return newStyles;
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                    <DeleteIcon
+                      className="delete-btn"
+                      onClick={() =>
+                        setStylesObject((prevStyles) => {
+                          const newStyles = { ...prevStyles };
+                          delete newStyles[key];
+                          return newStyles;
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
       ) : (
-        <>
-          <div className="StyleConfig-empty"></div>
-        </>
+        <div className="StyleConfig-empty"></div>
       )}
     </div>
   );
