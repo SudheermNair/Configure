@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import FieldSelected from "./fieldSelected";
 import { configFields } from "../../core/config";
 import "./styles.scss";
-
+ 
 const HotelConfig = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
@@ -17,13 +17,13 @@ const HotelConfig = () => {
     isDisabled: false,
     isRequired: false,
   });
-
+ 
   const updateData = (hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
         if (h.hotelId === hotel.hotelId) {
           const updatedHotel = { ...h };
-
+ 
           if (module) {
             updatedHotel.modules = updateModules(
               h.modules || [],
@@ -35,63 +35,79 @@ const HotelConfig = () => {
           } else if (key && value !== null && value !== undefined) {
             updatedHotel[key] = value;
           }
-
+ 
           return updatedHotel;
         }
         return h;
       });
-
+ 
       if (!updatedData.some((h) => h.hotelId === hotel.hotelId)) {
         const newHotel = {
           hotelId: hotel.hotelId,
           name: hotel.name,
         };
-
+ 
         if (module) {
           newHotel.modules = updateModules([], module, submodules, key, value);
         } else if (key && value !== null && value !== undefined) {
           newHotel[key] = value;
         }
-
+ 
         updatedData.push(newHotel);
       }
-
+ 
       return updatedData;
     });
   };
-
-  const updateModules = (existingModules = [], module, submodules, key, value) => {
+ 
+  const updateModules = (
+    existingModules = [],
+    module,
+    submodules,
+    key,
+    value
+  ) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
-
+ 
     if (moduleExists) {
       return existingModules.map((mod) => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
-              const updatedDetails = detailsEnabled
-                ? [...(sub.details || []), { [selectedKeys]:value }]
-                : sub.details;
-
+              // If a submodule is selected and "Has Details" is enabled
+              if (detailsEnabled) {
+                let updatedDetails = sub.details || [{}];
+                updatedDetails[0] = { ...updatedDetails[0], [key]: value };
+ 
+                return {
+                  ...sub,
+                  details: updatedDetails, // Update details array
+                };
+              }
+ 
+              // If a submodule is selected and "Has Details" is NOT enabled
               return {
                 ...sub,
-                details: updatedDetails,
-                keyValuePairs: { ...sub.keyValuePairs, ...keyValuePairs },
+                [key]: value, // Add key-value pairs directly to the submodule
               };
             }
             return sub;
           });
-
+ 
           const newSubmodules = submodules.filter(
-            (newSub) => !mod.submodules.some(
-              (existingSub) => existingSub.name === newSub.name
-            )
+            (newSub) =>
+              !mod.submodules.some(
+                (existingSub) => existingSub.name === newSub.name
+              )
           );
-
+ 
+          // If no submodule is selected, add key-value pair to the module
           return {
             ...mod,
             submodules: [...updatedSubmodules, ...newSubmodules],
+            ...(!submodules.length && key ? { [key]: value } : {}),
           };
         }
         return mod;
@@ -103,22 +119,28 @@ const HotelConfig = () => {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            details: detailsEnabled ? [{ [selectedKeys]:value }] : [],
-            keyValuePairs: { ...keyValuePairs },
+            // If "Has Details" is enabled, add key-value pair to details
+            details: detailsEnabled ? [{ [key]: value }] : [],
+            // If "Has Details" is NOT enabled, add key-value pair directly to submodule
+            ...(detailsEnabled ? {} : { [key]: value }),
           })),
+          // If no submodule is selected, add key-value pair directly to module
+          ...(!submodules.length && key ? { [key]: value } : {}),
         },
       ];
     }
   };
-
+ 
+ 
+ 
   const handleHotelSelect = useCallback((e) => {
     const selected = configFields[0].hotels.find(
       (hotel) => hotel.hotelId === e.target.value
     );
-
+ 
     if (selected) {
       const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
-      
+     
       if (existingHotel) {
         setCheckboxState({
           isActive: existingHotel.isActive === "True",
@@ -130,62 +152,62 @@ const HotelConfig = () => {
         updateData(selected, null, [], null, null);
      
       }
-
+ 
       setSelectedHotel(selected);
     }
   }, [data]);
-
+ 
   const handleModuleSelect = useCallback((e) => {
     const moduleName = e.target.value;
     const module = { name: moduleName };
     setSelectedModule(module);
-    
+   
     if (selectedHotel) {
       updateData(selectedHotel, module, [], null, null);
     }
   }, [selectedHotel]);
-
+ 
   const handleSubmoduleSelect = useCallback((e) => {
     const submoduleName = e.target.value;
-
+ 
     if (submoduleName) {
       setSelectedSubmodules((prevSubmodules) => {
         const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-        
+       
         if (selectedHotel && selectedModule) {
           updateData(selectedHotel, selectedModule, newSubmodules, null, null);
         }
-
+ 
         return newSubmodules;
       });
     }
   }, [selectedHotel, selectedModule]);
-
+ 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);
   };
-
+ 
   const handleValueSelect = (e) => {
     const selectedValue = e.target.value;
-
+ 
     if (selectedHotel) {
       updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
     }
   };
-
+ 
   const handleKeyValueChange = (key, value) => {
     setKeyValuePairs((prev) => ({ ...prev, [key]: value }));
   };
-
+ 
   const handleCheckboxChange = (e) => {
     const { name, checked } = e.target;
     setCheckboxState((prevState) => ({
       ...prevState,
       [name]: checked,
     }));
-
+ 
     if (selectedHotel && selectedModule && selectedKeys) {
       updateData(
         selectedHotel,
@@ -196,25 +218,25 @@ const HotelConfig = () => {
       );
     }
   };
-
+ 
   const removeSubmodule = (submoduleName) => {
     setSelectedSubmodules((prevSubmodules) => {
       const updatedSubmodules = prevSubmodules.filter(
         (sub) => sub.name !== submoduleName
       );
-
+ 
       if (selectedHotel && selectedModule) {
         updateData(selectedHotel, selectedModule, updatedSubmodules, null, null);
       }
       return updatedSubmodules;
     });
   };
-
+ 
   return (
     <div className="field-modules-container">
       <div className="field-modules">
         <h3>Select Configuration</h3>
-
+ 
         <div className="dropdown-container">
           <label>Hotel:</label>
           <select
@@ -232,7 +254,7 @@ const HotelConfig = () => {
             ))}
           </select>
         </div>
-
+ 
         {selectedHotel && (
           <>
             <div className="dropdown-container">
@@ -252,7 +274,7 @@ const HotelConfig = () => {
                 ))}
               </select>
             </div>
-
+ 
             {selectedModule && (
               <div className="dropdown-container submodules">
                 <label>Submodules:</label>
@@ -278,7 +300,7 @@ const HotelConfig = () => {
                         </option>
                       ))}
                   </select>
-
+ 
                   {selectedSubmodules.map((submodule) => (
                     <span key={submodule.name} className="selected-submodule">
                       {submodule.name}
@@ -295,7 +317,7 @@ const HotelConfig = () => {
                 </div>
               </div>
             )}
-
+ 
             <div className="dropdown-container">
               <label>Keys:</label>
               <select
@@ -313,7 +335,7 @@ const HotelConfig = () => {
                 ))}
               </select>
             </div>
-
+ 
             {selectedKeys && (
               <div className="dropdown-container">
                 <label>Values:</label>
@@ -333,7 +355,7 @@ const HotelConfig = () => {
                 </select>
               </div>
             )}
-
+ 
             {/* Details Checkbox */}
             {selectedSubmodules.length > 0 && (
               <div className="checkbox-container">
@@ -350,7 +372,7 @@ const HotelConfig = () => {
                 </label>
               </div>
             )}
-
+ 
             {/* Checkbox Section */}
             <div className="checkbox-container">
               <label>
@@ -380,7 +402,7 @@ const HotelConfig = () => {
                 </select>
               )}
             </div>
-
+ 
             <div className="checkbox-container">
               <label>
                 <input
@@ -409,7 +431,7 @@ const HotelConfig = () => {
                 </select>
               )}
             </div>
-
+ 
             <div className="checkbox-container">
               <label>
                 <input
@@ -441,12 +463,11 @@ const HotelConfig = () => {
           </>
         )}
       </div>
-
+ 
       {/* Displaying JSON data dynamically */}
       {data.length > 0 && <FieldSelected data={data} setData={setData} />}
     </div>
   );
 };
-
+ 
 export default HotelConfig;
-

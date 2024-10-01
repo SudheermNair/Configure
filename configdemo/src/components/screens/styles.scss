@@ -41,7 +41,11 @@ h1 {
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  height: 90vh;
+  height: 60vh;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px;
   // background-color: #ca6f63;
 //   margin-left: 25px;
 }
@@ -55,6 +59,7 @@ h1 {
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: 83%;
+  overflow-y: scroll;
 }
 
 .field-selected {
@@ -102,7 +107,7 @@ h1 {
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  height: 70%;
+  height: 95%;
   // background-color: #ca6f63;
 //   margin-left: 25px;
 }
@@ -204,13 +209,13 @@ button {
   margin: 0%;
 }
 
-.field-modules-container {
+// .field-modules-container {
   
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 20px;
-}
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+//   padding: 20px;
+// }
 
 .field-selected button {
   margin-left: 4%;
@@ -330,7 +335,10 @@ label{
 
  .copyBtn{
   display: flex;
-  margin: -2%;
+  // margin: -2%;
+  background-color: transparent;
+  font-size: 12px;
+  color: black;
  }
 
  .StyleConfig-form
@@ -363,7 +371,7 @@ label{
   text-transform: capitalize;
   border-radius: 12px;
   margin-right: 3%;
-  padding: 23px 47px;
+  padding: 2px 47px;
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
   font-size: 14px;
@@ -389,6 +397,22 @@ label{
   justify-content: start;
   width: 100%;
 }
+
 .deleteIcon{
+  font-size: 14px;
+  background-color: #f3f2f2;
+  margin: 1% 0.5%;
+  padding: 1px;
+}
+
+.saved-styles{
+  background-color: #f3f2f2;
+  margin: 1% 0.5%;
+}
+.delete-btn{
   color:rgb(153, 37, 37);
+  float:inline-end;
+}
+.submodule-dropdowns{
+  min-width: 30px;
 }
