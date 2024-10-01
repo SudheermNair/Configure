@@ -132,8 +132,6 @@ const HotelConfig = () => {
     }
   };
 
-
-
   const handleHotelSelect = useCallback((e) => {
     const selected = configFields[0].hotels.find(
       (hotel) => hotel.hotelId === e.target.value
@@ -365,10 +363,36 @@ const HotelConfig = () => {
                     checked={detailsEnabled}
                     onChange={(e) => {
                       setDetailsEnabled(e.target.checked);
+                      setOptionsEnabled(false); // Reset optionsEnabled when detailsEnabled changes
                       if (!e.target.checked) setKeyValuePairs({});
                     }}
                   />
                   Has Details
+                </label>
+              </div>
+            )}
+
+            {/* Has Options Checkbox */}
+            {detailsEnabled && (
+              <div className="checkbox-container">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={optionsEnabled}
+                    onChange={(e) => {
+                      setOptionsEnabled(e.target.checked);
+                      if (selectedHotel && selectedModule && selectedKeys) {
+                        updateData(
+                          selectedHotel,
+                          selectedModule,
+                          selectedSubmodules,
+                          'hasOptions',
+                          e.target.checked ? "True" : "False"
+                        );
+                      }
+                    }}
+                  />
+                  Has Options
                 </label>
               </div>
             )}
@@ -471,4 +495,3 @@ const HotelConfig = () => {
 };
 
 export default HotelConfig;
-
