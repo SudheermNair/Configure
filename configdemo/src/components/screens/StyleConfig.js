@@ -1,5 +1,5 @@
 import { Select, MenuItem, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -15,26 +15,12 @@ function StyleConfig() {
   const [styleValue, setStyleValue] = useState("");
   const [selectedProperty, setSelectedProperty] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
-
-  const saveStyle = () => {
-    if (styleProperty && styleValue) {
-      setStylesObject((prevStyles) => ({
-        ...prevStyles,
-        [styleProperty]: styleValue,
-      }));
-
-      setStyleProperty("");
-      setSelectedProperty("");
-      setStyleValue("");
-    }
-  };
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
 
   const copyObject = () => {
     const textData = JSON.stringify(stylesObject, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
       setCopyButtonText("Copied!");
-      console.log(stylesObject);
-
       setTimeout(() => {
         setCopyButtonText("Copy");
       }, 2000);
@@ -43,14 +29,14 @@ function StyleConfig() {
 
   const setStylePropertyValue = (e) => {
     const selectedPropertyValue = e.target.value;
-    const propertyValue =
-      "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
+    const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
     setSelectedProperty(selectedPropertyValue);
   };
 
   const saveValue = (e) => {
     let newValue = e.target.value;
+
 
     if (styleProperty.includes("opacity")) {
       if (newValue < 0 || newValue > 10) return;
@@ -71,6 +57,26 @@ function StyleConfig() {
     }
 
     setStyleValue(newValue);
+
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+
+   
+    const timeoutId = setTimeout(() => {
+      if (styleProperty && newValue) {
+        setStylesObject((prevStyles) => ({
+          ...prevStyles,
+          [styleProperty]: newValue,
+        }));
+        
+        setStyleProperty("");
+        setSelectedProperty("");
+        setStyleValue("");
+      }
+    }, 600); 
+
+    setDebounceTimeout(timeoutId);
   };
 
   const renderInputFields = () => {
@@ -97,7 +103,6 @@ function StyleConfig() {
         <>
           <label>Style value</label>
           <TextField
-            id="standard-basic"
             variant="standard"
             type="number"
             value={styleValue.replace(/px|dvh/, "")}
@@ -150,75 +155,70 @@ function StyleConfig() {
         <h3>Select Configuration</h3>
 
         <div className="dropdown-container">
-        <label>Style property </label>
-        <Select  className="submodule-dropdowns"
-          value={selectedProperty}
-          onChange={setStylePropertyValue}
-          displayEmpty
-        >
-          <option value="" disabled>
-            Select a property
-          </option>
-          {styleData.map((property, index) => (
-            <MenuItem key={index} value={property}>
-              {property}
-            </MenuItem>
-          ))}
-        </Select>
-        <br />
+          <label>Style property </label>
+          <Select className="submodule-dropdowns"
+            value={selectedProperty}
+            onChange={setStylePropertyValue}
+            displayEmpty
+          >
+            <option value="" disabled>
+              Select a property
+            </option>
+            {styleData.map((property, index) => (
+              <MenuItem key={index} value={property}>
+                {property}
+              </MenuItem>
+            ))}
+          </Select>
+          <br />
         </div>
-        
 
         {renderInputFields()}
         <br />
-        <button onClick={saveStyle}>Save</button>
       </div>
+
       {Object.keys(stylesObject).length > 0 ? (
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-            <h3>
-              Saved Styles
-              <button onClick={copyObject} className="copyBtn">
-                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
-                {copyButtonText}
-              </button>
-            </h3></div>
+              <h3>
+                Saved Styles
+                <button onClick={copyObject} className="copyBtn">
+                  {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                  {copyButtonText}
+                </button>
+              </h3>
+            </div>
             <div className="saved-styles">
-            <pre>{JSON.stringify(stylesObject, null, 2)}</pre> </div>
+              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+            </div>
 
             <div className="removeOptions deleteIcon">
-              {Object.entries(stylesObject).map(([key, value]) => {
-                return (
-                  <>
-                    <div className="removeOptions">
-                      <div className="removeOption">
-                        <p>
-                          {key}: {value}
-                        </p>
+              {Object.entries(stylesObject).map(([key, value]) => (
+                <div className="removeOptions" key={key}>
+                  <div className="removeOption">
+                    <p>
+                      {key}: {value}
+                    </p>
 
-                        <DeleteIcon
-                          className="delete-btn"
-                          onClick={() =>
-                            setStylesObject((prevStyles) => {
-                              const newStyles = { ...prevStyles };
-                              delete newStyles[key];
-                              return newStyles;
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                  </>
-                );
-              })}
+                    <DeleteIcon
+                      className="delete-btn"
+                      onClick={() =>
+                        setStylesObject((prevStyles) => {
+                          const newStyles = { ...prevStyles };
+                          delete newStyles[key];
+                          return newStyles;
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
       ) : (
-        <>
-          <div className="StyleConfig-empty"></div>
-        </>
+        <div className="StyleConfig-empty"></div>
       )}
     </div>
   );

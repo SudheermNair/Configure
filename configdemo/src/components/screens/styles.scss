@@ -362,14 +362,14 @@ label{
   margin: 0px;
  }
 
- .configTile{
+ .configTile, .btnActive{
   display: flex;
-  border: solid 2px  #03e67c;
+
   flex-direction: row;
   align-items: center;
   text-transform: capitalize;
   border-radius: 24px;
-  margin-right: 3%;
+  margin-right: 1%;
   padding: 9px 57px;
   transition: background-color 0.3s, color 0.3s;
   cursor: pointer;
@@ -380,14 +380,20 @@ label{
   color: #6b6b6b;
  }
 
+ .btnActive {
+  // background-color: #03e675;
+  border: solid 2px  #03e67c;
+  
+}
  .configTile:hover , .configTile:active {
   
-  color: rgb(255, 255, 255);
+  color:black;
+  background-color: #ebe4e4;
 }
- .configTile    .MuiSvgIcon-root:active, .configTile .MuiSvgIcon-root:hover {
-  color: #03e67c;
+//  .configTile    .MuiSvgIcon-root:active, .configTile .MuiSvgIcon-root:hover {
+//   color: #03e67c;
 
-}
+// }
 .configurations-container{
   
   width: 900px;
@@ -396,6 +402,7 @@ label{
   display: flex;
   justify-content: start;
   width: 100%;
+  margin-left: 3%;
 }
 
 .deleteIcon{
@@ -440,4 +447,4 @@ label{
   margin: 0px;
   
 }
-
+// 
