@@ -135,12 +135,6 @@ const HotelConfig = () => {
       ];
     }
   };
-
-  const handleHotelSelect = useCallback(
-    (e) => {
-      const selected = configFields[0].hotels.find(
-        (hotel) => hotel.hotelId === e.target.value
-      );
   const handleHotelSelect = useCallback(
     (e) => {
       const selected = configFields[0].hotels.find(
@@ -170,11 +164,7 @@ const HotelConfig = () => {
     },
     [data]
   );
-        setSelectedHotel(selected);
-      }
-    },
-    [data]
-  );
+
 
   const handleModuleSelect = useCallback(
     (e) => {

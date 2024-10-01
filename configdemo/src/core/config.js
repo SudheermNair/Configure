@@ -303,7 +303,5 @@ export const configFields = [
       "Bottom Menu Arrow Color",
       "Primary Order Button Font Family",
     ],
-      "Primary Order Button Font Family",
-    ],
   },
 ];
