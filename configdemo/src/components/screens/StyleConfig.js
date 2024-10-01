@@ -1,6 +1,7 @@
 import { Select, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function StyleConfig() {
   const [styleData] = useState(configFields[0].styles);
@@ -174,13 +175,20 @@ function StyleConfig() {
             return(
               <>
               <p>{key}: {value}</p>
-              <button onClick={() =>
+              {/* <button onClick={() =>
                   setStylesObject((prevStyles) => {
                     const newStyles = { ...prevStyles };
                     delete newStyles[key];
                     return newStyles;
                   })
-                }> X</button>
+                }> X</button> */}
+                <DeleteIcon className="deleteIcon"  onClick={() =>
+                  setStylesObject((prevStyles) => {
+                    const newStyles = { ...prevStyles };
+                    delete newStyles[key];
+                    return newStyles;
+                  })
+                }/>
               </>
             )
           })}

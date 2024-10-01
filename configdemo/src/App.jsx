@@ -32,10 +32,10 @@ function App() {
 
               <div className="field-modules-container">
                 {isConfigActive && (
-                  <>
-                   
+                  <div >
+                    
                     <div>
-                    <h1>Configuration</h1>
+                  
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
                     <div>
@@ -45,7 +45,7 @@ function App() {
                         handleSubmit={handleSubmit}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             </>
