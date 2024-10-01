@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import HotelConfig from './HotelConfig';
 import StyleConfig from './StyleConfig';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
-import ApartmentIcon from '@mui/icons-material/Apartment';
+// import ColorLensIcon from '@mui/icons-material/ColorLens';
+// import ApartmentIcon from '@mui/icons-material/Apartment';
 
 
 function FieldModules() {
@@ -22,10 +22,11 @@ function FieldModules() {
       <h1>Configuration</h1>
       <div className='buttons'>
       <button onClick={openHotelConfig} className='configTile'>
-       <ApartmentIcon/>
+       {/* <ApartmentIcon/> */}
+       
         Hotel </button>
       <button onClick={openStyleConfig} className='configTile'>
-      <ColorLensIcon/>
+      {/* <ColorLensIcon/> */}
         Style </button>
      </div>
       </div>
