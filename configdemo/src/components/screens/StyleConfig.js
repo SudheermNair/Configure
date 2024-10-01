@@ -1,7 +1,9 @@
 import { Select, MenuItem, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneIcon from "@mui/icons-material/Done";
 import "./styles.scss";
 
 function StyleConfig() {
@@ -110,6 +112,9 @@ function StyleConfig() {
         <>
           <label>Font Family</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
+            <MenuItem value="" disabled>
+              Select a value
+            </MenuItem>
             {fontFamilyList.map((fontFamily, index) => (
               <MenuItem key={index} value={fontFamily}>
                 {fontFamily}
@@ -125,6 +130,9 @@ function StyleConfig() {
         <>
           <label>Style value</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
+            <MenuItem value="" disabled>
+              Select a value
+            </MenuItem>
             {readMoreConfig.map((displayValue, index) => (
               <MenuItem key={index} value={displayValue}>
                 {displayValue}
@@ -165,38 +173,53 @@ function StyleConfig() {
         <br />
         <button onClick={saveStyle}>Save</button>
       </div>
-      <></>
+      {Object.keys(stylesObject).length > 0 ? (
+        <>
+          <div className="jsonData">
+            <div className="headingAndBtn">
+            <h3>
+              Saved Styles
+              <button onClick={copyObject} className="copyBtn">
+                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                {copyButtonText}
+              </button>
+            </h3></div>
+            <div className="saved-styles">
+            <pre>{JSON.stringify(stylesObject, null, 2)}</pre> </div>
 
-      <div className="jsonData">
-       
-          <h3>
-            Saved Styles
-            <button onClick={copyObject} className="copyBtn">
-              {copyButtonText}
-            </button>
-          </h3>
-          <div className="saved-styles">
-            <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
+            <div className="removeOptions deleteIcon">
+              {Object.entries(stylesObject).map(([key, value]) => {
+                return (
+                  <>
+                    <div className="removeOptions">
+                      <div className="removeOption">
+                        <p>
+                          {key}: {value}
+                        </p>
+
+                        <DeleteIcon
+                          className="delete-btn"
+                          onClick={() =>
+                            setStylesObject((prevStyles) => {
+                              const newStyles = { ...prevStyles };
+                              delete newStyles[key];
+                              return newStyles;
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
           </div>
-
-        <div className="deleteIcon">
-          {Object.entries(stylesObject).map(([key, value]) => {
-            return (
-              <>
-              <p>{key}: {value}
-                <DeleteIcon  className="delete-btn" onClick={() =>
-                  setStylesObject((prevStyles) => {
-                    const newStyles = { ...prevStyles };
-                    delete newStyles[key];
-                    return newStyles;
-                  })
-                }/></p>
-              </>
-            );
-          })}
-        </div>
-
-      </div>
+        </>
+      ) : (
+        <>
+          <div className="StyleConfig-empty"></div>
+        </>
+      )}
     </div>
   );
 }

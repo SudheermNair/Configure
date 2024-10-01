@@ -59,7 +59,7 @@ const HotelConfig = () => {
       return updatedData;
     });
   };
- 
+
   const updateModules = (
     existingModules = [],
     module,
@@ -80,13 +80,13 @@ const HotelConfig = () => {
               if (detailsEnabled) {
                 let updatedDetails = sub.details || [{}];
                 updatedDetails[0] = { ...updatedDetails[0], [key]: value };
- 
+
                 return {
                   ...sub,
                   details: updatedDetails, // Update details array
                 };
               }
- 
+
               // If a submodule is selected and "Has Details" is NOT enabled
               return {
                 ...sub,
@@ -102,7 +102,7 @@ const HotelConfig = () => {
                 (existingSub) => existingSub.name === newSub.name
               )
           );
- 
+
           // If no submodule is selected, add key-value pair to the module
           return {
             ...mod,
@@ -130,9 +130,9 @@ const HotelConfig = () => {
       ];
     }
   };
- 
- 
- 
+
+
+
   const handleHotelSelect = useCallback((e) => {
     const selected = configFields[0].hotels.find(
       (hotel) => hotel.hotelId === e.target.value
