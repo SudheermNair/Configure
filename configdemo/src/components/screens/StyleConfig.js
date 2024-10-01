@@ -76,15 +76,15 @@ function StyleConfig() {
   const renderInputFields = () => {
     if (styleProperty.includes("color")) {
       return (
-        <>
-          <label>Color: </label>
+        <div className="dropdown-container-font">
+          <label className="color">Color: </label>
           <input
             type="color"
             value={styleValue}
             onChange={saveValue}
             className="clrPalatte"
           />
-        </>
+        </div>
       );
     }
 
@@ -94,23 +94,25 @@ function StyleConfig() {
       styleProperty.includes("opacity")
     ) {
       return (
-        <>
-          <label>Style value</label>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            type="number"
-            value={styleValue.replace(/px|dvh/, "")}
-            onChange={saveValue}
-          />
-        </>
+        <div className="style-value">
+          <label className="sss">Style value </label>
+          <div className="style-value-textfield">
+            <TextField
+              id="standard-basic"
+              variant="standard"
+              type="number"
+              value={styleValue.replace(/px|dvh/, "")}
+              onChange={saveValue}
+            />
+          </div>
+        </div>
       );
     }
 
     if (styleProperty.includes("font")) {
       return (
-        <>
-          <label>Font Family</label>
+        <div className="dropdown-container-font">
+          <label className="sss">Font Family </label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
             <MenuItem value="" disabled>
               Select a value
@@ -121,14 +123,14 @@ function StyleConfig() {
               </MenuItem>
             ))}
           </Select>
-        </>
+        </div>
       );
     }
 
     if (styleProperty.includes("read")) {
       return (
-        <>
-          <label>Style value</label>
+        <div className="dropdown-container-font">
+          <label className="read">Style value</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
             <MenuItem value="" disabled>
               Select a value
@@ -139,7 +141,7 @@ function StyleConfig() {
               </MenuItem>
             ))}
           </Select>
-        </>
+        </div>
       );
     }
   };
@@ -150,64 +152,71 @@ function StyleConfig() {
         <h3>Select Configuration</h3>
 
         <div className="dropdown-container">
-        <label>Style property </label>
-        <Select  className="submodule-dropdowns"
-          value={selectedProperty}
-          onChange={setStylePropertyValue}
-          displayEmpty
-        >
-          <option value="" disabled>
-            Select a property
-          </option>
-          {styleData.map((property, index) => (
-            <MenuItem key={index} value={property}>
-              {property}
-            </MenuItem>
-          ))}
-        </Select>
-        <br />
+          <label>Style property </label>
+          <Select
+            className="submodule-dropdowns"
+            value={selectedProperty}
+            onChange={setStylePropertyValue}
+            displayEmpty
+          >
+            <option value="" disabled>
+              Select a property
+            </option>
+            {styleData.map((property, index) => (
+              <MenuItem key={index} value={property}>
+                {property}
+              </MenuItem>
+            ))}
+          </Select>
+          <br />
         </div>
-        
 
-        {renderInputFields()}
-        <br />
-        <button onClick={saveStyle}>Save</button>
+       
+          {renderInputFields()}
+          <br />
+          <button  className="save" onClick={saveStyle}>Save</button>
+        
       </div>
+
       {Object.keys(stylesObject).length > 0 ? (
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-            <h3>
-              Saved Styles
-              <button onClick={copyObject} className="copyBtn">
-                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
-                {copyButtonText}
-              </button>
-            </h3></div>
+              <h3>
+                Saved Styles
+                <button onClick={copyObject} className="copyBtn">
+                  {copyButtonText === "Copy" ? (
+                    <ContentCopyIcon />
+                  ) : (
+                    <DoneIcon />
+                  )}
+                  {copyButtonText}
+                </button>
+              </h3>
+            </div>
             <div className="saved-styles">
-            <pre>{JSON.stringify(stylesObject, null, 2)}</pre> </div>
+              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>{" "}
+            </div>
 
             <div className="removeOptions deleteIcon">
               {Object.entries(stylesObject).map(([key, value]) => {
                 return (
                   <>
-                    <div className="removeOptions">
-                      <div className="removeOption">
-                        <p>
-                          {key}: {value}
-                        </p>
+                    <div className="removeOption">
+                      <p>
+                        {key}: {value}
+                      </p>
 
-                        <DeleteIcon
-                          className="delete-btn"
-                          onClick={() =>
-                            setStylesObject((prevStyles) => {
-                              const newStyles = { ...prevStyles };
-                              delete newStyles[key];
-                              return newStyles;
-                            })
-                          }
-                        />
-                      </div>
+                      <DeleteIcon
+                        className="delete-btn"
+                        onClick={() =>
+                          setStylesObject((prevStyles) => {
+                            const newStyles = { ...prevStyles };
+                            delete newStyles[key];
+                            return newStyles;
+                          })
+                        }
+                      />
                     </div>
                   </>
                 );

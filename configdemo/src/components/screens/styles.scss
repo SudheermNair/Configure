@@ -60,6 +60,9 @@ h1 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: 83%;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px; 
+  }
 }
 
 .field-selected {
@@ -72,6 +75,9 @@ h1 {
   height: 83%;
   // max-height: 400px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px; 
+  }
 }
 
 .field-selected h1,
@@ -133,6 +139,9 @@ h1 {
   // height: 83%;
   // max-height: 400px;
   overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 5px; 
+  }
   min-width: 400px;
 }
 
@@ -167,7 +176,7 @@ button {
   margin: 1% 0.5%;
 }
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -189,14 +198,9 @@ button {
   margin-bottom: 10px;
   justify-content: space-between;
 
-  select {
-    margin-left: 6px;
-    flex: 1;
-    max-width: 70%;
-    background-color: white;
-    border: 1px solid #a8a8a8;
-    border-radius: 12px;
-    padding: 4px;
+  .submodule-dropdowns {
+ 
+    padding: 1px;
     cursor: pointer;
   }
 }
@@ -308,17 +312,22 @@ select {
     width: 300px;
     
 }
-.clrPalatte{
-  height: 27px;
-  border: none;
-  outline: none;
-  border-radius: 3px;
-  margin-left: 1px;
-  width: 350px;
-}
+
 label{
   margin-bottom: 120px;
 }
+ }
+
+ .StyleConfig-form
+ {
+  border: solid 1px #a8a8a8;
+  box-shadow:0px 0px 10px #a8a8a8;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 10px;
+  max-width: 75%;
+  min-width: 400px;
+  border-radius: 10px;
  }
 
  .jsonData{
@@ -331,6 +340,10 @@ label{
    max-width: 75%;
    min-width: 400px;
    overflow-y: scroll;
+  
+   &::-webkit-scrollbar {
+    width: 5px; 
+  }
  }
 
  .copyBtn{
@@ -341,17 +354,7 @@ label{
   color: black;
  }
 
- .StyleConfig-form
- {
-  border: solid 1px #a8a8a8;
-  box-shadow:0px 0px 10px #a8a8a8;
-  box-sizing: border-box;
-  // height: 70%;
-  padding: 3%;
-  max-width: 75%;
-  min-width: 400px;
-  border-radius: 10px;
- }
+ 
 
  .removeOptions{
   // display:grid;
@@ -381,7 +384,6 @@ label{
  }
 
  .configTile:hover , .configTile:active {
-  
   color: rgb(255, 255, 255);
 }
  .configTile    .MuiSvgIcon-root:active, .configTile .MuiSvgIcon-root:hover {
@@ -415,7 +417,9 @@ label{
 }
 .submodule-dropdowns{
   min-width: 30px;
+  padding: 4px;
 }
+
 .removeOption{
   display: flex;
   flex-direction: row;
@@ -441,3 +445,55 @@ label{
   
 }
 
+.clrPalatte{
+  height: 27px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    margin-left: 1px;
+    width: 223px;
+    float: inline-end;
+}
+
+
+.style-value {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  .sss{
+    padding-right: 20px;
+  }
+  // justify-content: space-between;
+}
+
+.style-value-textfield{
+  min-width: 30px;
+}
+
+.save{
+  position: relative;
+}
+
+.dropdown-container-font {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+  // justify-content: flex-end;
+  .sss{
+    padding-right: 42px;
+  }
+  .color{
+    padding-right: 84px;
+  }
+  .size{
+    size: 2px;
+  }
+  .read{
+    padding-right: 82px;
+    
+  }
+}
+
+css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input{
+  padding: 4px;
+}

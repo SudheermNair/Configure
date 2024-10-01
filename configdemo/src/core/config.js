@@ -271,7 +271,6 @@ export const configFields = [
       "Primary Drawer Background Color",
       "Primary Iframe Drawer Color",
       "Primary Iframe Drawer Height",
-      "Primary Image Transition Background Color",
       "Hamburger Menu Drawer Color",
       "Hamburger Menu Text Color",
       "Hamburger Menu Icon Color",
