@@ -33,6 +33,14 @@ const HotelConfig = () => {
               key,
               value
             );
+
+            // Update orderOfModules
+            if (!updatedHotel.orderOfModules) {
+              updatedHotel.orderOfModules = [];
+            }
+            if (!updatedHotel.orderOfModules.includes(module.name)) {
+              updatedHotel.orderOfModules.push(module.name);
+            }
           } else if (key && value !== null && value !== undefined) {
             updatedHotel[key] = value;
           }
@@ -46,10 +54,12 @@ const HotelConfig = () => {
         const newHotel = {
           hotelId: hotel.hotelId,
           name: hotel.name,
+          orderOfModules: module ? [module.name] : [],
         };
 
         if (module) {
           newHotel.modules = updateModules([], module, submodules, key, value);
+          newHotel.orderOfModules.push(module.name);
         } else if (key && value !== null && value !== undefined) {
           newHotel[key] = value;
         }
@@ -61,13 +71,7 @@ const HotelConfig = () => {
     });
   };
 
-  const updateModules = (
-    existingModules = [],
-    module,
-    submodules,
-    key,
-    value
-  ) => {
+  const updateModules = (existingModules = [], module, submodules, key, value) => {
     const moduleExists = existingModules.find(
       (mod) => mod.name === (module ? module.name : "")
     );
@@ -77,21 +81,19 @@ const HotelConfig = () => {
         if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
-              // If a submodule is selected and "Has Details" is enabled
               if (detailsEnabled) {
                 let updatedDetails = sub.details || [{}];
                 updatedDetails[0] = { ...updatedDetails[0], [key]: value };
 
                 return {
                   ...sub,
-                  details: updatedDetails, // Update details array
+                  details: updatedDetails,
                 };
               }
 
-              // If a submodule is selected and "Has Details" is NOT enabled
               return {
                 ...sub,
-                [key]: value, // Add key-value pairs directly to the submodule
+                [key]: value,
               };
             }
             return sub;
@@ -104,7 +106,6 @@ const HotelConfig = () => {
               )
           );
 
-          // If no submodule is selected, add key-value pair to the module
           return {
             ...mod,
             submodules: [...updatedSubmodules, ...newSubmodules],
@@ -120,12 +121,9 @@ const HotelConfig = () => {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            // If "Has Details" is enabled, add key-value pair to details
             details: detailsEnabled ? [{ [key]: value }] : [],
-            // If "Has Details" is NOT enabled, add key-value pair directly to submodule
             ...(detailsEnabled ? {} : { [key]: value }),
           })),
-          // If no submodule is selected, add key-value pair directly to module
           ...(!submodules.length && key ? { [key]: value } : {}),
         },
       ];
