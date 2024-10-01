@@ -18,7 +18,7 @@ const HotelConfig = () => {
     isRequired: false,
   });
 
-  const updateData = (hotel, module, submodules, key, value) => {
+  const updateData = useCallback((hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
         if (h.hotelId === hotel.hotelId) {
@@ -58,7 +58,7 @@ const HotelConfig = () => {
 
       return updatedData;
     });
-  };
+  });
 
   const updateModules = (
     existingModules = [],
@@ -131,57 +131,73 @@ const HotelConfig = () => {
     }
   };
 
+  const handleHotelSelect = useCallback(
+    (e) => {
+      const selected = configFields[0].hotels.find(
+        (hotel) => hotel.hotelId === e.target.value
+      );
 
+      if (selected) {
+        const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
 
-  const handleHotelSelect = useCallback((e) => {
-    const selected = configFields[0].hotels.find(
-      (hotel) => hotel.hotelId === e.target.value
-    );
-
-    if (selected) {
-      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
-      
-      if (existingHotel) {
-        setCheckboxState({
-          isActive: existingHotel.isActive === "True",
-          isDisabled: existingHotel.isDisabled === "True",
-          isRequired: existingHotel.isRequired === "True",
-        });
-      } else {
-        setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
-        updateData(selected, null, [], null, null);
-     
-      }
-
-      setSelectedHotel(selected);
-    }
-  }, [data]);
-
-  const handleModuleSelect = useCallback((e) => {
-    const moduleName = e.target.value;
-    const module = { name: moduleName };
-    setSelectedModule(module);
-    
-    if (selectedHotel) {
-      updateData(selectedHotel, module, [], null, null);
-    }
-  }, [selectedHotel]);
-
-  const handleSubmoduleSelect = useCallback((e) => {
-    const submoduleName = e.target.value;
-
-    if (submoduleName) {
-      setSelectedSubmodules((prevSubmodules) => {
-        const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-        
-        if (selectedHotel && selectedModule) {
-          updateData(selectedHotel, selectedModule, newSubmodules, null, null);
+        if (existingHotel) {
+          setCheckboxState({
+            isActive: existingHotel.isActive === "True",
+            isDisabled: existingHotel.isDisabled === "True",
+            isRequired: existingHotel.isRequired === "True",
+          });
+        } else {
+          setCheckboxState({
+            isActive: false,
+            isDisabled: false,
+            isRequired: false,
+          });
+          updateData(selected, null, [], null, null);
         }
 
-        return newSubmodules;
-      });
-    }
-  }, [selectedHotel, selectedModule]);
+        setSelectedHotel(selected);
+      }
+    },
+    [data, updateData]
+  );
+
+  const handleModuleSelect = useCallback(
+    (e) => {
+      const moduleName = e.target.value;
+      const module = { name: moduleName };
+      setSelectedModule(module);
+
+      if (selectedHotel) {
+        updateData(selectedHotel, module, [], null, null);
+      }
+    },
+    [selectedHotel, updateData]
+  );
+
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
+
+      if (submoduleName) {
+        setSelectedSubmodules((prevSubmodules) => {
+          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
+
+          if (selectedHotel && selectedModule) {
+            updateData(
+              selectedHotel,
+              selectedModule,
+              newSubmodules,
+              null,
+              null
+            );
+          }
+
+          return newSubmodules;
+        });
+      }
+    },
+    [selectedHotel, selectedModule, updateData]
+  );
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -193,7 +209,13 @@ const HotelConfig = () => {
     const selectedValue = e.target.value;
 
     if (selectedHotel) {
-      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 
@@ -226,7 +248,13 @@ const HotelConfig = () => {
       );
 
       if (selectedHotel && selectedModule) {
-        updateData(selectedHotel, selectedModule, updatedSubmodules, null, null);
+        updateData(
+          selectedHotel,
+          selectedModule,
+          updatedSubmodules,
+          null,
+          null
+        );
       }
       return updatedSubmodules;
     });
@@ -471,4 +499,3 @@ const HotelConfig = () => {
 };
 
 export default HotelConfig;
-
