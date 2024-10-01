@@ -138,6 +138,7 @@ function StyleConfig() {
   return (
     <div className="StyleConfig-container">
       <div className="StyleConfig-form">
+      <h3>Select Configuration</h3>
         <label>Style property</label>
         <Select
           value={selectedProperty}
