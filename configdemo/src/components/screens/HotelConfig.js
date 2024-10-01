@@ -17,6 +17,7 @@ const HotelConfig = () => {
     isDisabled: false,
     isRequired: false,
   });
+  const [detailsToggledOn, setDetailsToggledOn] = useState(false); // Add this line
 
   const updateData = (hotel, module, submodules, key, value) => {
     setData((prevData) => {
@@ -78,8 +79,19 @@ const HotelConfig = () => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
               // If a submodule is selected and "Has Details" is enabled
               if (detailsEnabled) {
-                let updatedDetails = sub.details || [{}];
-                updatedDetails[0] = { ...updatedDetails[0], [key]: value };
+                let updatedDetails = sub.details || [];
+
+                // Check for existing details and avoid duplication
+                const existingDetailIndex = updatedDetails.findIndex(
+                  (detail) => detail[key] !== undefined
+                );
+
+                // If detail exists, update it, otherwise push a new detail
+                if (existingDetailIndex !== -1) {
+                  updatedDetails[existingDetailIndex] = { [key]: value };
+                } else {
+                  updatedDetails.push({ [key]: value });
+                }
 
                 return {
                   ...sub,
@@ -113,14 +125,18 @@ const HotelConfig = () => {
         return mod;
       });
     } else {
+      // New module case
       return [
         ...existingModules,
         {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            // If "Has Details" is enabled, add key-value pair to details
-            details: detailsEnabled ? [{ [key]: value }] : [],
+            // If "Has Details" is enabled and valid key-value pair exists, add to details
+            details:
+              detailsEnabled && key && value !== undefined
+                ? [{ [key]: value }]
+                : [],
             // If "Has Details" is NOT enabled, add key-value pair directly to submodule
             ...(detailsEnabled ? {} : { [key]: value }),
           })),
@@ -131,57 +147,73 @@ const HotelConfig = () => {
     }
   };
 
+  const handleHotelSelect = useCallback(
+    (e) => {
+      const selected = configFields[0].hotels.find(
+        (hotel) => hotel.hotelId === e.target.value
+      );
 
+      if (selected) {
+        const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
 
-  const handleHotelSelect = useCallback((e) => {
-    const selected = configFields[0].hotels.find(
-      (hotel) => hotel.hotelId === e.target.value
-    );
-
-    if (selected) {
-      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
-      
-      if (existingHotel) {
-        setCheckboxState({
-          isActive: existingHotel.isActive === "True",
-          isDisabled: existingHotel.isDisabled === "True",
-          isRequired: existingHotel.isRequired === "True",
-        });
-      } else {
-        setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
-        updateData(selected, null, [], null, null);
-     
-      }
-
-      setSelectedHotel(selected);
-    }
-  }, [data]);
-
-  const handleModuleSelect = useCallback((e) => {
-    const moduleName = e.target.value;
-    const module = { name: moduleName };
-    setSelectedModule(module);
-    
-    if (selectedHotel) {
-      updateData(selectedHotel, module, [], null, null);
-    }
-  }, [selectedHotel]);
-
-  const handleSubmoduleSelect = useCallback((e) => {
-    const submoduleName = e.target.value;
-
-    if (submoduleName) {
-      setSelectedSubmodules((prevSubmodules) => {
-        const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-        
-        if (selectedHotel && selectedModule) {
-          updateData(selectedHotel, selectedModule, newSubmodules, null, null);
+        if (existingHotel) {
+          setCheckboxState({
+            isActive: existingHotel.isActive === "True",
+            isDisabled: existingHotel.isDisabled === "True",
+            isRequired: existingHotel.isRequired === "True",
+          });
+        } else {
+          setCheckboxState({
+            isActive: false,
+            isDisabled: false,
+            isRequired: false,
+          });
+          updateData(selected, null, [], null, null);
         }
 
-        return newSubmodules;
-      });
-    }
-  }, [selectedHotel, selectedModule]);
+        setSelectedHotel(selected);
+      }
+    },
+    [data]
+  );
+
+  const handleModuleSelect = useCallback(
+    (e) => {
+      const moduleName = e.target.value;
+      const module = { name: moduleName };
+      setSelectedModule(module);
+
+      if (selectedHotel) {
+        updateData(selectedHotel, module, [], null, null);
+      }
+    },
+    [selectedHotel]
+  );
+
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
+
+      if (submoduleName) {
+        setSelectedSubmodules((prevSubmodules) => {
+          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
+
+          if (selectedHotel && selectedModule) {
+            updateData(
+              selectedHotel,
+              selectedModule,
+              newSubmodules,
+              null,
+              null
+            );
+          }
+
+          return newSubmodules;
+        });
+      }
+    },
+    [selectedHotel, selectedModule]
+  );
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -193,7 +225,13 @@ const HotelConfig = () => {
     const selectedValue = e.target.value;
 
     if (selectedHotel) {
-      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 
@@ -217,6 +255,9 @@ const HotelConfig = () => {
         checked ? "True" : "False"
       );
     }
+    if (name === "detailsEnabled") {
+      setDetailsToggledOn(checked); // Set toggle state based on checkbox
+    }
   };
 
   const removeSubmodule = (submoduleName) => {
@@ -226,7 +267,13 @@ const HotelConfig = () => {
       );
 
       if (selectedHotel && selectedModule) {
-        updateData(selectedHotel, selectedModule, updatedSubmodules, null, null);
+        updateData(
+          selectedHotel,
+          selectedModule,
+          updatedSubmodules,
+          null,
+          null
+        );
       }
       return updatedSubmodules;
     });
@@ -365,7 +412,8 @@ const HotelConfig = () => {
                     checked={detailsEnabled}
                     onChange={(e) => {
                       setDetailsEnabled(e.target.checked);
-                      if (!e.target.checked) setKeyValuePairs({});
+                      setDetailsToggledOn(e.target.checked); // Track when toggled on
+                      if (!e.target.checked) setKeyValuePairs({}); // Optional: Reset key-value pairs if unchecked
                     }}
                   />
                   Has Details
