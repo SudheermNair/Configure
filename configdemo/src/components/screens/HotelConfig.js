@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import FieldSelected from './fieldSelected';
-import { configFields } from '../../core/config';
-import './styles.scss';
+import React, { useState, useCallback } from "react";
+import FieldSelected from "./fieldSelected";
+import { configFields } from "../../core/config";
+import "./styles.scss";
 
 const HotelConfig = () => {
   const [data, setData] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedKeys, setSelectedKeys] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
   const [keyValues, setKeyValues] = useState([]);
   const [keyValuePairs, setKeyValuePairs] = useState({});
   const [detailsEnabled, setDetailsEnabled] = useState(false);
@@ -79,12 +79,12 @@ const HotelConfig = () => {
     value
   ) => {
     const moduleExists = existingModules.find(
-      (mod) => mod.name === (module ? module.name : '')
+      (mod) => mod.name === (module ? module.name : "")
     );
 
     if (moduleExists) {
       return existingModules.map((mod) => {
-        if (mod.name === (module ? module.name : '')) {
+        if (mod.name === (module ? module.name : "")) {
           const updatedSubmodules = mod.submodules.map((sub) => {
             if (submodules.some((newSub) => newSub.name === sub.name)) {
               if (detailsEnabled) {
@@ -146,9 +146,9 @@ const HotelConfig = () => {
 
         if (existingHotel) {
           setCheckboxState({
-            isActive: existingHotel.isActive === 'True',
-            isDisabled: existingHotel.isDisabled === 'True',
-            isRequired: existingHotel.isRequired === 'True',
+            isActive: existingHotel.isActive === "True",
+            isDisabled: existingHotel.isDisabled === "True",
+            isRequired: existingHotel.isRequired === "True",
           });
         } else {
           setCheckboxState({
@@ -165,7 +165,6 @@ const HotelConfig = () => {
     [data]
   );
 
-
   const handleModuleSelect = useCallback(
     (e) => {
       const moduleName = e.target.value;
@@ -178,7 +177,6 @@ const HotelConfig = () => {
     },
     [selectedHotel]
   );
-;
   const handleSubmoduleSelect = useCallback(
     (e) => {
       const submoduleName = e.target.value;
@@ -241,7 +239,7 @@ const HotelConfig = () => {
         selectedModule,
         selectedSubmodules,
         name,
-        checked ? 'True' : 'False'
+        checked ? "True" : "False"
       );
     }
   };
@@ -274,7 +272,7 @@ const HotelConfig = () => {
           <label>Hotel:</label>
           <select
             className="submodule-dropdown"
-            value={selectedHotel?.hotelId || ''}
+            value={selectedHotel?.hotelId || ""}
             onChange={handleHotelSelect}
           >
             <option value="" disabled>
@@ -294,7 +292,7 @@ const HotelConfig = () => {
               <label>Module:</label>
               <select
                 className="submodule-dropdown"
-                value={selectedModule?.name || ''}
+                value={selectedModule?.name || ""}
                 onChange={handleModuleSelect}
               >
                 <option value="" disabled>
@@ -355,7 +353,7 @@ const HotelConfig = () => {
             <div className="dropdown-container">
               <label>Keys:</label>
               <select
-                value={selectedKeys || ''}
+                value={selectedKeys || ""}
                 onChange={handleKeySelect}
                 className="submodule-dropdown"
               >
@@ -375,7 +373,7 @@ const HotelConfig = () => {
                 <label>Values:</label>
                 <select
                   onChange={handleValueSelect}
-                  value={selectedValue || ''}
+                  value={selectedValue || ""}
                   className="submodule-dropdown"
                 >
                   <option value="" disabled>
@@ -425,7 +423,7 @@ const HotelConfig = () => {
                       selectedHotel,
                       selectedModule,
                       selectedSubmodules,
-                      'isActive',
+                      "isActive",
                       e.target.value
                     )
                   }
@@ -454,7 +452,7 @@ const HotelConfig = () => {
                       selectedHotel,
                       selectedModule,
                       selectedSubmodules,
-                      'isDisabled',
+                      "isDisabled",
                       e.target.value
                     )
                   }
@@ -483,7 +481,7 @@ const HotelConfig = () => {
                       selectedHotel,
                       selectedModule,
                       selectedSubmodules,
-                      'isRequired',
+                      "isRequired",
                       e.target.value
                     )
                   }
