@@ -9,10 +9,10 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
-  const [currentView, setCurrentView] = useState('fieldModules');
+  const [currentView, setCurrentView] = useState("fieldModules");
 
   const handleSubmit = () => {
-    setCurrentView('addConfig');
+    setCurrentView("addConfig");
   };
 
   const handleDropdownChange = (value) => {
@@ -33,7 +33,7 @@ function App() {
 
               <div className="field-modules-container">
                 {isConfigActive && (
-                  <div >
+                  <div>
                     <div>
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
@@ -44,7 +44,7 @@ function App() {
                         handleSubmit={handleSubmit}
                       />
                     </div>
-                    </div>
+                  </div>
                 )}
               </div>
             </>

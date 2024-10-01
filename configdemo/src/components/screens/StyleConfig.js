@@ -1,4 +1,10 @@
-import { Select, MenuItem, TextField, InputAdornment, IconButton } from "@mui/material";
+import {
+  Select,
+  MenuItem,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -29,7 +35,8 @@ function StyleConfig() {
 
   const setStylePropertyValue = (e) => {
     const selectedPropertyValue = e.target.value;
-    const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
+    const propertyValue =
+      "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
     setSelectedProperty(selectedPropertyValue);
     setStyleValue("");
@@ -51,7 +58,6 @@ function StyleConfig() {
         return;
       }
     }
-
 
     setStyleValue(newValue);
     updateStylesObject(styleProperty, newValue);
@@ -77,25 +83,38 @@ function StyleConfig() {
     s /= 100;
     l /= 100;
     const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     const m = l - c / 2;
     let r, g, b;
 
     if (h < 60) {
-      r = c; g = x; b = 0;
+      r = c;
+      g = x;
+      b = 0;
     } else if (h < 120) {
-      r = x; g = c; b = 0;
+      r = x;
+      g = c;
+      b = 0;
     } else if (h < 180) {
-      r = 0; g = c; b = x;
+      r = 0;
+      g = c;
+      b = x;
     } else if (h < 240) {
-      r = 0; g = x; b = c;
+      r = 0;
+      g = x;
+      b = c;
     } else if (h < 300) {
-      r = x; g = 0; b = c;
+      r = x;
+      g = 0;
+      b = c;
     } else {
-      r = c; g = 0; b = x;
+      r = c;
+      g = 0;
+      b = x;
     }
 
-    const hex = (r + m) * 255 << 16 | (g + m) * 255 << 8 | (b + m) * 255;
+    const hex =
+      (((r + m) * 255) << 16) | (((g + m) * 255) << 8) | ((b + m) * 255);
     return `#${((1 << 24) + hex).toString(16).slice(1).toUpperCase()}`;
   };
 
@@ -136,10 +155,10 @@ function StyleConfig() {
                   hsl(240, 100%, 50%),
                   hsl(300, 100%, 50%),
                   hsl(360, 100%, 50%))`,
-                position: 'relative',
-                height: '30px',
-                borderRadius: '5px',
-                cursor: 'pointer'
+                position: "relative",
+                height: "30px",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
               onClick={handleClickColorBand}
             />
@@ -221,7 +240,8 @@ function StyleConfig() {
 
         <div className="dropdown-container">
           <label>Style property </label>
-          <Select className="submodule-dropdowns"
+          <Select
+            className="submodule-dropdowns"
             value={selectedProperty}
             onChange={setStylePropertyValue}
             displayEmpty
@@ -249,7 +269,11 @@ function StyleConfig() {
               <h3>
                 Saved Styles
                 <button onClick={copyObject} className="copyBtn">
-                  {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                  {copyButtonText === "Copy" ? (
+                    <ContentCopyIcon />
+                  ) : (
+                    <DoneIcon />
+                  )}
                   {copyButtonText}
                 </button>
               </h3>

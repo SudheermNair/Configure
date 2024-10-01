@@ -1,10 +1,5 @@
-
-
 export const configFields = [
   {
- 
-
-    
     hotels: [
       {
         name: "Pullman Orchard ",
@@ -149,14 +144,7 @@ export const configFields = [
       "signStayInfo",
       "Headers",
     ],
-    submodules2: [
-      "aaa",
-      "bbb",
-      "ccc",
-      "ddd",
-      "ee",
-     
-    ],
+    submodules2: ["aaa", "bbb", "ccc", "ddd", "ee"],
     Keys: [
       {
         code: [
@@ -318,9 +306,7 @@ export const configFields = [
       "Read More Arrow Head",
       "Read More Underline",
       "Bottom Menu Arrow Color",
-      "Primary Order Button Font Family"
-  ]
-  
-       
+      "Primary Order Button Font Family",
+    ],
   },
 ];
