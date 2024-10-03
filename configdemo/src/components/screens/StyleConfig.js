@@ -38,7 +38,7 @@ function StyleConfig() {
     const propertyValue =
       "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
-    setSelectedProperty(selectedPropertyValue);
+    setSelectedProperty(selectedPropertyValue); // Store the original property value
     setStyleValue("");
   };
 
@@ -278,16 +278,16 @@ function StyleConfig() {
                 </button>
               </h3>
             </div>
-            <div className="saved-styles">
+            {/* <div className="saved-styles">
               <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
-            </div>
+            </div> */}
 
             <div className="removeOptions deleteIcon">
               {Object.entries(stylesObject).map(([key, value]) => (
                 <div className="removeOptions" key={key}>
                   <div className="removeOption">
                     <p>
-                      {key}: {value}
+                      {selectedProperty}: {value}
                     </p>
 
                     <DeleteIcon
