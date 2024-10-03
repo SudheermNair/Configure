@@ -249,59 +249,54 @@ function StyleConfig() {
         <div className="dropdown-container">
           <label>Style property </label>
           <Autocomplete
-  multiple
-  options={styleData}
-  getOptionLabel={(option) => option}
-  value={selectedProperties}
-  onChange={(event, newValue) => {
-    setSelectedProperties(newValue);
-    const propertyValues = newValue.map(
-      (prop) => "--" + prop.toLowerCase().replace(/\s+/g, "-")
-    );
-    setStyleProperties(propertyValues);
-    setStyleValue("");
-  }}
-  filterOptions={(options, { inputValue }) => {
-    // Check for existing selections
-    const containsColor = selectedProperties.some(prop => prop.includes('Color'));
-    const containDrawer = selectedProperties.some(prop => prop.includes('Height'));
-    const containRadius = selectedProperties.some(prop => prop.includes('Radius'));
-    const containOpacity = selectedProperties.some(prop => prop.includes('Opacity'));
-    const containFont = selectedProperties.some(prop => prop.includes('Font'));
+            multiple
+            options={styleData}
+            getOptionLabel={(option) => option}
+            value={selectedProperties}
+            onChange={(event, newValue) => {
+              setSelectedProperties(newValue);
+              const propertyValues = newValue.map(
+                (prop) => "--" + prop.toLowerCase().replace(/\s+/g, "-")
+              );
+              setStyleProperties(propertyValues);
+              setStyleValue("");
+            }}
+            filterOptions={(options, { inputValue }) => {
+              const containsColor = selectedProperties.some(prop => prop.includes('Color'));
+              const containDrawer = selectedProperties.some(prop => prop.includes('Height'));
+              const containRadius = selectedProperties.some(prop => prop.includes('Radius'));
+              const containOpacity = selectedProperties.some(prop => prop.includes('Opacity'));
+              const containFont = selectedProperties.some(prop => prop.includes('Font'));
 
-    // Start with all options if nothing is selected
-    let filteredOptions = selectedProperties.length === 0 ? options : [];
+              let filteredOptions = selectedProperties.length === 0 ? options : [];
 
-    // Filter based on the keyword input and selected properties
-    if (containsColor) {
-      filteredOptions = options.filter(option => option.includes('Color'));
-    }
-    if (containDrawer) {
-      filteredOptions = options.filter(option => option.includes('Height'));
-    }
-    if (containRadius) {
-      filteredOptions = options.filter(option => option.includes('Radius'));
-    }
-    if (containOpacity) {
-      filteredOptions = options.filter(option => option.includes('Opacity'));
-    }
-    if (containFont) {
-      filteredOptions = options.filter(option => option.includes('Font'));
-    }
-
-    // Filter based on the input value for searching
-    return filteredOptions.filter(option => 
-      option.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  }}
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      variant="standard"
-      placeholder="Select properties"
-    />
-  )}
-/>
+              if (containsColor) {
+                filteredOptions = options.filter(option => option.includes('Color'));
+              }
+              if (containDrawer) {
+                filteredOptions = options.filter(option => option.includes('Height'));
+              }
+              if (containRadius) {
+                filteredOptions = options.filter(option => option.includes('Radius'));
+              }
+              if (containOpacity) {
+                filteredOptions = options.filter(option => option.includes('Opacity'));
+              }
+              if (containFont) {
+                filteredOptions = options.filter(option => option.includes('Font'));
+              }
+              return filteredOptions.filter(option => 
+                option.toLowerCase().includes(inputValue.toLowerCase())
+              );
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                placeholder="Select properties"
+              />
+            )}
+          />
 
 
 
