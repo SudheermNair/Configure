@@ -301,6 +301,7 @@ function StyleConfig() {
                           const newStyles = { ...prevStyles };
                           delete newStyles[key];
                           return newStyles;
+                          
                         })
                       }
                     />
