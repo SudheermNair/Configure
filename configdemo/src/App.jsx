@@ -1,6 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Sidebar from "./components/Sidebar/Sidebar";
+import HotelConfig from "./components/screens/HotelConfig";
 import FieldModules from "./components/screens/fieldModules";
 import FieldSelected from "./components/screens/fieldSelected";
 import { useState } from "react";
@@ -8,10 +9,10 @@ import { useState } from "react";
 function App() {
   const [isConfigActive, setIsConfigActive] = useState(false);
   const [selectedDropdowns, setSelectedDropdowns] = useState([]);
-  const [currentView, setCurrentView] = useState('fieldModules');
+  const [currentView, setCurrentView] = useState("fieldModules");
 
   const handleSubmit = () => {
-    setCurrentView('addConfig');
+    setCurrentView("addConfig");
   };
 
   const handleDropdownChange = (value) => {
@@ -28,14 +29,10 @@ function App() {
           <Navbar />
           {currentView === "fieldModules" && (
             <>
-              {/* <h1>Configuration</h1> */}
-
               <div className="field-modules-container">
                 {isConfigActive && (
-                  <>
-                   
+                  <div>
                     <div>
-                    <h1>Configuration</h1>
                       <FieldModules onDropdownChange={handleDropdownChange} />
                     </div>
                     <div>
@@ -45,7 +42,7 @@ function App() {
                         handleSubmit={handleSubmit}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
             </>

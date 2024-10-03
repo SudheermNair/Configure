@@ -9,6 +9,7 @@ const HotelConfig = () => {
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedSubmodules, setSelectedSubmodules] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState("");
+  const [selectedValue, setSelectedValue] = useState("");
   const [keyValues, setKeyValues] = useState([]);
   const [keyValuePairs, setKeyValuePairs] = useState({});
   const [detailsEnabled, setDetailsEnabled] = useState(false);
@@ -19,7 +20,7 @@ const HotelConfig = () => {
     isRequired: false,
   });
 
-  const updateData = (hotel, module, submodules, key, value) => {
+  const updateData = useCallback((hotel, module, submodules, key, value) => {
     setData((prevData) => {
       const updatedData = prevData.map((h) => {
         if (h.hotelId === hotel.hotelId) {
@@ -33,6 +34,14 @@ const HotelConfig = () => {
               key,
               value
             );
+
+            // Update orderOfModules
+            if (!updatedHotel.orderOfModules) {
+              updatedHotel.orderOfModules = [];
+            }
+            if (!updatedHotel.orderOfModules.includes(module.name)) {
+              updatedHotel.orderOfModules.push(module.name);
+            }
           } else if (key && value !== null && value !== undefined) {
             updatedHotel[key] = value;
           }
@@ -46,10 +55,12 @@ const HotelConfig = () => {
         const newHotel = {
           hotelId: hotel.hotelId,
           name: hotel.name,
+          orderOfModules: module ? [module.name] : [],
         };
 
         if (module) {
           newHotel.modules = updateModules([], module, submodules, key, value);
+          newHotel.orderOfModules.push(module.name);
         } else if (key && value !== null && value !== undefined) {
           newHotel[key] = value;
         }
@@ -59,7 +70,7 @@ const HotelConfig = () => {
 
       return updatedData;
     });
-  };
+  });
 
 const updateModules = (
   existingModules = [],
@@ -158,50 +169,65 @@ const updateModules = (
       (hotel) => hotel.hotelId === e.target.value
     );
 
-    if (selected) {
-      const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
-      
-      if (existingHotel) {
-        setCheckboxState({
-          isActive: existingHotel.isActive === "True",
-          isDisabled: existingHotel.isDisabled === "True",
-          isRequired: existingHotel.isRequired === "True",
-        });
-      } else {
-        setCheckboxState({ isActive: false, isDisabled: false, isRequired: false });
-        updateData(selected, null, [], null, null);
-     
-      }
+      if (selected) {
+        const existingHotel = data.find((h) => h.hotelId === selected.hotelId);
 
-      setSelectedHotel(selected);
-    }
-  }, [data]);
-
-  const handleModuleSelect = useCallback((e) => {
-    const moduleName = e.target.value;
-    const module = { name: moduleName };
-    setSelectedModule(module);
-    
-    if (selectedHotel) {
-      updateData(selectedHotel, module, [], null, null);
-    }
-  }, [selectedHotel]);
-
-  const handleSubmoduleSelect = useCallback((e) => {
-    const submoduleName = e.target.value;
-
-    if (submoduleName) {
-      setSelectedSubmodules((prevSubmodules) => {
-        const newSubmodules = [...prevSubmodules, { name: submoduleName }];
-        
-        if (selectedHotel && selectedModule) {
-          updateData(selectedHotel, selectedModule, newSubmodules, null, null);
+        if (existingHotel) {
+          setCheckboxState({
+            isActive: existingHotel.isActive === "True",
+            isDisabled: existingHotel.isDisabled === "True",
+            isRequired: existingHotel.isRequired === "True",
+          });
+        } else {
+          setCheckboxState({
+            isActive: false,
+            isDisabled: false,
+            isRequired: false,
+          });
+          updateData(selected, null, [], null, null);
         }
 
-        return newSubmodules;
-      });
-    }
-  }, [selectedHotel, selectedModule]);
+        setSelectedHotel(selected);
+      }
+    },
+    [data]
+  );
+
+  const handleModuleSelect = useCallback(
+    (e) => {
+      const moduleName = e.target.value;
+      const module = { name: moduleName };
+      setSelectedModule(module);
+
+      if (selectedHotel) {
+        updateData(selectedHotel, module, [], null, null);
+      }
+    },
+    [selectedHotel]
+  );
+  const handleSubmoduleSelect = useCallback(
+    (e) => {
+      const submoduleName = e.target.value;
+      if (submoduleName) {
+        setSelectedSubmodules((prevSubmodules) => {
+          const newSubmodules = [...prevSubmodules, { name: submoduleName }];
+
+          if (selectedHotel && selectedModule) {
+            updateData(
+              selectedHotel,
+              selectedModule,
+              newSubmodules,
+              null,
+              null
+            );
+          }
+
+          return newSubmodules;
+        });
+      }
+    },
+    [selectedHotel, selectedModule]
+  );
 
   const handleKeySelect = (e) => {
     const selectedKey = e.target.value;
@@ -211,9 +237,16 @@ const updateModules = (
 
   const handleValueSelect = (e) => {
     const selectedValue = e.target.value;
+    setSelectedValue(selectedValue);
 
     if (selectedHotel) {
-      updateData(selectedHotel, selectedModule, selectedSubmodules, selectedKeys, selectedValue);
+      updateData(
+        selectedHotel,
+        selectedModule,
+        selectedSubmodules,
+        selectedKeys,
+        selectedValue
+      );
     }
   };
 
@@ -246,7 +279,13 @@ const updateModules = (
       );
 
       if (selectedHotel && selectedModule) {
-        updateData(selectedHotel, selectedModule, updatedSubmodules, null, null);
+        updateData(
+          selectedHotel,
+          selectedModule,
+          updatedSubmodules,
+          null,
+          null
+        );
       }
       return updatedSubmodules;
     });
@@ -329,6 +368,7 @@ const updateModules = (
                           e.preventDefault();
                           removeSubmodule(submodule.name);
                         }}
+                        className="remove-submodule"
                       >
                         X
                       </button>
@@ -361,7 +401,7 @@ const updateModules = (
                 <label>Values:</label>
                 <select
                   onChange={handleValueSelect}
-                  value=""
+                  value={selectedValue || ""}
                   className="submodule-dropdown"
                 >
                   <option value="" disabled>
@@ -492,4 +532,3 @@ const updateModules = (
 };
 
 export default HotelConfig;
-
