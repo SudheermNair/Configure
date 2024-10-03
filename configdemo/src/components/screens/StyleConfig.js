@@ -241,6 +241,28 @@ function StyleConfig() {
     return null;
   };
 
+  const groupStylesByKeyword = (styles) => {
+    const groupedStyles = {};
+  
+    Object.entries(styles).forEach(([key, value]) => {
+      let keyword;
+      if (key.includes("color")) keyword = "Color";
+      else if (key.includes("font")) keyword = "Font";
+      else if (key.includes("height") || key.includes("radius")) keyword = "Dimension";
+      else if (key.includes("opacity")) keyword = "Opacity";
+      else keyword = "Other";
+  
+      if (!groupedStyles[keyword]) {
+        groupedStyles[keyword] = [];
+      }
+      groupedStyles[keyword].push({ key, value });
+    });
+  
+    return groupedStyles;
+  };
+
+  const groupedStyles = groupStylesByKeyword(stylesObject);
+
   return (
     <div className="style-config-container">
       <div className="StyleConfig-form">
@@ -270,21 +292,22 @@ function StyleConfig() {
 
               let filteredOptions = selectedProperties.length === 0 ? options : [];
 
-              if (containsColor) {
-                filteredOptions = options.filter(option => option.includes('Color'));
-              }
-              if (containDrawer) {
-                filteredOptions = options.filter(option => option.includes('Height'));
-              }
-              if (containRadius) {
-                filteredOptions = options.filter(option => option.includes('Radius'));
-              }
-              if (containOpacity) {
-                filteredOptions = options.filter(option => option.includes('Opacity'));
-              }
-              if (containFont) {
-                filteredOptions = options.filter(option => option.includes('Font'));
-              }
+                  if (containsColor) {
+                    filteredOptions = options.filter(option => option.includes('Color'));
+                  }
+                  if (containDrawer) {
+                    filteredOptions = options.filter(option => option.includes('Height'));
+                  }
+                  if (containRadius) {
+                    filteredOptions = options.filter(option => option.includes('Radius'));
+                  }
+                  if (containOpacity) {
+                    filteredOptions = options.filter(option => option.includes('Opacity'));
+                  }
+                  if (containFont) {
+                    filteredOptions = options.filter(option => option.includes('Font'));
+                  }
+                  
               return filteredOptions.filter(option => 
                 option.toLowerCase().includes(inputValue.toLowerCase())
               );
@@ -297,8 +320,6 @@ function StyleConfig() {
               />
             )}
           />
-
-
 
           <br />
         </div>
@@ -323,11 +344,11 @@ function StyleConfig() {
                 </button>
               </h3>
             </div>
-            <div className="saved-styles">
+            {/* <div className="saved-styles">
               <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
-            </div>
+            </div> */}
 
-            <div className="removeOptions deleteIcon">
+            {/* <div className="removeOptions deleteIcon">
               {Object.entries(stylesObject).map(([key, value]) => (
                 <div className="removeOptions" key={key}>
                   <div className="removeOption">
@@ -348,7 +369,33 @@ function StyleConfig() {
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
+
+              <div className="removeOptions deleteIcon">
+                  {Object.entries(groupedStyles).map(([keyword, styles]) => (
+                    <div key={keyword}>
+                      {/* <h4>{keyword}</h4> */}
+                      {styles.map(({ key, value }) => (
+                        <div className="removeOption" key={key}>
+                          <p>
+                            {formatKey(key)}: {value}
+                          </p>
+                          <DeleteIcon
+                            className="delete-btn"
+                            onClick={() =>
+                              setStylesObject((prevStyles) => {
+                                const newStyles = { ...prevStyles };
+                                delete newStyles[key];
+                                return newStyles;
+                              })
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
           </div>
         </>
       ) : (
