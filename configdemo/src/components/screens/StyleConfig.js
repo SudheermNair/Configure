@@ -261,7 +261,7 @@ function StyleConfig() {
               setStyleProperties(propertyValues);
               setStyleValue("");
             }}
-            filterOptions={(options, { inputValue }) => {
+            filterOptions={(options) => {
               const containsColor = selectedProperties.some(prop => prop.includes('Color'));
               const containDrawer = selectedProperties.some(prop => prop.includes('Height'));
               const containRadius = selectedProperties.some(prop => prop.includes('Radius'));
