@@ -65,13 +65,6 @@ function StyleConfig() {
   const handleColorChange = (e) => {
     const colorValue = e.target.value;
     setStyleValue(colorValue);
-    updateStylesObject(styleProperty, colorValue);
-  };
-  const formatKey = (key) => {
-    return key
-      .replace(/^--/, "")
-      .replace(/-/g, " ")
-      .replace(/\b\w/g, (c) => c.toUpperCase());
     styleProperties.forEach((property) => {
       updateStylesObject(property, colorValue);
     });
@@ -352,9 +345,7 @@ function StyleConfig() {
               </h3>
             </div>
             {/* <div className="saved-styles">
-            {/* <div className="saved-styles">
               <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
-            </div> */}
             </div> */}
 
             {/* <div className="removeOptions deleteIcon">
@@ -362,7 +353,7 @@ function StyleConfig() {
                 <div className="removeOptions" key={key}>
                   <div className="removeOption">
                     <p>
-                      {formatKey(key)}: {value}
+                    {formatKey(key)}: {value}
                     </p>
 
                     <DeleteIcon
