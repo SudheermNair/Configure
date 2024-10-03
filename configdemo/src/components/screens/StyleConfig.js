@@ -1,16 +1,17 @@
 import {
-  Select,
+  Autocomplete,
   MenuItem,
   TextField,
   InputAdornment,
   IconButton,
+  Select,
 } from "@mui/material";
 import React, { useState } from "react";
 import { configFields } from "../../core/propValue";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from "@mui/icons-material/Clear"; // Importing the Clear icon
+import ClearIcon from "@mui/icons-material/Clear";
 import "./styles.scss";
 
 function StyleConfig() {
@@ -18,9 +19,9 @@ function StyleConfig() {
   const [fontFamilyList] = useState(configFields[0].fontFamilies);
   const [readMoreConfig] = useState(configFields[0].readMoreCTA);
   const [stylesObject, setStylesObject] = useState({});
-  const [styleProperty, setStyleProperty] = useState("");
+  const [styleProperties, setStyleProperties] = useState([]);
+  const [selectedProperties, setSelectedProperties] = useState([]);
   const [styleValue, setStyleValue] = useState("");
-  const [selectedProperty, setSelectedProperty] = useState("");
   const [copyButtonText, setCopyButtonText] = useState("Copy");
 
   const copyObject = () => {
@@ -32,47 +33,43 @@ function StyleConfig() {
       }, 2000);
     });
   };
-
-  const setStylePropertyValue = (e) => {
-    const selectedPropertyValue = e.target.value;
-    const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
-    setStyleProperty(propertyValue);
-    setSelectedProperty(selectedPropertyValue); // Store the original property value
-    setStyleValue("");
+  const formatKey = (key) => {
+    return key
+      .replace(/^--/, '')
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
   const saveValue = (e) => {
     let newValue = e.target.value;
 
-    if (styleProperty.includes("height")) {
+    if (
+      styleProperties.some((prop) => prop.includes("height")) ||
+      styleProperties.some((prop) => prop.includes("radius"))
+    ) {
       if (!isNaN(newValue) && newValue !== "") {
-        newValue += "dvh";
-      } else {
-        return;
-      }
-    } else if (styleProperty.includes("radius")) {
-      if (!isNaN(newValue) && newValue !== "") {
-        newValue += "px";
+        newValue += styleProperties.some((prop) => prop.includes("height"))
+          ? "dvh"
+          : "px";
       } else {
         return;
       }
     }
 
     setStyleValue(newValue);
-    updateStylesObject(styleProperty, newValue);
+    styleProperties.forEach((property) => {
+      updateStylesObject(property, newValue);
+    });
   };
 
   const handleColorChange = (e) => {
     const colorValue = e.target.value;
     setStyleValue(colorValue);
-    updateStylesObject(styleProperty, colorValue);
+    styleProperties.forEach((property) => {
+      updateStylesObject(property, colorValue);
+    });
   };
-  const formatKey = (key) => {
-    return key
-      .replace(/^--/, '')
-      .replace(/-/g, ' ') 
-      .replace(/\b\w/g, (c) => c.toUpperCase()); 
-  };
+
   const handleClickColorBand = (e) => {
     const rect = e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -80,7 +77,9 @@ function StyleConfig() {
     const hue = Math.floor((x / width) * 360);
     const hexColor = hslToHex(hue, 100, 50);
     setStyleValue(hexColor);
-    updateStylesObject(styleProperty, hexColor);
+    styleProperties.forEach((property) => {
+      updateStylesObject(property, hexColor);
+    });
   };
 
   const hslToHex = (h, s, l) => {
@@ -133,14 +132,16 @@ function StyleConfig() {
 
   const clearTextField = () => {
     setStyleValue("");
-    updateStylesObject(styleProperty, "");
+    styleProperties.forEach((property) => {
+      updateStylesObject(property, "");
+    });
   };
 
   const renderInputFields = () => {
-    if (styleProperty.includes("color")) {
+    if (styleProperties.some((prop) => prop.includes("color"))) {
       return (
-        <div className="dropdown-container-font">
-          <label className="color">Color: </label>
+        <>
+          <label>Color: </label>
           <input
             type="color"
             value={styleValue}
@@ -168,14 +169,17 @@ function StyleConfig() {
             />
           </div>
           <p>Selected Color Code: {styleValue}</p>
-        </div>
+        </>
       );
     }
 
     if (
-      styleProperty.includes("height") ||
-      styleProperty.includes("radius") ||
-      styleProperty.includes("opacity")
+      styleProperties.some(
+        (prop) =>
+          prop.includes("height") ||
+          prop.includes("radius") ||
+          prop.includes("opacity")
+      )
     ) {
       return (
         <>
@@ -183,7 +187,6 @@ function StyleConfig() {
           <TextField
             variant="standard"
             type="number"
-            // value={styleValue }
             value={styleValue.replace(/px|dvh/, "")}
             onChange={saveValue}
             InputProps={{
@@ -200,10 +203,10 @@ function StyleConfig() {
       );
     }
 
-    if (styleProperty.includes("font")) {
+    if (styleProperties.some((prop) => prop.includes("font"))) {
       return (
-        <div className="dropdown-container-font">
-          <label className="sss">Font Family </label>
+        <>
+          <label>Font Family</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
             <MenuItem value="" disabled>
               Select a value
@@ -214,14 +217,14 @@ function StyleConfig() {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </>
       );
     }
 
-    if (styleProperty.includes("read")) {
+    if (styleProperties.some((prop) => prop.includes("read"))) {
       return (
-        <div className="dropdown-container-font">
-          <label className="read">Style value</label>
+        <>
+          <label>Style value</label>
           <Select value={styleValue} onChange={saveValue} displayEmpty>
             <MenuItem value="" disabled>
               Select a value
@@ -232,9 +235,10 @@ function StyleConfig() {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </>
       );
     }
+    return null;
   };
 
   return (
@@ -244,21 +248,55 @@ function StyleConfig() {
 
         <div className="dropdown-container">
           <label>Style property </label>
-          <Select
-            className="submodule-dropdowns"
-            value={selectedProperty}
-            onChange={setStylePropertyValue}
-            displayEmpty
-          >
-            <option value="" disabled>
-              Select a property
-            </option>
-            {styleData.map((property, index) => (
-              <MenuItem key={index} value={property}>
-                {property}
-              </MenuItem>
-            ))}
-          </Select>
+          <Autocomplete
+            multiple
+            options={styleData}
+            getOptionLabel={(option) => option}
+            value={selectedProperties}
+            onChange={(event, newValue) => {
+              setSelectedProperties(newValue);
+              const propertyValues = newValue.map(
+                (prop) => "--" + prop.toLowerCase().replace(/\s+/g, "-")
+              );
+              setStyleProperties(propertyValues);
+              setStyleValue("");
+            }}
+            filterOptions={(options, { inputValue }) => {
+              const containsColor = selectedProperties.some(prop => prop.includes('Color'));
+              const containDrawer = selectedProperties.some(prop => prop.includes('Height'));
+              const containRadius = selectedProperties.some(prop => prop.includes('Radius'));
+              const containOpacity = selectedProperties.some(prop => prop.includes('Opacity'));
+              const containFont = selectedProperties.some(prop => prop.includes('Font'));
+
+
+              if (containsColor) {
+                return options.filter(option => option.includes('Color'));
+              }
+              if(containDrawer){
+                return options.filter(option => option.includes('Height'));
+              }
+              if(containRadius){
+                return options.filter(option => option.includes('Radius'));
+              }
+              if(containOpacity){
+                return options.filter(option => option.includes('Opacity'));
+              }
+              if(containFont){
+                return options.filter(option => option.includes('Font'));
+              }
+              
+              return options; 
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                placeholder="Select properties"
+              />
+            )}
+          />
+
+
           <br />
         </div>
 
@@ -301,7 +339,6 @@ function StyleConfig() {
                           const newStyles = { ...prevStyles };
                           delete newStyles[key];
                           return newStyles;
-                          
                         })
                       }
                     />
