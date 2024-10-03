@@ -70,9 +70,9 @@ function StyleConfig() {
   };
   const formatKey = (key) => {
     return key
-      .replace(/^--/, '')
-      .replace(/-/g, ' ') 
-      .replace(/\b\w/g, (c) => c.toUpperCase()); 
+      .replace(/^--/, "")
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   };
   const handleClickColorBand = (e) => {
     const rect = e.target.getBoundingClientRect();
@@ -283,16 +283,16 @@ function StyleConfig() {
                 </button>
               </h3>
             </div>
-            <div className="saved-styles">
+            {/* <div className="saved-styles">
               <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
-            </div>
+            </div> */}
 
             <div className="removeOptions deleteIcon">
               {Object.entries(stylesObject).map(([key, value]) => (
                 <div className="removeOptions" key={key}>
                   <div className="removeOption">
                     <p>
-                    {formatKey(key)}: {value}
+                      {formatKey(key)}: {value}
                     </p>
 
                     <DeleteIcon
