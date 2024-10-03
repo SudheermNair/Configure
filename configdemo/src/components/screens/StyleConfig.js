@@ -37,7 +37,7 @@ function StyleConfig() {
     const selectedPropertyValue = e.target.value;
     const propertyValue = "--" + selectedPropertyValue.toLowerCase().replace(/\s+/g, "-");
     setStyleProperty(propertyValue);
-    setSelectedProperty(selectedPropertyValue);
+    setSelectedProperty(selectedPropertyValue); // Store the original property value
     setStyleValue("");
   };
 
@@ -67,7 +67,12 @@ function StyleConfig() {
     setStyleValue(colorValue);
     updateStylesObject(styleProperty, colorValue);
   };
-
+  const formatKey = (key) => {
+    return key
+      .replace(/^--/, '')
+      .replace(/-/g, ' ') 
+      .replace(/\b\w/g, (c) => c.toUpperCase()); 
+  };
   const handleClickColorBand = (e) => {
     const rect = e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -286,7 +291,7 @@ function StyleConfig() {
                 <div className="removeOptions" key={key}>
                   <div className="removeOption">
                     <p>
-                      {key}: {value}
+                    {formatKey(key)}: {value}
                     </p>
 
                     <DeleteIcon
