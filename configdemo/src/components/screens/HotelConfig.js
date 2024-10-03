@@ -80,12 +80,12 @@ const updateModules = (
             if (detailsEnabled) {
               let updatedDetails = sub.details || [];
 
-              // If 'Has Details' has been toggled (i.e., rechecked), create a new object
-              if (hasDetailsToggled || updatedDetails.length === 0) {
-                updatedDetails.push({ [key]: value }); // Add a new object with the key-value pair
-                setHasDetailsToggled(false); // Reset after object creation
+              // If 'Has Details' has been toggled (i.e., rechecked), create a new object for the new key-value pair
+              if (hasDetailsToggled) {
+                updatedDetails = [...updatedDetails, { [key]: value }];
+                setHasDetailsToggled(false); // Reset after creating the new object
               } else {
-                // Add the key-value pair to the last object if "Has Details" remains checked
+                // If details are enabled and there are existing objects, add to the last object
                 updatedDetails[updatedDetails.length - 1] = {
                   ...updatedDetails[updatedDetails.length - 1],
                   [key]: value,
@@ -94,13 +94,13 @@ const updateModules = (
 
               return {
                 ...sub,
-                details: updatedDetails, // Update details array with new or updated object
+                details: updatedDetails, // Update the details array with new or updated objects
               };
             }
 
             return {
               ...sub,
-              [key]: value, // Add key-value pairs directly to the submodule if "Has Details" is unchecked
+              [key]: value, // Add key-value pair to the submodule if "Has Details" is not checked
             };
           }
           return sub;
@@ -113,7 +113,7 @@ const updateModules = (
             )
         );
 
-        // If no submodule is selected, add key-value pair to the module
+        // If no submodule is selected, add key-value pair directly to the module
         return {
           ...mod,
           submodules: [...updatedSubmodules, ...newSubmodules],
@@ -129,14 +129,15 @@ const updateModules = (
         name: module ? module.name : null,
         submodules: submodules.map((sub) => ({
           ...sub,
-          details: detailsEnabled ? [{ [key]: value }] : [],
-          ...(detailsEnabled ? {} : { [key]: value }),
+          details: detailsEnabled ? [{ [key]: value }] : [], // Create a new object for the details if enabled
+          ...(detailsEnabled ? {} : { [key]: value }), // If details are not enabled, set the key-value directly
         })),
         ...(!submodules.length && key ? { [key]: value } : {}),
       },
     ];
   }
 };
+
 
   const handleHasDetailsChange = (e) => {
     const isChecked = e.target.checked;
