@@ -189,6 +189,9 @@ button {
   align-items: center;
   margin-bottom: 10px;
   justify-content: space-between;
+  // background-color: green;
+  // min-height: 100px;
+  // overflow-x: scroll;
  
   select {
     margin-left: 6px;
@@ -355,7 +358,8 @@ label{
 
   .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot, .MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot  {
      width: 240px;
-    // width: 270px;
+    //  max-height: 300px;
+    
   }
 
  }
@@ -481,4 +485,35 @@ label{
 .css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input {
   padding-right: 24px;
   width: 215px;
+}
+
+.selected-properties {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 70px; // Adjust height as needed
+  overflow-y: auto; // Enables vertical scrolling
+  border: 1px solid #ccc; // Optional: Adds a border
+  border-radius: 4px; // Optional: Rounds the corners
+}
+
+.selected-tag {
+  background-color: #e0e0e0; // Background for selected tags
+  border-radius: 3px;
+  padding: 5px;
+  margin: 2px;
+  font-size: 10px;
+}
+
+.push-button{
+  padding: 8px 15px;
+  border: 1px solid #ccc; ;
+  background-color: #63ca8e;
+  color: white; 
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 300;
+}
+.push-button:hover{
+  // background-color: #63ca8e;
+  border: 1px solid #63ca8e;
 }

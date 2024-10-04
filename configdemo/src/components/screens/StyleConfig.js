@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from "@mui/icons-material/Clear";
+import CloseIcon from "@mui/icons-material/Close";
 import "./styles.scss";
 
 function StyleConfig() {
@@ -33,10 +34,11 @@ function StyleConfig() {
       }, 2000);
     });
   };
+
   const formatKey = (key) => {
     return key
-      .replace(/^--/, '')
-      .replace(/-/g, ' ')
+      .replace(/^--/, "")
+      .replace(/-/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
@@ -57,17 +59,11 @@ function StyleConfig() {
     }
 
     setStyleValue(newValue);
-    styleProperties.forEach((property) => {
-      updateStylesObject(property, newValue);
-    });
   };
 
   const handleColorChange = (e) => {
     const colorValue = e.target.value;
     setStyleValue(colorValue);
-    styleProperties.forEach((property) => {
-      updateStylesObject(property, colorValue);
-    });
   };
 
   const handleClickColorBand = (e) => {
@@ -77,9 +73,6 @@ function StyleConfig() {
     const hue = Math.floor((x / width) * 360);
     const hexColor = hslToHex(hue, 100, 50);
     setStyleValue(hexColor);
-    styleProperties.forEach((property) => {
-      updateStylesObject(property, hexColor);
-    });
   };
 
   const hslToHex = (h, s, l) => {
@@ -137,12 +130,22 @@ function StyleConfig() {
     });
   };
 
+  const handlePush = () => {
+    styleProperties.forEach((property) => {
+      updateStylesObject(property, styleValue);
+    });
+    setStyleValue(""); // Clear the input after pushing the value
+    setSelectedProperties([]); // Clear the selected dropdown values
+    setStyleProperties([]); // Clear the style properties
+  };
+
   const renderInputFields = () => {
     if (styleProperties.some((prop) => prop.includes("color"))) {
       return (
         <>
-        <div className="dropdown-label">
-          <label>Color: </label></div>
+          <div className="dropdown-label">
+            <label>Color: </label>
+          </div>
           <input
             type="color"
             value={styleValue}
@@ -169,7 +172,6 @@ function StyleConfig() {
               onClick={handleClickColorBand}
             />
           </div>
-          {/* <p>Selected Color Code: {styleValue}</p> */}
         </>
       );
     }
@@ -185,24 +187,26 @@ function StyleConfig() {
       return (
         <>
           <div className="formContainer">
-          <div className="dropdown-label">
-          <label>Value</label></div>
-          <TextField
-            variant="standard"
-            placeholder="Enter value here"
-            type="number"
-            value={styleValue.replace(/px|dvh/, "")}
-            onChange={saveValue}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={clearTextField}>
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          /></div>
+            <div className="dropdown-label">
+              <label>Value</label>
+            </div>
+            <TextField
+              variant="standard"
+              placeholder="Enter value here"
+              type="number"
+              value={styleValue.replace(/px|dvh/, "")}
+              onChange={saveValue}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={clearTextField}>
+                      <ClearIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
         </>
       );
     }
@@ -210,19 +214,26 @@ function StyleConfig() {
     if (styleProperties.some((prop) => prop.includes("font"))) {
       return (
         <>
-        <div className="formContainer">
-         <div className="dropdown-label">
-          <label>Value</label></div>
-          <Select value={styleValue} onChange={saveValue} displayEmpty variant="standard">
-            <MenuItem value="" disabled>
-              Select font families
-            </MenuItem>
-            {fontFamilyList.map((fontFamily, index) => (
-              <MenuItem key={index} value={fontFamily}>
-                {fontFamily}
+          <div className="formContainer">
+            <div className="dropdown-label">
+              <label>Value</label>
+            </div>
+            <Select
+              value={styleValue}
+              onChange={saveValue}
+              displayEmpty
+              variant="standard"
+            >
+              <MenuItem value="" disabled>
+                Select font families
               </MenuItem>
-            ))}
-          </Select></div>
+              {fontFamilyList.map((fontFamily, index) => (
+                <MenuItem key={index} value={fontFamily}>
+                  {fontFamily}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
         </>
       );
     }
@@ -230,19 +241,26 @@ function StyleConfig() {
     if (styleProperties.some((prop) => prop.includes("read"))) {
       return (
         <>
-         <div className="formContainer">
-        <div className="dropdown-label">
-          <label >Value</label></div>
-          <Select value={styleValue} onChange={saveValue} displayEmpty variant="standard">
-            <MenuItem value="" disabled>
-              Select a value
-            </MenuItem>
-            {readMoreConfig.map((displayValue, index) => (
-              <MenuItem key={index} value={displayValue}>
-                {displayValue}
+          <div className="formContainer">
+            <div className="dropdown-label">
+              <label>Value</label>
+            </div>
+            <Select
+              value={styleValue}
+              onChange={saveValue}
+              displayEmpty
+              variant="standard"
+            >
+              <MenuItem value="" disabled>
+                Select a value
               </MenuItem>
-            ))}
-          </Select></div>
+              {readMoreConfig.map((displayValue, index) => (
+                <MenuItem key={index} value={displayValue}>
+                  {displayValue}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
         </>
       );
     }
@@ -251,21 +269,22 @@ function StyleConfig() {
 
   const groupStylesByKeyword = (styles) => {
     const groupedStyles = {};
-  
+
     Object.entries(styles).forEach(([key, value]) => {
       let keyword;
       if (key.includes("color")) keyword = "Color";
       else if (key.includes("font")) keyword = "Font";
-      else if (key.includes("height") || key.includes("radius")) keyword = "Dimension";
+      else if (key.includes("height") || key.includes("radius"))
+        keyword = "Dimension";
       else if (key.includes("opacity")) keyword = "Opacity";
       else keyword = "Other";
-  
+
       if (!groupedStyles[keyword]) {
         groupedStyles[keyword] = [];
       }
       groupedStyles[keyword].push({ key, value });
     });
-  
+
     return groupedStyles;
   };
 
@@ -278,72 +297,131 @@ function StyleConfig() {
 
         <div className="formContainer">
           <div className="dropdown-label">
-          <label>Property </label></div>
+            <label>Property </label>
+          </div>
           <div className="dropdown-container">
-          <Autocomplete
-            multiple
-            options={styleData}
-            getOptionLabel={(option) => option}
-            value={selectedProperties}
-            onChange={(event, newValue) => {
-              setSelectedProperties(newValue);
-              const propertyValues = newValue.map(
-                (prop) => "--" + prop.toLowerCase().replace(/\s+/g, "-")
-              );
-              setStyleProperties(propertyValues);
-              setStyleValue("");
-            }}
-            filterOptions={(options, { inputValue }) => {
-              const containsColor = selectedProperties.some(prop => prop.includes('Color'));
-              const containDrawer = selectedProperties.some(prop => prop.includes('Height'));
-              const containRadius = selectedProperties.some(prop => prop.includes('Radius'));
-              const containOpacity = selectedProperties.some(prop => prop.includes('Opacity'));
-              const containFont = selectedProperties.some(prop => prop.includes('Font'));
+            <Autocomplete
+              multiple
+              options={styleData}
+              getOptionLabel={(option) => option}
+              value={selectedProperties}
+              onChange={(event, newValue) => {
+                setSelectedProperties(newValue);
+                const propertyValues = newValue.map(
+                  (prop) => "--" + prop.toLowerCase().replace(/\s+/g, "-")
+                );
+                setStyleProperties(propertyValues);
+                setStyleValue("");
+              }}
+              filterOptions={(options, { inputValue }) => {
+                const containsColor = selectedProperties.some((prop) =>
+                  prop.includes("Color")
+                );
+                const containHeight = selectedProperties.some((prop) =>
+                  prop.includes("Height")
+                );
+                const containRadius = selectedProperties.some((prop) =>
+                  prop.includes("Radius")
+                );
+                const containOpacity = selectedProperties.some((prop) =>
+                  prop.includes("Opacity")
+                );
+                const containFont = selectedProperties.some((prop) =>
+                  prop.includes("Font")
+                );
 
-              let filteredOptions = selectedProperties.length === 0 ? options : [];
+                let filteredOptions =
+                  selectedProperties.length === 0 ? options : [];
 
-                  if (containsColor) {
-                    filteredOptions = options.filter(option => option.includes('Color'));
-                  }
-                  if (containDrawer) {
-                    filteredOptions = options.filter(option => option.includes('Height'));
-                  }
-                  if (containRadius) {
-                    filteredOptions = options.filter(option => option.includes('Radius'));
-                  }
-                  if (containOpacity) {
-                    filteredOptions = options.filter(option => option.includes('Opacity'));
-                  }
-                  if (containFont) {
-                    filteredOptions = options.filter(option => option.includes('Font'));
-                  }
-                  
-              return filteredOptions.filter(option => 
-                option.toLowerCase().includes(inputValue.toLowerCase())
-              );
-            }}
-            renderInput={(params) => (
-              
-              <TextField
-                {...params}
-                variant="standard"
-                placeholder="Select properties"
-              />
-            )}
-          />
+                if (containsColor) {
+                  filteredOptions = options.filter((option) =>
+                    option.includes("Color")
+                  );
+                }
+                if (containHeight) {
+                  filteredOptions = options.filter((option) =>
+                    option.includes("Height")
+                  );
+                }
+                if (containRadius) {
+                  filteredOptions = options.filter((option) =>
+                    option.includes("Radius")
+                  );
+                }
+                if (containOpacity) {
+                  filteredOptions = options.filter((option) =>
+                    option.includes("Opacity")
+                  );
+                }
+                if (containFont) {
+                  filteredOptions = options.filter((option) =>
+                    option.includes("Font")
+                  );
+                }
 
-          <br />
-        </div></div>
+                return filteredOptions.filter((option) =>
+                  option.toLowerCase().includes(inputValue.toLowerCase())
+                );
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  placeholder="Select properties"
+                />
+              )}
+              renderTags={(value, getTagProps) => (
+                <div className="selected-properties">
+                  {value.map((option, index) => (
+                    <span {...getTagProps({ index })} className="selected-tag">
+                      {option}
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          const newSelected = selectedProperties.filter(
+                            (_, i) => i !== index
+                          );
+                          setSelectedProperties(newSelected);
+                          const newPropertyValues = newSelected.map(
+                            (prop) =>
+                              "--" + prop.toLowerCase().replace(/\s+/g, "-")
+                          );
+                          setStyleProperties(newPropertyValues);
+                        }}
+                        style={{ padding: "0", minWidth: "0" }}
+                      >
+                        <CloseIcon
+                          style={{
+                            fontSize: "14px",
+                            color: "red",
+                            padding: "4px",
+                          }}
+                        />
+                      </IconButton>
+                    </span>
+                  ))}
+                </div>
+              )}
+            />
+            <br />
+          </div>
+        </div>
 
         {renderInputFields()}
         <br />
+
+        {/* Push Button */}
+        <div className="button-container">
+          <button onClick={handlePush} className="push-button">
+            ADD
+          </button>
+        </div>
       </div>
 
       {Object.keys(stylesObject).length > 0 ? (
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-              
               <h3>
                 Saved Styles
                 <button onClick={copyObject} className="copyBtn">
@@ -356,33 +434,31 @@ function StyleConfig() {
                 </button>
               </h3>
             </div>
-           
 
-              <div className="removeOptions deleteIcon">
-                  {Object.entries(groupedStyles).map(([keyword, styles]) => (
-                    <div key={keyword}>
-                      {/* <h4>{keyword}</h4> */}
-                      {styles.map(({ key, value }) => (
-                        <div className="removeOption" key={key}>
-                          <p>
-                            {formatKey(key)}: {value}
-                          </p>
-                          <DeleteIcon
-                            className="delete-btn"
-                            onClick={() =>
-                              setStylesObject((prevStyles) => {
-                                const newStyles = { ...prevStyles };
-                                delete newStyles[key];
-                                return newStyles;
-                              })
-                            }
-                          />
-                        </div>
-                      ))}
+            <div className="removeOptions deleteIcon">
+              {Object.entries(groupedStyles).map(([keyword, styles]) => (
+                <div key={keyword}>
+                  <h4>{keyword}</h4>
+                  {styles.map(({ key, value }) => (
+                    <div className="removeOption" key={key}>
+                      <p>
+                        {formatKey(key)}: {value}
+                      </p>
+                      <DeleteIcon
+                        className="delete-btn"
+                        onClick={() =>
+                          setStylesObject((prevStyles) => {
+                            const newStyles = { ...prevStyles };
+                            delete newStyles[key];
+                            return newStyles;
+                          })
+                        }
+                      />
                     </div>
                   ))}
                 </div>
-
+              ))}
+            </div>
           </div>
         </>
       ) : (
