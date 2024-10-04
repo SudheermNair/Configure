@@ -134,9 +134,9 @@ function StyleConfig() {
     styleProperties.forEach((property) => {
       updateStylesObject(property, styleValue);
     });
-    setStyleValue(""); // Clear the input after pushing the value
-    setSelectedProperties([]); // Clear the selected dropdown values
-    setStyleProperties([]); // Clear the style properties
+    setStyleValue("");
+    setSelectedProperties([]);
+    setStyleProperties([]);
   };
 
   const renderInputFields = () => {
@@ -410,7 +410,6 @@ function StyleConfig() {
         {renderInputFields()}
         <br />
 
-        {/* Push Button */}
         <div className="button-container">
           <button onClick={handlePush} className="push-button">
             ADD

@@ -137,7 +137,6 @@ h1 {
   min-width: 400px;
 }
  
-////////////////////////
  
 button {
   margin-top: 8px;
@@ -263,7 +262,7 @@ select {
   }
  
   .selected-submodule {
-    background-color: #eee8e8; /* Adjust background color */
+    background-color: #eee8e8; 
     padding:1px ;
     height: 20px;
     border-radius: 5px;
@@ -279,7 +278,7 @@ select {
     border: none;
     cursor: pointer;
     margin: 0px;
-    color: red; /* Change color as needed */
+    color: red;
   }
  
  
@@ -481,7 +480,7 @@ label{
   }
 }
 
-// font family
+
 .css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input {
   padding-right: 24px;
   width: 215px;
@@ -490,14 +489,14 @@ label{
 .selected-properties {
   display: flex;
   flex-wrap: wrap;
-  max-height: 70px; // Adjust height as needed
-  overflow-y: auto; // Enables vertical scrolling
-  border: 1px solid #ccc; // Optional: Adds a border
-  border-radius: 4px; // Optional: Rounds the corners
+  max-height: 70px; 
+  overflow-y: auto;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
 }
 
 .selected-tag {
-  background-color: #e0e0e0; // Background for selected tags
+  background-color: #e0e0e0; 
   border-radius: 3px;
   padding: 5px;
   margin: 2px;
