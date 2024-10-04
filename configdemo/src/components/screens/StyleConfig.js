@@ -141,7 +141,8 @@ function StyleConfig() {
     if (styleProperties.some((prop) => prop.includes("color"))) {
       return (
         <>
-          <label>Color: </label>
+        <div className="dropdown-label">
+          <label>Color: </label></div>
           <input
             type="color"
             value={styleValue}
@@ -168,7 +169,7 @@ function StyleConfig() {
               onClick={handleClickColorBand}
             />
           </div>
-          <p>Selected Color Code: {styleValue}</p>
+          {/* <p>Selected Color Code: {styleValue}</p> */}
         </>
       );
     }
@@ -183,9 +184,12 @@ function StyleConfig() {
     ) {
       return (
         <>
-          <label>Style value</label>
+          <div className="formContainer">
+          <div className="dropdown-label">
+          <label>Value</label></div>
           <TextField
             variant="standard"
+            placeholder="Enter value here"
             type="number"
             value={styleValue.replace(/px|dvh/, "")}
             onChange={saveValue}
@@ -198,7 +202,7 @@ function StyleConfig() {
                 </InputAdornment>
               ),
             }}
-          />
+          /></div>
         </>
       );
     }
@@ -206,17 +210,19 @@ function StyleConfig() {
     if (styleProperties.some((prop) => prop.includes("font"))) {
       return (
         <>
-          <label>Font Family</label>
-          <Select value={styleValue} onChange={saveValue} displayEmpty>
+        <div className="formContainer">
+         <div className="dropdown-label">
+          <label>Value</label></div>
+          <Select value={styleValue} onChange={saveValue} displayEmpty variant="standard">
             <MenuItem value="" disabled>
-              Select a value
+              Select font families
             </MenuItem>
             {fontFamilyList.map((fontFamily, index) => (
               <MenuItem key={index} value={fontFamily}>
                 {fontFamily}
               </MenuItem>
             ))}
-          </Select>
+          </Select></div>
         </>
       );
     }
@@ -224,8 +230,10 @@ function StyleConfig() {
     if (styleProperties.some((prop) => prop.includes("read"))) {
       return (
         <>
-          <label>Style value</label>
-          <Select value={styleValue} onChange={saveValue} displayEmpty>
+         <div className="formContainer">
+        <div className="dropdown-label">
+          <label >Value</label></div>
+          <Select value={styleValue} onChange={saveValue} displayEmpty variant="standard">
             <MenuItem value="" disabled>
               Select a value
             </MenuItem>
@@ -234,7 +242,7 @@ function StyleConfig() {
                 {displayValue}
               </MenuItem>
             ))}
-          </Select>
+          </Select></div>
         </>
       );
     }
@@ -268,8 +276,10 @@ function StyleConfig() {
       <div className="StyleConfig-form">
         <h3>Select Configuration</h3>
 
-        <div className="dropdown-container">
-          <label>Style property </label>
+        <div className="formContainer">
+          <div className="dropdown-label">
+          <label>Property </label></div>
+          <div className="dropdown-container">
           <Autocomplete
             multiple
             options={styleData}
@@ -313,6 +323,7 @@ function StyleConfig() {
               );
             }}
             renderInput={(params) => (
+              
               <TextField
                 {...params}
                 variant="standard"
@@ -322,7 +333,7 @@ function StyleConfig() {
           />
 
           <br />
-        </div>
+        </div></div>
 
         {renderInputFields()}
         <br />
@@ -332,6 +343,7 @@ function StyleConfig() {
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
+              
               <h3>
                 Saved Styles
                 <button onClick={copyObject} className="copyBtn">
@@ -344,32 +356,7 @@ function StyleConfig() {
                 </button>
               </h3>
             </div>
-            {/* <div className="saved-styles">
-              <pre>{JSON.stringify(stylesObject, null, 2)}</pre>
-            </div> */}
-
-            {/* <div className="removeOptions deleteIcon">
-              {Object.entries(stylesObject).map(([key, value]) => (
-                <div className="removeOptions" key={key}>
-                  <div className="removeOption">
-                    <p>
-                    {formatKey(key)}: {value}
-                    </p>
-
-                    <DeleteIcon
-                      className="delete-btn"
-                      onClick={() =>
-                        setStylesObject((prevStyles) => {
-                          const newStyles = { ...prevStyles };
-                          delete newStyles[key];
-                          return newStyles;
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              ))}
-            </div> */}
+           
 
               <div className="removeOptions deleteIcon">
                   {Object.entries(groupedStyles).map(([keyword, styles]) => (
