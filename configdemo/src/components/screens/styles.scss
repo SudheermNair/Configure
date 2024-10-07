@@ -329,8 +329,7 @@ select {
 .StyleConfig-form {
   padding: 30px;
   border: 1px solid #ccc;
-  max-width: 75%;
-  min-width: 400px;
+  width: 400px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -341,7 +340,17 @@ select {
     //  max-height: 300px;
     
   }
+
+
 }
+
+.css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
+  padding: 4px 4px 4px 0px;
+  width: 500px;
+ 
+}
+
+
 
 .removeOptions {
   // display:grid;
@@ -470,6 +479,7 @@ select {
   overflow-y: auto;
   border: 1px solid #ccc; 
   border-radius: 4px; 
+  width: 200px;
 }
 
 .selected-tag {
