@@ -349,8 +349,9 @@ select {
   width: 500px;
  
 }
-.MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedStart MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1imlaas::before{
+.MuiInputBase-root::before .MuiInput-root::before .MuiInput-underline::before .MuiInputBase-colorPrimary::before .MuiInputBase-fullWidth::before .MuiInputBase-formControl::before .MuiInputBase-adornedStart::before .MuiInputBase-adornedEnd::before .MuiAutocomplete-inputRoot::before .css-1imlaas::before{
   width: 500px;
+
 }
 
 
@@ -508,4 +509,17 @@ select {
 .css-18col2x .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
   width: 0px;
   min-width: 200px;
+ 
+}
+.css-6175j8 {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  vertical-align: top;
+  width: 280px;
+ 
 }

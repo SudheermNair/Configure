@@ -368,6 +368,7 @@ function StyleConfig() {
                   {...params}
                   variant="standard"
                   placeholder="Select properties"
+                  sx={{ width: "245px" }}
                 />
               )}
               renderTags={(value, getTagProps) => (
