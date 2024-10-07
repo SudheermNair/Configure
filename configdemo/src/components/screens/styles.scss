@@ -90,14 +90,6 @@ h1 {
   font-size: small;
 }
 
-// .field-selected li {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   margin-bottom: 5px;
-// }
-
-///////////////////////////
 .style-config-container {
   display: flex;
   flex-direction: row;
@@ -130,8 +122,7 @@ h1 {
   overflow-y: scroll;
   min-width: 400px;
 }
- 
- 
+
 button {
   margin-top: 8px;
   padding: 2px 2px;
@@ -147,7 +138,8 @@ button {
 .remove-btn {
   display: grid;
   background-color: #f3f2f2;
-  color: #ca6f63;
+  color: rgb(153, 37, 37);
+  float: inline-end;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -183,7 +175,7 @@ button {
   // background-color: green;
   // min-height: 100px;
   // overflow-x: scroll;
- 
+
   select {
     margin-left: 6px;
     flex: 1;
@@ -247,57 +239,53 @@ select {
   display: grid;
 }
 .selected-submodules {
-    display: flex;
-    flex-wrap: wrap;
-    width: 270px;
-    gap: 0px;
-  }
- 
-  .selected-submodule {
-    background-color: #eee8e8; 
-    padding:1px ;
-    height: 20px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    font-size: 12px;
-    margin: 4px;
-  }
- 
-  .close-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin: 0px;
-    color: red;
-  }
- 
- 
- 
-  .submodule-dropdown{
-    min-width: 275px;
-  }
-  .submodules{
-   display: flex;
- 
-    max-width: 380px;
-  }
-  .checkbox-container{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2px;
-  }
- .StyleConfig-container{
-   display: flex;
-   justify-content: center;
-.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-  padding: 8px;
- 
+  display: flex;
+  flex-wrap: wrap;
+  width: 270px;
+  gap: 0px;
 }
- 
-   .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-   
+
+.selected-submodule {
+  background-color: #eee8e8;
+  padding: 1px;
+  height: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 12px;
+  margin: 4px;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0px;
+  color: red;
+}
+
+.submodule-dropdown {
+  min-width: 275px;
+}
+.submodules {
+  display: flex;
+
+  max-width: 380px;
+}
+.checkbox-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+.StyleConfig-container {
+  display: flex;
+  justify-content: center;
+  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 8px;
+  }
+
+  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     width: 300px;
   }
 
@@ -344,10 +332,12 @@ select {
   // width: 100%;
   border-radius: 10px;
 
-  .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot, .MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot  {
-     width: 240px;
+  .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root
+    .MuiAutocomplete-inputRoot,
+  .MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root
+    .MuiAutocomplete-inputRoot {
+    width: 240px;
     //  max-height: 300px;
-    
   }
 }
 
@@ -465,7 +455,6 @@ select {
   }
 }
 
-
 .css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input {
   padding-right: 24px;
   width: 215px;
@@ -474,30 +463,36 @@ select {
 .selected-properties {
   display: flex;
   flex-wrap: wrap;
-  max-height: 70px; 
+  max-height: 70px;
   overflow-y: auto;
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
+// .headingAndBtn{
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+
+// }
 
 .selected-tag {
-  background-color: #e0e0e0; 
+  background-color: #e0e0e0;
   border-radius: 3px;
   padding: 5px;
   margin: 2px;
   font-size: 10px;
 }
 
-.push-button{
+.push-button {
   padding: 8px 15px;
-  border: 1px solid #ccc; ;
+  border: 1px solid #ccc;
   background-color: #63ca8e;
-  color: white; 
+  color: white;
   border-radius: 5px;
   cursor: pointer;
   font-weight: 300;
 }
-.push-button:hover{
+.push-button:hover {
   // background-color: #63ca8e;
   border: 1px solid #63ca8e;
 }

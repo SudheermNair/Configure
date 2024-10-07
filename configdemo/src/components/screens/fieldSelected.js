@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import './styles.scss';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneIcon from "@mui/icons-material/Done";
 
 const FieldSelected = ({ data = [], setData }) => {
   const [copyButtonText, setCopyButtonText] = useState('Copy');
+  // const [copyButtonText, setCopyButtonText] = useState("Copy");
+
+
+  const copyObject = () => {
+    const textData = JSON.stringify(data, null, 2);
+    navigator.clipboard.writeText(textData).then(() => {
+      setCopyButtonText("Copied!");
+      setTimeout(() => {
+        setCopyButtonText("Copy");
+      }, 2000);
+    });
+  };
 
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -166,7 +180,17 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-      <h1>Selected Configuration</h1>
+      <div className="headingAndBtn">
+      <h3>Selected Configuration
+      <button onClick={copyObject} className="copyBtn">
+                  {copyButtonText === "Copy" ? (
+                    <ContentCopyIcon />
+                  ) : (
+                    <DoneIcon />
+                  )}
+                  {copyButtonText}
+                </button></h3>
+                </div>
       <div className="selected-json">
         <pre className="selected-json-container">
           {JSON.stringify(data, null, 2)}
@@ -381,7 +405,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-      <button onClick={handleCopy}>{copyButtonText}</button>
+     
     </div>
   );
 };
