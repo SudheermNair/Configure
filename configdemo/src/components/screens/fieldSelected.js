@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import "./styles.scss";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useState } from 'react';
+import './styles.scss';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const FieldSelected = ({ data = [], setData }) => {
-  const [copyButtonText, setCopyButtonText] = useState("Copy");
+  const [copyButtonText, setCopyButtonText] = useState('Copy');
 
   const removeItem = (hotelId, moduleName, submoduleName) => {
     const updatedData = data
@@ -19,7 +19,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       ...mod,
                       submodules: mod.submodules.filter(
                         (sub) =>
-                          (typeof sub === "object" ? sub.name : sub) !==
+                          (typeof sub === 'object' ? sub.name : sub) !==
                           submoduleName
                       ),
                     };
@@ -43,6 +43,42 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
+  const removeKeyFromHotel = (hotelId, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          const { [key]: _, ...remainingKeys } = hotel;
+          return remainingKeys;
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
+  const removeKeyFromModule = (hotelId, moduleName, key) => {
+    const updatedData = data
+      .map((hotel) => {
+        if (hotel.hotelId === hotelId) {
+          return {
+            ...hotel,
+            modules: hotel.modules.map((mod) => {
+              if (mod.name === moduleName) {
+                const { [key]: _, ...remainingKeys } = mod;
+                return remainingKeys;
+              }
+              return mod;
+            }),
+          };
+        }
+        return hotel;
+      })
+      .filter(Boolean);
+
+    setData(updatedData);
+  };
+
   const removeKeyFromSubmodule = (hotelId, moduleName, submoduleName, key) => {
     const updatedData = data
       .map((hotel) => {
@@ -54,7 +90,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 return {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
-                    if (typeof sub === "object" && sub.name === submoduleName) {
+                    if (typeof sub === 'object' && sub.name === submoduleName) {
                       const { [key]: _, ...remainingKeys } = sub;
                       return {
                         ...remainingKeys,
@@ -77,52 +113,49 @@ const FieldSelected = ({ data = [], setData }) => {
   };
 
   const removeDetail = (hotelId, moduleName, submoduleName, detailIndex) => {
-    const updatedData = data
-      .map((hotel) => {
-        if (hotel.hotelId === hotelId) {
-          return {
-            ...hotel,
-            modules: hotel.modules.map((mod) => {
-              if (mod.name === moduleName) {
-                return {
-                  ...mod,
-                  submodules: mod.submodules.map((sub) => {
-                    if (typeof sub === "object" && sub.name === submoduleName) {
-                      return {
-                        ...sub,
-                        details: sub.details
-                          ? sub.details.filter(
-                              (_, index) => index !== detailIndex
-                            )
-                          : [],
-                      };
-                    }
-                    return sub;
-                  }),
-                };
-              }
-              return mod;
-            }),
-          };
-        }
-        return hotel;
-      })
-      .filter(Boolean);
+    const updatedData = data.map((hotel) => {
+      if (hotel.hotelId === hotelId) {
+        return {
+          ...hotel,
+          modules: hotel.modules.map((mod) => {
+            if (mod.name === moduleName) {
+              return {
+                ...mod,
+                submodules: mod.submodules.map((sub) => {
+                  if (typeof sub === 'object' && sub.name === submoduleName) {
+                    const updatedDetails = sub.details
+                      ? sub.details.filter((_, index) => index !== detailIndex)
+                      : [];
+                    return {
+                      ...sub,
+                      details: updatedDetails,
+                    };
+                  }
+                  return sub;
+                }),
+              };
+            }
+            return mod;
+          }),
+        };
+      }
+      return hotel;
+    });
 
     setData(updatedData);
   };
 
   const handleCopy = () => {
     if (data.length === 0) {
-      alert("Please add items to copy!");
+      alert('Please add items to copy!');
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
-      setCopyButtonText("Copied!");
+      setCopyButtonText('Copied!');
       setTimeout(() => {
-        setCopyButtonText("Copy");
+        setCopyButtonText('Copy');
       }, 2000);
     });
   };
@@ -152,19 +185,23 @@ const FieldSelected = ({ data = [], setData }) => {
                   <DeleteIcon style={{ fontSize: 18 }} />
                 </button>
               </div>
-
               {Object.keys(hotel)
                 .filter(
                   (key) =>
-                    !["hotelId", "name", "modules", "title"].includes(key) &&
-                    hotel[key] !== undefined
+                    ![
+                      'hotelId',
+                      'name',
+                      'modules',
+                      'title',
+                      'orderOfModules',
+                    ].includes(key) && hotel[key] !== undefined
                 )
                 .map((key) => (
                   <div key={key} className="hotel-info">
                     {`${key}: ${hotel[key]}`}
                     <button
                       className="remove-btn"
-                      onClick={() => removeKeyFromSubmodule(hotel.hotelId, key)}
+                      onClick={() => removeKeyFromHotel(hotel.hotelId, key)}
                     >
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
@@ -186,15 +223,49 @@ const FieldSelected = ({ data = [], setData }) => {
                     </button>
                   </div>
 
+                  {['isActive', 'isDisabled', 'isRequired'].map(
+                    (key) =>
+                      module[key] !== undefined && (
+                        <div key={key} className="module-info">
+                          {`${key}: ${module[key]}`}
+                          <button
+                            className="remove-btn"
+                            onClick={() =>
+                              removeKeyFromModule(
+                                hotel.hotelId,
+                                module.name,
+                                key
+                              )
+                            }
+                          >
+                            <DeleteIcon style={{ fontSize: 18 }} />
+                          </button>
+                        </div>
+                      )
+                  )}
+
                   {Object.keys(module)
                     .filter(
                       (key) =>
-                        key !== "name" &&
-                        key !== "submodules" &&
+                        key !== 'name' &&
+                        key !== 'submodules' &&
+                        !['isActive', 'isDisabled', 'isRequired'].includes(
+                          key
+                        ) &&
                         module[key] !== undefined
                     )
                     .map((key) => (
-                      <div key={key}>{`${key}: ${module[key]}`}</div>
+                      <div key={key} className="module-info">
+                        {`${key}: ${module[key]}`}
+                        <button
+                          className="remove-btn"
+                          onClick={() =>
+                            removeKeyFromModule(hotel.hotelId, module.name, key)
+                          }
+                        >
+                          <DeleteIcon style={{ fontSize: 18 }} />
+                        </button>
+                      </div>
                     ))}
 
                   {module.submodules && module.submodules.length > 0 && (
@@ -202,7 +273,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       {Array.from(
                         new Set(
                           module.submodules.map((sub) =>
-                            typeof sub === "object" ? sub.name : sub
+                            typeof sub === 'object' ? sub.name : sub
                           )
                         )
                       ).map((submoduleName) => {
@@ -225,10 +296,8 @@ const FieldSelected = ({ data = [], setData }) => {
                             </div>
 
                             {module.submodules.map((sub) => {
-                              console.log(sub);
-
                               if (
-                                typeof sub === "object" &&
+                                typeof sub === 'object' &&
                                 sub.name === submoduleName
                               ) {
                                 return (
@@ -236,7 +305,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                     {Object.keys(sub)
                                       .filter(
                                         (key) =>
-                                          key !== "name" &&
+                                          key !== 'name' &&
                                           sub[key] !== undefined
                                       )
                                       .map((key) => (
@@ -260,10 +329,9 @@ const FieldSelected = ({ data = [], setData }) => {
                                         </div>
                                       ))}
 
-                                    {/* Check if sub.details exists and is an array */}
                                     {sub.details &&
                                       Array.isArray(sub.details) && (
-                                        <div className="sub-details-info">
+                                        <div className="submodule-info">
                                           {sub.details.map(
                                             (detail, detailIndex) => (
                                               <div
