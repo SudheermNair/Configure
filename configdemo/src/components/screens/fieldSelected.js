@@ -180,6 +180,7 @@ const FieldSelected = ({ data = [], setData }) => {
     <div className="field-selected">
       <div className='headingAndBtn'>
       <h3>Selected Configuration
+      </h3>
       <button onClick={copyObject} className="copyBtn">
                   {copyButtonText === "Copy" ? (
                     <ContentCopyIcon />
@@ -187,7 +188,7 @@ const FieldSelected = ({ data = [], setData }) => {
                     <DoneIcon />
                   )}
                   {copyButtonText}
-                </button></h3>
+                </button>
                 
       </div>
       <div className="selected-json">
