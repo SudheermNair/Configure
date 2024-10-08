@@ -6,8 +6,6 @@ import DoneIcon from "@mui/icons-material/Done";
 
 const FieldSelected = ({ data = [], setData }) => {
   const [copyButtonText, setCopyButtonText] = useState('Copy');
-  // const [copyButtonText, setCopyButtonText] = useState("Copy");
-
 
   const copyObject = () => {
     const textData = JSON.stringify(data, null, 2);
@@ -180,7 +178,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
   return (
     <div className="field-selected">
-      <div className="headingAndBtn">
+      <div className='headingAndBtn'>
       <h3>Selected Configuration
       <button onClick={copyObject} className="copyBtn">
                   {copyButtonText === "Copy" ? (
@@ -190,7 +188,8 @@ const FieldSelected = ({ data = [], setData }) => {
                   )}
                   {copyButtonText}
                 </button></h3>
-                </div>
+                
+      </div>
       <div className="selected-json">
         <pre className="selected-json-container">
           {JSON.stringify(data, null, 2)}
@@ -405,7 +404,7 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
-     
+      
     </div>
   );
 };

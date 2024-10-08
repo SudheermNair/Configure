@@ -139,7 +139,6 @@ button {
   display: grid;
   background-color: #f3f2f2;
   color: rgb(153, 37, 37);
-  float: inline-end;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -295,19 +294,15 @@ select {
 }
 
 .jsonData {
-  border: solid 1px #a8a8a8;
   padding: 30px;
-
-  border-radius: 3%;
-  box-shadow: 0px 0px 10px #a8a8a8;
-  margin: 0px 4%;
-  margin-top: 5%;
-  //  height: 400px;
-  height: 100%;
-  // height: 370px;
-  max-width: 75%;
-  min-width: 400px;
-  overflow-y: scroll;
+    border: 1px solid #ccc;
+    max-width: 75%;
+    min-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    overflow-y: scroll;
+    margin-left: 20px;
 }
 
 .copyBtn {
@@ -319,18 +314,13 @@ select {
 }
 
 .StyleConfig-form {
-  margin-top: 5%;
-  margin-left: 5%;
-  border: solid 1px #a8a8a8;
-  box-shadow: 0px 0px 10px #a8a8a8;
-  box-sizing: border-box;
-  height: 405px;
   padding: 30px;
-  // max-width: 75%;
-  width: 480px;
-  min-width: 400px;
-  // width: 100%;
+  border: 1px solid #ccc;
+  width: 400px;
   border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  overflow-y: scroll;
 
   .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root
     .MuiAutocomplete-inputRoot,
@@ -338,8 +328,22 @@ select {
     .MuiAutocomplete-inputRoot {
     width: 240px;
     //  max-height: 300px;
+    
   }
+
+
 }
+
+.css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
+  padding: 4px 4px 4px 0px;
+  width: 500px;
+ 
+}
+.MuiInputBase-root::before .MuiInput-root::before .MuiInput-underline::before .MuiInputBase-colorPrimary::before .MuiInputBase-fullWidth::before .MuiInputBase-formControl::before .MuiInputBase-adornedStart::before .MuiInputBase-adornedEnd::before .MuiAutocomplete-inputRoot::before .css-1imlaas::before{
+  width: 500px;
+
+}
+
 
 .removeOptions {
   // display:grid;
@@ -465,8 +469,9 @@ select {
   flex-wrap: wrap;
   max-height: 70px;
   overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  width: 200px;
 }
 // .headingAndBtn{
 //   display: flex;
@@ -495,4 +500,21 @@ select {
 .push-button:hover {
   // background-color: #63ca8e;
   border: 1px solid #63ca8e;
+}
+.css-18col2x .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
+  width: 0px;
+  min-width: 200px;
+ 
+}
+.css-6175j8 {
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0px;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  vertical-align: top;
+  width: 280px;
+ 
 }
