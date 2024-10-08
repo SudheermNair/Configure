@@ -520,3 +520,5 @@ const HotelConfig = () => {
 };
 
 export default HotelConfig;
+
+
