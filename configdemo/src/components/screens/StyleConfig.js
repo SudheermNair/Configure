@@ -131,6 +131,10 @@ function StyleConfig() {
   };
 
   const handlePush = () => {
+    if (!styleValue) {
+      alert("please select a value");
+      return;
+    }
     styleProperties.forEach((property) => {
       updateStylesObject(property, styleValue);
     });
@@ -302,6 +306,7 @@ function StyleConfig() {
           <div className="dropdown-container">
             <Autocomplete
               multiple
+              className="properties-dropdown"
               options={styleData}
               getOptionLabel={(option) => option}
               value={selectedProperties}
@@ -367,7 +372,11 @@ function StyleConfig() {
                 <TextField
                   {...params}
                   variant="standard"
-                  placeholder="Select properties"
+                  placeholder="    Select properties"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                  }}
                   sx={{ width: "245px" }}
                 />
               )}
@@ -422,17 +431,11 @@ function StyleConfig() {
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-              <h3>
-                Selected tyles
-                <button onClick={copyObject} className="copyBtn">
-                  {copyButtonText === "Copy" ? (
-                    <ContentCopyIcon />
-                  ) : (
-                    <DoneIcon />
-                  )}
-                  {copyButtonText}
-                </button>
-              </h3>
+              <h3>Selected Styles</h3>
+              <button onClick={copyObject} className="copyBtnStyleConfig">
+                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                {copyButtonText}
+              </button>
             </div>
 
             <div className="removeOptions deleteIcon">

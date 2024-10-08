@@ -251,18 +251,19 @@ select {
     flex-wrap: wrap;
     width: 270px;
     gap: 0px;
+    margin-left: 22px;
   }
  
   .selected-submodule {
-    background-color: #eee8e8; 
-    padding:1px ;
+    background-color: #eee8e8;
+    padding: 3px;
     height: 20px;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: end;
     font-size: 12px;
-    margin: 4px;
+    margin: 4px 8px;
   }
  
   .close-button {
@@ -324,6 +325,9 @@ select {
   background-color: transparent;
   font-size: 12px;
   color: black;
+  top: 313px;
+  position: absolute;
+  right: 270px;
 }
 
 .StyleConfig-form {
@@ -411,7 +415,7 @@ select {
   font-size: 14px;
   background-color: #f3f2f2;
   margin: 1% 0.5%;
-  padding: 1px;
+  padding: 1px 18px;
 }
 .remove-submodule {
   background-color: #f3f2f2;
@@ -443,7 +447,7 @@ select {
 .css-20bmp1-MuiSvgIcon-root {
   font-size: 10px;
 }
-.copyBtn {
+.copyBtnStyleConfig {
   background-color: transparent;
   font-size: 12px;
   color: black;
@@ -453,6 +457,9 @@ select {
   align-items: center;
   padding: 0px;
   margin: 0px;
+  position: absolute;
+  right: 300px;
+  top: 300px;
 }
 
 .css-1cprn2g-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
@@ -523,15 +530,52 @@ select {
   width: 280px;
  
 }
-.StyleConfig-form .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot, .StyleConfig-form .MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot {
-  
-  margin-left: 6px;
-  flex: 1 1;
-  outline: none;
-  background-color: white;
-  border: 1px solid #a8a8a8;
-  border-radius: 20px;
-  padding: 4px;
- 
-  cursor: pointer;
+
+.css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
+  padding: 4px 4px 4px 0px;
+  border: 1px solid;
+  border-radius: 50px;
+  font-size: 11px;
 }
+
+.css-15cv2x7-MuiInputBase-root-MuiInput-root::before {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  left: 0;
+  bottom: 0;
+  position: unset;
+  right: 0;
+  -webkit-transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  pointer-events: none;
+}
+
+// .properties-dropdown{
+  
+// }
+
+// .css-15cv2x7-MuiInputBase-root-MuiInput-root::before {
+//   border-bottom: 1px solid rgba(0, 0, 0, 0.42); 
+//    left: 0;
+//    bottom: 0; 
+//   content: ".."; 
+//  position: absolute; 
+// }
+
+// .css-15cv2x7-MuiInputBase-root-MuiInput-root::after {
+//   border-bottom: 2px solid #51d219;
+// }
+
+// .css-15cv2x7-MuiInputBase-root-MuiInput-root::after {
+//   left: 0;
+//   bottom: 0;
+//   content: ""; 
+//   position: absolute;
+//   right: 0;
+//   -webkit-transform: scaleX(0);
+//   -moz-transform: scaleX(0);
+//   -ms-transform: scaleX(0);
+//   transform: scaleX(0);
+//   -webkit-transition: -webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+//   transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
+//   pointer-events: none;
+// }
