@@ -306,6 +306,7 @@ function StyleConfig() {
           <div className="dropdown-container">
             <Autocomplete
               multiple
+              className="properties-dropdown"
               options={styleData}
               getOptionLabel={(option) => option}
               value={selectedProperties}
@@ -371,7 +372,11 @@ function StyleConfig() {
                 <TextField
                   {...params}
                   variant="standard"
-                  placeholder="Select properties"
+                  placeholder="    Select properties"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                  }}
                   sx={{ width: "245px" }}
                 />
               )}
