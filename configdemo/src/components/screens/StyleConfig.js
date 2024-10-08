@@ -431,11 +431,17 @@ function StyleConfig() {
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-              <h3>Selected Styles</h3>
-              <button onClick={copyObject} className="copyBtnStyleConfig">
-                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
-                {copyButtonText}
-              </button>
+              <h3>
+                Selected Styles{" "}
+                <button onClick={copyObject} className="copyBtn">
+                  {copyButtonText === "Copy" ? (
+                    <ContentCopyIcon style={{ fontSize: 18 }} />
+                  ) : (
+                    <DoneIcon style={{ fontSize: 18 }} />
+                  )}
+                  {/* {copyButtonText} */}
+                </button>
+              </h3>
             </div>
 
             <div className="removeOptions deleteIcon">
