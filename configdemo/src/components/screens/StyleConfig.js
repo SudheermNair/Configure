@@ -131,6 +131,10 @@ function StyleConfig() {
   };
 
   const handlePush = () => {
+    if (!styleValue) {
+      alert("please select a value");
+      return;
+    }
     styleProperties.forEach((property) => {
       updateStylesObject(property, styleValue);
     });
@@ -302,6 +306,7 @@ function StyleConfig() {
           <div className="dropdown-container">
             <Autocomplete
               multiple
+              className="properties-dropdown"
               options={styleData}
               getOptionLabel={(option) => option}
               value={selectedProperties}
@@ -366,9 +371,13 @@ function StyleConfig() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  variant="outlined"
-                  placeholder="Select properties"
-                  sx={{ width: "237px"}}
+                  variant="standard"
+                  placeholder="    Select properties"
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                  }}
+                  sx={{ width: "245px" }}
                 />
               )}
               renderTags={(value, getTagProps) => (
@@ -422,17 +431,11 @@ function StyleConfig() {
         <>
           <div className="jsonData">
             <div className="headingAndBtn">
-              <h3>
-                Selected Styles
-                <button onClick={copyObject} className="copyBtn">
-                  {copyButtonText === "Copy" ? (
-                    <ContentCopyIcon />
-                  ) : (
-                    <DoneIcon />
-                  )}
-                  {copyButtonText}
-                </button>
-              </h3>
+              <h3>Selected Styles</h3>
+              <button onClick={copyObject} className="copyBtnStyleConfig">
+                {copyButtonText === "Copy" ? <ContentCopyIcon /> : <DoneIcon />}
+                {copyButtonText}
+              </button>
             </div>
 
             <div className="removeOptions deleteIcon">
