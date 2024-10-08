@@ -67,6 +67,7 @@ h1 {
 
   &::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
   }
 }
 
@@ -138,7 +139,7 @@ button {
 
 .remove-btn {
   display: grid;
-  background-color: #f3f2f2;
+  background-color: white;
   color: rgb(153, 37, 37);
   border: none;
   border-radius: 5px;

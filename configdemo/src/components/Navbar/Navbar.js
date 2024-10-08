@@ -82,7 +82,7 @@ function Navbar() {
         </FormControl>
       </div> */}
 
-      <div className="date-container">
+      {/* <div className="date-container">
         <EventIcon sx={{ verticalAlign: "middle", color: "lightgray" }} />
         <div className="navBar-content">Wednesday, 18th September 2024</div>
       </div>
@@ -121,16 +121,16 @@ function Navbar() {
             ))}
           </Select>
         </FormControl>
-      </div>
+      </div> */}
 
       <div className="nav-item">
         <HelpOutlineIcon sx={{ color: "lightgray" }} />
         <div className="navBar-content">Help</div>
       </div>
 
-      <div className="nav-item">
+      {/* <div className="nav-item">
         <div className="navBar-content">Profile</div>
-      </div>
+      </div> */}
     </div>
   );
 }
