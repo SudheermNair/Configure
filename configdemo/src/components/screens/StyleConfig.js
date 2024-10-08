@@ -293,7 +293,7 @@ function StyleConfig() {
   return (
     <div className="style-config-container">
       <div className="StyleConfig-form">
-        <h3>Select Configuration</h3>
+        <h3>Select Styles</h3>
 
         <div className="formContainer">
           <div className="dropdown-label">
@@ -366,9 +366,9 @@ function StyleConfig() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  variant="standard"
+                  variant="outlined"
                   placeholder="Select properties"
-                  sx={{ width: "245px" }}
+                  sx={{ width: "237px"}}
                 />
               )}
               renderTags={(value, getTagProps) => (
@@ -423,7 +423,7 @@ function StyleConfig() {
           <div className="jsonData">
             <div className="headingAndBtn">
               <h3>
-                Saved Styles
+                Selected Styles
                 <button onClick={copyObject} className="copyBtn">
                   {copyButtonText === "Copy" ? (
                     <ContentCopyIcon />
