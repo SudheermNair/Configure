@@ -47,7 +47,7 @@ h1 {
   border: 1px solid #ccc;
   // margin: 10px;
   max-width: 75%;
-  min-width: 400px;
+  min-width: 320px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -84,7 +84,7 @@ h1 {
 .field-selected ul {
   display: grid;
   list-style: none;
-  background-color: #f3f2f2;
+ 
   margin: 1% 0.5%;
   padding: 6px 6px 6px 6px;
   font-size: small;
@@ -155,7 +155,7 @@ button {
 }
 
 .selected-json-container {
-  background-color: #f3f2f2;
+  // background-color: #f3f2f2;
   margin: 1% 0.5%;
 }
 ::-webkit-scrollbar {
@@ -219,7 +219,7 @@ select {
   margin-left: 20%;
   margin: 0px;
   flex: 1;
-  max-width: 200px;
+  max-width: 150px;
   background-color: white;
   border: 1px solid #a8a8a8;
   border-radius: 12px;
@@ -276,7 +276,7 @@ select {
  
  
   .submodule-dropdown{
-    min-width: 275px;
+    min-width: 200px;
   }
   .submodules{
    display: flex;
@@ -522,4 +522,16 @@ select {
   vertical-align: top;
   width: 280px;
  
+}
+.StyleConfig-form .MuiAutocomplete-hasPopupIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot, .StyleConfig-form .MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot {
+  
+  margin-left: 6px;
+  flex: 1 1;
+  outline: none;
+  background-color: white;
+  border: 1px solid #a8a8a8;
+  border-radius: 20px;
+  padding: 4px;
+ 
+  cursor: pointer;
 }

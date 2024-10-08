@@ -177,6 +177,7 @@ const FieldSelected = ({ data = [], setData }) => {
   }
 
   return (
+    <>
     <div className="field-selected">
       <div className='headingAndBtn'>
       <h3>Selected Configuration
@@ -195,6 +196,23 @@ const FieldSelected = ({ data = [], setData }) => {
           {JSON.stringify(data, null, 2)}
         </pre>
       </div>
+
+
+
+
+      
+      
+      
+    </div>
+
+
+
+<div className="field-selected">
+      <div className='headingAndBtn'>
+      <h3>Remove Configuration</h3>
+                
+      </div>
+      <div className="selected-json">
       <ul>
         {data.map((hotel, hotelIndex) => (
           <li key={hotelIndex}>
@@ -231,7 +249,7 @@ const FieldSelected = ({ data = [], setData }) => {
                   </div>
                 ))}
             </div>
-
+ 
             {hotel.modules &&
               hotel.modules.length > 0 &&
               hotel.modules.map((module, moduleIndex) => (
@@ -245,7 +263,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       <DeleteIcon style={{ fontSize: 18 }} />
                     </button>
                   </div>
-
+ 
                   {['isActive', 'isDisabled', 'isRequired'].map(
                     (key) =>
                       module[key] !== undefined && (
@@ -266,7 +284,7 @@ const FieldSelected = ({ data = [], setData }) => {
                         </div>
                       )
                   )}
-
+ 
                   {Object.keys(module)
                     .filter(
                       (key) =>
@@ -290,7 +308,7 @@ const FieldSelected = ({ data = [], setData }) => {
                         </button>
                       </div>
                     ))}
-
+ 
                   {module.submodules && module.submodules.length > 0 && (
                     <div className="submodule-info">
                       {Array.from(
@@ -317,7 +335,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                 <DeleteIcon style={{ fontSize: 18 }} />
                               </button>
                             </div>
-
+ 
                             {module.submodules.map((sub) => {
                               if (
                                 typeof sub === 'object' &&
@@ -351,7 +369,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                           </button>
                                         </div>
                                       ))}
-
+ 
                                     {sub.details &&
                                       Array.isArray(sub.details) && (
                                         <div className="submodule-info">
@@ -404,8 +422,21 @@ const FieldSelected = ({ data = [], setData }) => {
           </li>
         ))}
       </ul>
+      </div>
+
+
+
+
+      
+      
       
     </div>
+
+
+    </>      
+
+
+
   );
 };
 

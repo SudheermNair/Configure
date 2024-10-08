@@ -423,7 +423,7 @@ function StyleConfig() {
           <div className="jsonData">
             <div className="headingAndBtn">
               <h3>
-                Saved Styles
+                Selected tyles
                 <button onClick={copyObject} className="copyBtn">
                   {copyButtonText === "Copy" ? (
                     <ContentCopyIcon />
