@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import "./styles.scss";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import DoneIcon from "@mui/icons-material/Done";
+import React, { useState } from 'react';
+import './styles.scss';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import DoneIcon from '@mui/icons-material/Done';
 
 const FieldSelected = ({ data = [], setData }) => {
-  const [copyButtonText, setCopyButtonText] = useState("Copy");
+  const [copyButtonText, setCopyButtonText] = useState('Copy');
 
   const copyObject = () => {
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
-      setCopyButtonText("Copied!");
+      setCopyButtonText('Copied!');
       setTimeout(() => {
-        setCopyButtonText("Copy");
+        setCopyButtonText('Copy');
       }, 2000);
     });
   };
@@ -31,7 +31,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       ...mod,
                       submodules: mod.submodules.filter(
                         (sub) =>
-                          (typeof sub === "object" ? sub.name : sub) !==
+                          (typeof sub === 'object' ? sub.name : sub) !==
                           submoduleName
                       ),
                     };
@@ -102,7 +102,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 return {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
-                    if (typeof sub === "object" && sub.name === submoduleName) {
+                    if (typeof sub === 'object' && sub.name === submoduleName) {
                       const { [key]: _, ...remainingKeys } = sub;
                       return {
                         ...remainingKeys,
@@ -124,7 +124,13 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const removeDetail = (hotelId, moduleName, submoduleName, detailIndex) => {
+  const removeDetail = (
+    hotelId,
+    moduleName,
+    submoduleName,
+    detailIndex,
+    key
+  ) => {
     const updatedData = data.map((hotel) => {
       if (hotel.hotelId === hotelId) {
         return {
@@ -134,10 +140,13 @@ const FieldSelected = ({ data = [], setData }) => {
               return {
                 ...mod,
                 submodules: mod.submodules.map((sub) => {
-                  if (typeof sub === "object" && sub.name === submoduleName) {
+                  if (typeof sub === 'object' && sub.name === submoduleName) {
                     const updatedDetails = sub.details
-                      ? sub.details.filter((_, index) => index !== detailIndex)
+                      ? sub.details.map((detail) => ({ ...detail })) // Create a shallow copy
                       : [];
+                    if (updatedDetails[detailIndex]) {
+                      delete updatedDetails[detailIndex][key]; // Remove the specific key
+                    }
                     return {
                       ...sub,
                       details: updatedDetails,
@@ -159,15 +168,15 @@ const FieldSelected = ({ data = [], setData }) => {
 
   const handleCopy = () => {
     if (data.length === 0) {
-      alert("Please add items to copy!");
+      alert('Please add items to copy!');
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
-      setCopyButtonText("Copied!");
+      setCopyButtonText('Copied!');
       setTimeout(() => {
-        setCopyButtonText("Copy");
+        setCopyButtonText('Copy');
       }, 2000);
     });
   };
@@ -183,7 +192,7 @@ const FieldSelected = ({ data = [], setData }) => {
           <h3>
             Selected Configuration
             <button onClick={copyObject} className="copyBtn">
-              {copyButtonText === "Copy" ? (
+              {copyButtonText === 'Copy' ? (
                 <ContentCopyIcon style={{ fontSize: 18 }} />
               ) : (
                 <DoneIcon style={{ fontSize: 18 }} />
@@ -200,7 +209,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
       <div className="field-selected">
         <div className="headingAndBtn">
-          <h3>Remove Configuration</h3>
+          <h3>Remove Selected Configuration</h3>
         </div>
         <div className="selected-json">
           <ul>
@@ -222,11 +231,11 @@ const FieldSelected = ({ data = [], setData }) => {
                     .filter(
                       (key) =>
                         ![
-                          "hotelId",
-                          "name",
-                          "modules",
-                          "title",
-                          "orderOfModules",
+                          'hotelId',
+                          'name',
+                          'modules',
+                          'title',
+                          'orderOfModules',
                         ].includes(key) && hotel[key] !== undefined
                     )
                     .map((key) => (
@@ -264,7 +273,7 @@ const FieldSelected = ({ data = [], setData }) => {
                         </div>
                       </div>
 
-                      {["isActive", "isDisabled", "isRequired"].map(
+                      {['isActive', 'isDisabled', 'isRequired'].map(
                         (key) =>
                           module[key] !== undefined && (
                             <div key={key} className="module-info">
@@ -290,9 +299,9 @@ const FieldSelected = ({ data = [], setData }) => {
                       {Object.keys(module)
                         .filter(
                           (key) =>
-                            key !== "name" &&
-                            key !== "submodules" &&
-                            !["isActive", "isDisabled", "isRequired"].includes(
+                            key !== 'name' &&
+                            key !== 'submodules' &&
+                            !['isActive', 'isDisabled', 'isRequired'].includes(
                               key
                             ) &&
                             module[key] !== undefined
@@ -322,7 +331,7 @@ const FieldSelected = ({ data = [], setData }) => {
                           {Array.from(
                             new Set(
                               module.submodules.map((sub) =>
-                                typeof sub === "object" ? sub.name : sub
+                                typeof sub === 'object' ? sub.name : sub
                               )
                             )
                           ).map((submoduleName) => {
@@ -349,7 +358,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
                                 {module.submodules.map((sub) => {
                                   if (
-                                    typeof sub === "object" &&
+                                    typeof sub === 'object' &&
                                     sub.name === submoduleName
                                   ) {
                                     return (
@@ -357,14 +366,16 @@ const FieldSelected = ({ data = [], setData }) => {
                                         {Object.keys(sub)
                                           .filter(
                                             (key) =>
-                                              key !== "name" &&
+                                              key !== 'name' &&
                                               sub[key] !== undefined
                                           )
                                           .map((key) => (
                                             <div
                                               key={`${submoduleName}-${key}`}
                                             >
-                                              {`${key}: ${sub[key]}`}
+                                              {key !== 'details'
+                                                ? `${key}: ${sub[key]}`
+                                                : `${key}:`}
                                               <div className="icon-container">
                                                 <button
                                                   className="remove-btn"
@@ -394,34 +405,35 @@ const FieldSelected = ({ data = [], setData }) => {
                                                     className="detail-info2"
                                                     key={`${submoduleName}-detail-${detailIndex}`}
                                                   >
-                                                    {Object.keys(detail).map(
-                                                      (key, idx) => (
+                                                    {Object.entries(detail).map(
+                                                      ([key, value], idx) => (
                                                         <div
                                                           key={`${submoduleName}-detail-${detailIndex}-${idx}`}
                                                         >
-                                                          {`${key}: ${detail[key]}`}
+                                                          {`${key}: ${value}`}
+                                                    <div className="icon-container">
+                                                            <button
+                                                              className="remove-btn"
+                                                              onClick={() =>
+                                                                removeDetail(
+                                                                  hotel.hotelId,
+                                                                  module.name,
+                                                                  submoduleName,
+                                                                  detailIndex,
+                                                                  key
+                                                                )
+                                                              }
+                                                            >
+                                                              <DeleteIcon
+                                                                style={{
+                                                                fontSize: 18,
+                                                              }}
+                                                              />
+                                                            </button>
+                                                    </div>
                                                         </div>
                                                       )
                                                     )}
-                                                    <div className="icon-container">
-                                                      <button
-                                                        className="remove-btn"
-                                                        onClick={() =>
-                                                          removeDetail(
-                                                            hotel.hotelId,
-                                                            module.name,
-                                                            submoduleName,
-                                                            detailIndex
-                                                          )
-                                                        }
-                                                      >
-                                                        <DeleteIcon
-                                                          style={{
-                                                            fontSize: 18,
-                                                          }}
-                                                        />
-                                                      </button>
-                                                    </div>
                                                   </div>
                                                 )
                                               )}
