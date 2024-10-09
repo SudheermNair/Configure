@@ -124,7 +124,13 @@ const FieldSelected = ({ data = [], setData }) => {
     setData(updatedData);
   };
 
-  const removeDetail = (hotelId, moduleName, submoduleName, detailIndex) => {
+  const removeDetail = (
+    hotelId,
+    moduleName,
+    submoduleName,
+    detailIndex,
+    key
+  ) => {
     const updatedData = data.map((hotel) => {
       if (hotel.hotelId === hotelId) {
         return {
@@ -136,8 +142,11 @@ const FieldSelected = ({ data = [], setData }) => {
                 submodules: mod.submodules.map((sub) => {
                   if (typeof sub === 'object' && sub.name === submoduleName) {
                     const updatedDetails = sub.details
-                      ? sub.details.filter((_, index) => index !== detailIndex)
+                      ? sub.details.map((detail) => ({ ...detail })) // Create a shallow copy
                       : [];
+                    if (updatedDetails[detailIndex]) {
+                      delete updatedDetails[detailIndex][key]; // Remove the specific key
+                    }
                     return {
                       ...sub,
                       details: updatedDetails,
@@ -343,14 +352,14 @@ const FieldSelected = ({ data = [], setData }) => {
                                         {Object.keys(sub)
                                           .filter(
                                             (key) =>
-                                              key !== "name" &&
+                                              key !== 'name' &&
                                               sub[key] !== undefined
                                           )
                                           .map((key) => (
                                             <div
                                               key={`${submoduleName}-${key}`}
                                             >
-                                              {key !== "details"
+                                              {key !== 'details'
                                                 ? `${key}: ${sub[key]}`
                                                 : `${key}:`}
                                               <button
@@ -392,7 +401,8 @@ const FieldSelected = ({ data = [], setData }) => {
                                                                 hotel.hotelId,
                                                                 module.name,
                                                                 submoduleName,
-                                                                detailIndex
+                                                                detailIndex,
+                                                                key // Pass the specific key
                                                               )
                                                             }
                                                           >
