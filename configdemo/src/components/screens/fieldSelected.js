@@ -231,11 +231,10 @@ const FieldSelected = ({ data = [], setData }) => {
                     .filter(
                       (key) =>
                         ![
-                          'hotelId',
-                          'name',
-                          'modules',
-                          'title',
-                          'orderOfModules',
+                          "hotelId",
+                          "name",
+                          "modules",
+                          "orderOfModules",
                         ].includes(key) && hotel[key] !== undefined
                     )
                     .map((key) => (

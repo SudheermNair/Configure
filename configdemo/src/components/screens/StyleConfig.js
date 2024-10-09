@@ -133,7 +133,7 @@ function StyleConfig() {
   const handlePush = () => {
     if (!styleValue) {
       alert("please select a value");
-      return;
+      return; 
     }
     styleProperties.forEach((property) => {
       updateStylesObject(property, styleValue);
