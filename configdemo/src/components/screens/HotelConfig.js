@@ -221,6 +221,7 @@ const HotelConfig = () => {
   );
 
   const handleKeySelect = (e) => {
+    setSelectedValue("");
     const selectedKey = e.target.value;
     setSelectedKeys(selectedKey);
     setKeyValues(configFields[0].Keys[0][selectedKey] || []);

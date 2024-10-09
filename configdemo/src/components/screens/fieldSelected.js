@@ -224,7 +224,6 @@ const FieldSelected = ({ data = [], setData }) => {
                           "hotelId",
                           "name",
                           "modules",
-                          "title",
                           "orderOfModules",
                         ].includes(key) && hotel[key] !== undefined
                     )
