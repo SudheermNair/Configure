@@ -368,6 +368,8 @@ function StyleConfig() {
                   option.toLowerCase().includes(inputValue.toLowerCase())
                 );
               }}
+
+              
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -377,7 +379,7 @@ function StyleConfig() {
                     ...params.InputProps,
                     disableUnderline: true,
                   }}
-                  sx={{ width: "245px" }}
+                  sx={{ width: "240px"}}
                 />
               )}
               renderTags={(value, getTagProps) => (

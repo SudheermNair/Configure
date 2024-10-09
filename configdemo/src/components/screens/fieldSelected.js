@@ -188,7 +188,6 @@ const FieldSelected = ({ data = [], setData }) => {
               ) : (
                 <DoneIcon style={{ fontSize: 18 }} />
               )}
-              {/* {copyButtonText} */}
             </button>
           </h3>
         </div>
@@ -210,12 +209,14 @@ const FieldSelected = ({ data = [], setData }) => {
                 <div className="hotel-id-info">
                   <div className="hotel-info">
                     {`Hotel: ${hotel.name}, ID: ${hotel.hotelId}`}
-                    <button
-                      className="remove-btn"
-                      onClick={() => removeItem(hotel.hotelId)}
-                    >
-                      <DeleteIcon style={{ fontSize: 18 }} />
-                    </button>
+                    <div className="icon-container">
+                      <button
+                        className="remove-btn"
+                        onClick={() => removeItem(hotel.hotelId)}
+                      >
+                        <DeleteIcon style={{ fontSize: 18 }} />
+                      </button>
+                    </div>
                   </div>
                   {Object.keys(hotel)
                     .filter(
@@ -231,12 +232,16 @@ const FieldSelected = ({ data = [], setData }) => {
                     .map((key) => (
                       <div key={key} className="hotel-info">
                         {`${key}: ${hotel[key]}`}
-                        <button
-                          className="remove-btn"
-                          onClick={() => removeKeyFromHotel(hotel.hotelId, key)}
-                        >
-                          <DeleteIcon style={{ fontSize: 18 }} />
-                        </button>
+                        <div className="icon-container">
+                          <button
+                            className="remove-btn"
+                            onClick={() =>
+                              removeKeyFromHotel(hotel.hotelId, key)
+                            }
+                          >
+                            <DeleteIcon style={{ fontSize: 18 }} />
+                          </button>
+                        </div>
                       </div>
                     ))}
                 </div>
@@ -247,12 +252,16 @@ const FieldSelected = ({ data = [], setData }) => {
                     <div key={moduleIndex} className="hotel-sub-info">
                       <div className="module-info">
                         {`Module: ${module.name}`}
-                        <button
-                          className="remove-btn"
-                          onClick={() => removeItem(hotel.hotelId, module.name)}
-                        >
-                          <DeleteIcon style={{ fontSize: 18 }} />
-                        </button>
+                        <div className="icon-container">
+                          <button
+                            className="remove-btn"
+                            onClick={() =>
+                              removeItem(hotel.hotelId, module.name)
+                            }
+                          >
+                            <DeleteIcon style={{ fontSize: 18 }} />
+                          </button>
+                        </div>
                       </div>
 
                       {["isActive", "isDisabled", "isRequired"].map(
@@ -260,18 +269,20 @@ const FieldSelected = ({ data = [], setData }) => {
                           module[key] !== undefined && (
                             <div key={key} className="module-info">
                               {`${key}: ${module[key]}`}
-                              <button
-                                className="remove-btn"
-                                onClick={() =>
-                                  removeKeyFromModule(
-                                    hotel.hotelId,
-                                    module.name,
-                                    key
-                                  )
-                                }
-                              >
-                                <DeleteIcon style={{ fontSize: 18 }} />
-                              </button>
+                              <div className="icon-container">
+                                <button
+                                  className="remove-btn"
+                                  onClick={() =>
+                                    removeKeyFromModule(
+                                      hotel.hotelId,
+                                      module.name,
+                                      key
+                                    )
+                                  }
+                                >
+                                  <DeleteIcon style={{ fontSize: 18 }} />
+                                </button>
+                              </div>
                             </div>
                           )
                       )}
@@ -289,23 +300,25 @@ const FieldSelected = ({ data = [], setData }) => {
                         .map((key) => (
                           <div key={key} className="module-info">
                             {`${key}: ${module[key]}`}
-                            <button
-                              className="remove-btn"
-                              onClick={() =>
-                                removeKeyFromModule(
-                                  hotel.hotelId,
-                                  module.name,
-                                  key
-                                )
-                              }
-                            >
-                              <DeleteIcon style={{ fontSize: 18 }} />
-                            </button>
+                            <div className="icon-container">
+                              <button
+                                className="remove-btn"
+                                onClick={() =>
+                                  removeKeyFromModule(
+                                    hotel.hotelId,
+                                    module.name,
+                                    key
+                                  )
+                                }
+                              >
+                                <DeleteIcon style={{ fontSize: 18 }} />
+                              </button>
+                            </div>
                           </div>
                         ))}
 
                       {module.submodules && module.submodules.length > 0 && (
-                        <div className="submodule-info">
+                        <div className="submodule-info-main">
                           {Array.from(
                             new Set(
                               module.submodules.map((sub) =>
@@ -318,8 +331,8 @@ const FieldSelected = ({ data = [], setData }) => {
                                 key={submoduleName}
                                 className="submodule-info"
                               >
-                                <div>
-                                  {`Submodule: ${submoduleName}`}
+                                {`Submodule: ${submoduleName}`}
+                                <div className="icon-container">
                                   <button
                                     className="remove-btn"
                                     onClick={() =>
@@ -340,7 +353,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                     sub.name === submoduleName
                                   ) {
                                     return (
-                                      <div key={`sub-${submoduleName}`}>
+                                      <div key={submoduleName}>
                                         {Object.keys(sub)
                                           .filter(
                                             (key) =>
@@ -352,30 +365,33 @@ const FieldSelected = ({ data = [], setData }) => {
                                               key={`${submoduleName}-${key}`}
                                             >
                                               {`${key}: ${sub[key]}`}
-                                              <button
-                                                className="remove-btn"
-                                                onClick={() =>
-                                                  removeKeyFromSubmodule(
-                                                    hotel.hotelId,
-                                                    module.name,
-                                                    submoduleName,
-                                                    key
-                                                  )
-                                                }
-                                              >
-                                                <DeleteIcon
-                                                  style={{ fontSize: 18 }}
-                                                />
-                                              </button>
+                                              <div className="icon-container">
+                                                <button
+                                                  className="remove-btn"
+                                                  onClick={() =>
+                                                    removeKeyFromSubmodule(
+                                                      hotel.hotelId,
+                                                      module.name,
+                                                      submoduleName,
+                                                      key
+                                                    )
+                                                  }
+                                                >
+                                                  <DeleteIcon
+                                                    style={{ fontSize: 18 }}
+                                                  />
+                                                </button>
+                                              </div>
                                             </div>
                                           ))}
 
                                         {sub.details &&
                                           Array.isArray(sub.details) && (
-                                            <div className="submodule-info">
+                                            <div className="detail-info">
                                               {sub.details.map(
                                                 (detail, detailIndex) => (
                                                   <div
+                                                    className="detail-info2"
                                                     key={`${submoduleName}-detail-${detailIndex}`}
                                                   >
                                                     {Object.keys(detail).map(
@@ -387,21 +403,25 @@ const FieldSelected = ({ data = [], setData }) => {
                                                         </div>
                                                       )
                                                     )}
-                                                    <button
-                                                      className="remove-btn"
-                                                      onClick={() =>
-                                                        removeDetail(
-                                                          hotel.hotelId,
-                                                          module.name,
-                                                          submoduleName,
-                                                          detailIndex
-                                                        )
-                                                      }
-                                                    >
-                                                      <DeleteIcon
-                                                        style={{ fontSize: 18 }}
-                                                      />
-                                                    </button>
+                                                    <div className="icon-container">
+                                                      <button
+                                                        className="remove-btn"
+                                                        onClick={() =>
+                                                          removeDetail(
+                                                            hotel.hotelId,
+                                                            module.name,
+                                                            submoduleName,
+                                                            detailIndex
+                                                          )
+                                                        }
+                                                      >
+                                                        <DeleteIcon
+                                                          style={{
+                                                            fontSize: 18,
+                                                          }}
+                                                        />
+                                                      </button>
+                                                    </div>
                                                   </div>
                                                 )
                                               )}

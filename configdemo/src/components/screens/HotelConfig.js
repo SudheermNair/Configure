@@ -352,6 +352,7 @@ const HotelConfig = () => {
                   </select>
 
                   {selectedSubmodules.map((submodule) => (
+                    <div className="selected-submodule-container">
                     <span key={submodule.name} className="selected-submodule">
                       {submodule.name}
                       <button
@@ -364,6 +365,7 @@ const HotelConfig = () => {
                         X
                       </button>
                     </span>
+                    </div>
                   ))}
                 </div>
               </div>
