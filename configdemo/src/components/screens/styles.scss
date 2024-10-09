@@ -189,10 +189,9 @@ svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.delete-btn.css-20bmp1-MuiSvgIcon-r
   margin-top: 10px;
 }
 .css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
-  padding: 4px 4px 4px 0px;
   border: 1px solid black;
   border-radius: 50px;
-  font-size: 18px;
+  font-size: 8px;
   cursor: pointer;
 }
 span.selected-tag {
@@ -216,7 +215,17 @@ span.selected-tag {
     background-color: #50f487;
 }
 }
-
+.push-button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #63ca8e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 300;
+  margin-left: 85%;
+  margin-top: 20%;
+}
 
 // .MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-1x6bjyf-MuiAutocomplete-root .MuiAutocomplete-inputRoot {
 //   padding-right: 56px;
