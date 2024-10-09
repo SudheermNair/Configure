@@ -343,14 +343,16 @@ const FieldSelected = ({ data = [], setData }) => {
                                         {Object.keys(sub)
                                           .filter(
                                             (key) =>
-                                              key !== 'name' &&
+                                              key !== "name" &&
                                               sub[key] !== undefined
                                           )
                                           .map((key) => (
                                             <div
                                               key={`${submoduleName}-${key}`}
                                             >
-                                              {`${key}: ${sub[key]}`}
+                                              {key !== "details"
+                                                ? `${key}: ${sub[key]}`
+                                                : `${key}:`}
                                               <button
                                                 className="remove-btn"
                                                 onClick={() =>
