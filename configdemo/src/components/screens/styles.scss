@@ -296,12 +296,12 @@ select {
   display: flex;
   justify-content: center;
 
-  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
     padding: 8px;
 
   }
 
-  .css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
 
     width: 300px;
   }
@@ -353,7 +353,7 @@ select {
 
 }
 
-.css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
+.MuiAutocomplete-root .MuiInput-root .MuiInput-input {
   padding: 4px 4px 4px 0px;
   width: 500px;
 
@@ -459,7 +459,7 @@ select {
   font-size: 14px;
 }
 
-.css-20bmp1-MuiSvgIcon-root {
+.MuiSvgIcon-root {
   font-size: 10px;
 }
 
@@ -478,7 +478,7 @@ select {
   top: 300px;
 }
 
-.css-1cprn2g-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+.MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
   padding: 0px;
 }
 
@@ -489,14 +489,15 @@ select {
   align-items: center;
   width: 100%;
 
-  .css-1o3an4k-MuiInputBase-input-MuiInput-input {
+  .MuiInputBase-input-MuiInput-input {
     width: 350px;
   }
 }
 
-.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-5bvx1p-MuiSelect-select-MuiInputBase-input-MuiInput-input {
+.MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select-MuiInputBase-input-MuiInput-input {
   padding-right: 24px;
   width: 215px;
+  color: chartreuse;
 }
 
 .selected-properties {
@@ -539,7 +540,7 @@ select {
   border: 1px solid #63ca8e;
 }
 
-.css-18col2x .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
+.MuiAutocomplete-inputRoot .MuiAutocomplete-input {
   width: 0px;
   min-width: 200px;
 
@@ -558,14 +559,14 @@ select {
 
 }
 
-.css-1x6bjyf-MuiAutocomplete-root .MuiInput-root .MuiInput-input {
+.MuiAutocomplete-root .MuiInput-root .MuiInput-input {
   padding: 8px;
   border: 1px solid rgb(0, 0, 0);
   border-radius: 50px;
   font-size: 11px;
 }
 
-.css-15cv2x7-MuiInputBase-root-MuiInput-root::before {
+.MuiInputBase-root-MuiInput-root::before {
   border-bottom: 1px solid rgba(0, 0, 0, 0.42);
   left: 0;
   bottom: 0;
