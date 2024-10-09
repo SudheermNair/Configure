@@ -5,20 +5,14 @@ import ColorLensIcon from "@mui/icons-material/ColorLens";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
 function FieldModules() {
-  const[isComponentActive,setIsComponentActive]=useState(true);
-  
-    
+  const [isComponentActive, setIsComponentActive] = useState(true);
 
-const openHotelConfig=()=>{
-  
-  setIsComponentActive(true);
-  
-}
-const openStyleConfig=()=>{
-  
-  setIsComponentActive(false);
-  
-}
+  const openHotelConfig = () => {
+    setIsComponentActive(true);
+  };
+  const openStyleConfig = () => {
+    setIsComponentActive(false);
+  };
 
   return (
     <div className="configurations">
@@ -41,13 +35,11 @@ const openStyleConfig=()=>{
           </button>
         </div>
       </div>
-      <div className='field-modules-container'>
-
+      <div className="field-modules-container">
         {isComponentActive ? <HotelConfig /> : <StyleConfig />}
-
       </div>
     </div>
-  )
+  );
 }
 
-export default FieldModules
+export default FieldModules;

@@ -70,7 +70,6 @@ const HotelConfig = () => {
       return updatedData;
     });
   });
-
   const updateModules = (
     existingModules = [],
     module,
@@ -108,7 +107,7 @@ const HotelConfig = () => {
 
               return {
                 ...sub,
-                [key]: value,
+                ...(key ? { [key]: value } : {}),
               };
             }
             return sub;
@@ -136,8 +135,9 @@ const HotelConfig = () => {
           name: module ? module.name : null,
           submodules: submodules.map((sub) => ({
             ...sub,
-            details: detailsEnabled ? [{ [key]: value }] : [],
-            ...(detailsEnabled ? {} : { [key]: value }),
+            ...(detailsEnabled
+              ? { details: [{ [key]: value }] }
+              : { [key]: value }),
           })),
           ...(!submodules.length && key ? { [key]: value } : {}),
         },
