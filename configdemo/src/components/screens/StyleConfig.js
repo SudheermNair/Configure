@@ -301,7 +301,7 @@ function StyleConfig() {
 
         <div className="formContainer">
           <div className="dropdown-label">
-            <label>Property </label>
+            <label>Theme: </label>
           </div>
           <div className="dropdown-container">
             <Autocomplete

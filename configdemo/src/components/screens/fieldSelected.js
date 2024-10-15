@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import './styles.scss';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DoneIcon from '@mui/icons-material/Done';
+import React, { useState } from "react";
+import "./styles.scss";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DoneIcon from "@mui/icons-material/Done";
 
 const FieldSelected = ({ data = [], setData }) => {
-  const [copyButtonText, setCopyButtonText] = useState('Copy');
+  const [copyButtonText, setCopyButtonText] = useState("Copy");
 
   const copyObject = () => {
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
-      setCopyButtonText('Copied!');
+      setCopyButtonText("Copied!");
       setTimeout(() => {
-        setCopyButtonText('Copy');
+        setCopyButtonText("Copy");
       }, 2000);
     });
   };
@@ -31,7 +31,7 @@ const FieldSelected = ({ data = [], setData }) => {
                       ...mod,
                       submodules: mod.submodules.filter(
                         (sub) =>
-                          (typeof sub === 'object' ? sub.name : sub) !==
+                          (typeof sub === "object" ? sub.name : sub) !==
                           submoduleName
                       ),
                     };
@@ -102,7 +102,7 @@ const FieldSelected = ({ data = [], setData }) => {
                 return {
                   ...mod,
                   submodules: mod.submodules.map((sub) => {
-                    if (typeof sub === 'object' && sub.name === submoduleName) {
+                    if (typeof sub === "object" && sub.name === submoduleName) {
                       const { [key]: _, ...remainingKeys } = sub;
                       return {
                         ...remainingKeys,
@@ -140,7 +140,7 @@ const FieldSelected = ({ data = [], setData }) => {
               return {
                 ...mod,
                 submodules: mod.submodules.map((sub) => {
-                  if (typeof sub === 'object' && sub.name === submoduleName) {
+                  if (typeof sub === "object" && sub.name === submoduleName) {
                     const updatedDetails = sub.details
                       ? sub.details.map((detail) => ({ ...detail })) // Create a shallow copy
                       : [];
@@ -168,15 +168,15 @@ const FieldSelected = ({ data = [], setData }) => {
 
   const handleCopy = () => {
     if (data.length === 0) {
-      alert('Please add items to copy!');
+      alert("Please add items to copy!");
       return;
     }
 
     const textData = JSON.stringify(data, null, 2);
     navigator.clipboard.writeText(textData).then(() => {
-      setCopyButtonText('Copied!');
+      setCopyButtonText("Copied!");
       setTimeout(() => {
-        setCopyButtonText('Copy');
+        setCopyButtonText("Copy");
       }, 2000);
     });
   };
@@ -192,7 +192,7 @@ const FieldSelected = ({ data = [], setData }) => {
           <h3>
             Selected Configuration
             <button onClick={copyObject} className="copyBtn">
-              {copyButtonText === 'Copy' ? (
+              {copyButtonText === "Copy" ? (
                 <ContentCopyIcon style={{ fontSize: 18 }} />
               ) : (
                 <DoneIcon style={{ fontSize: 18 }} />
@@ -272,7 +272,7 @@ const FieldSelected = ({ data = [], setData }) => {
                         </div>
                       </div>
 
-                      {['isActive', 'isDisabled', 'isRequired'].map(
+                      {["isActive", "isDisabled", "isRequired"].map(
                         (key) =>
                           module[key] !== undefined && (
                             <div key={key} className="module-info">
@@ -298,9 +298,9 @@ const FieldSelected = ({ data = [], setData }) => {
                       {Object.keys(module)
                         .filter(
                           (key) =>
-                            key !== 'name' &&
-                            key !== 'submodules' &&
-                            !['isActive', 'isDisabled', 'isRequired'].includes(
+                            key !== "name" &&
+                            key !== "submodules" &&
+                            !["isActive", "isDisabled", "isRequired"].includes(
                               key
                             ) &&
                             module[key] !== undefined
@@ -330,7 +330,7 @@ const FieldSelected = ({ data = [], setData }) => {
                           {Array.from(
                             new Set(
                               module.submodules.map((sub) =>
-                                typeof sub === 'object' ? sub.name : sub
+                                typeof sub === "object" ? sub.name : sub
                               )
                             )
                           ).map((submoduleName) => {
@@ -357,7 +357,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
                                 {module.submodules.map((sub) => {
                                   if (
-                                    typeof sub === 'object' &&
+                                    typeof sub === "object" &&
                                     sub.name === submoduleName
                                   ) {
                                     return (
@@ -365,14 +365,14 @@ const FieldSelected = ({ data = [], setData }) => {
                                         {Object.keys(sub)
                                           .filter(
                                             (key) =>
-                                              key !== 'name' &&
+                                              key !== "name" &&
                                               sub[key] !== undefined
                                           )
                                           .map((key) => (
                                             <div
                                               key={`${submoduleName}-${key}`}
                                             >
-                                              {key !== 'details'
+                                              {key !== "details"
                                                 ? `${key}: ${sub[key]}`
                                                 : `${key}:`}
                                               <div className="icon-container">
@@ -410,7 +410,7 @@ const FieldSelected = ({ data = [], setData }) => {
                                                           key={`${submoduleName}-detail-${detailIndex}-${idx}`}
                                                         >
                                                           {`${key}: ${value}`}
-                                                    <div className="icon-container">
+                                                          <div className="icon-container">
                                                             <button
                                                               className="remove-btn"
                                                               onClick={() =>
@@ -425,11 +425,11 @@ const FieldSelected = ({ data = [], setData }) => {
                                                             >
                                                               <DeleteIcon
                                                                 style={{
-                                                                fontSize: 18,
-                                                              }}
+                                                                  fontSize: 18,
+                                                                }}
                                                               />
                                                             </button>
-                                                    </div>
+                                                          </div>
                                                         </div>
                                                       )
                                                     )}
