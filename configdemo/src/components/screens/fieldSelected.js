@@ -209,7 +209,7 @@ const FieldSelected = ({ data = [], setData }) => {
 
       <div className="field-selected">
         <div className="headingAndBtn">
-          <h3>Remove Selected Configuration</h3>
+          <h3>Remove Configuration</h3>
         </div>
         <div className="selected-json">
           <ul>
